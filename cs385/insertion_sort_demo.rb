@@ -35,26 +35,37 @@ def insertion_sort a
   return a
 end # def insertion_sort
 
-def selection_sort a
-  0.upto(a.size - 2) { |i|
-    puts  "i = #{i}"
-    # find the least value element from index i onward
-    least = i
-    j = i+1
-    j.upto(a.size - 1) { |j|
-      puts "j = #{j}"
-      if a[j] < a[least] then
-        least = j
-      end
+def gen_selection_sort
+  return Proc.new { |a|  # dunno about this Proc thing... I'm just trying to get a grip on ruby
+    comparison_count = 0
+    0.upto(a.size - 2) { |i|
+      puts  "i = #{i}"
+      # find the least value element from index i onward
+      least = i
+      j = i+1
+      j.upto(a.size - 1) { |j|
+        puts "j = #{j}"
+        comparison_count += 1
+        if a[j] < a[least] then
+          least = j
+        end
+      }
+      # swap the element at index i with the element at index least
+      temp = a[i]
+      a[i] = a[least]
+      a[least] = temp
     }
-    # swap the element at index i with the element at index least
-    temp = a[i]
-    a[i] = a[least]
-    a[least] = temp
+    comparison_count
   }
 end
 
-a = [4, 3, -5, 2, 7, 67, 57, -64, -34, 2, 0]
+def test_sorting_algorithm(max_n, delta_n, sort_method)
+  a = [4, 3, -5, 2, 7, 67, 57, -64, -34, 2, 0]
+  comparison_count = sort_method.call(a)
+  puts a.to_s
+  puts comparison_count
+end
+
 #insertion_sort a
-selection_sort a
-puts a.to_s
+#selection_sort a
+test_sorting_algorithm(100, 5, gen_selection_sort)
