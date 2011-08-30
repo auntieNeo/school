@@ -39,12 +39,10 @@ def gen_selection_sort
   return Proc.new { |a|  # dunno about this Proc thing... I'm just trying to get a grip on ruby
     comparison_count = 0
     0.upto(a.size - 2) { |i|
-#      puts  "i = #{i}"
       # find the least value element from index i onward
       least = i
       j = i+1
       j.upto(a.size - 1) { |j|
-#        puts "j = #{j}"
         comparison_count += 1
         if a[j] < a[least] then
           least = j
@@ -67,22 +65,52 @@ def gen_random_array n
   return  a
 end
 
-def test_sorting_algorithm(max_n, delta_n, sort_method)
-  n = delta_n
-  while n <= max_n
-    comparison_count = sort_method.call(gen_random_array(n))
-    printf("%10d %10d\n", n, comparison_count)
-    n += delta_n
+def test_sorting_algorithm(max_n, delta_n, sort_method, test_method)
+  if test_method == "comparisons"
+    n = delta_n
+    while n <= max_n
+      comparison_count = sort_method.call(gen_random_array(n))
+      printf("%10d %10d\n", n, comparison_count)
+      n += delta_n
+    end
+  elsif test_method == "time"
+    n = delta_n
+    while n <= max_n
+      a = gen_random_array(n)
+      time_start = Time.now
+      sort_method.call(a)
+      time_end = Time.now
+      printf("%10d %10f\n", n, time_end.to_f - time_start.to_f)
+      n += delta_n
+    end
   end
 end
 
-if ARGV.size != 1
-  puts "usage: sort_test (insertion|selection)"  # TODO: add support for changing the max n and delta n
+def usage
+  puts "usage: sort_test (insertion|selection) (comparisons|time)"  # TODO: add support for changing the max n and delta n
+end
+
+if ARGV.size != 2
+  usage()
   return 0
 end
 
 if ARGV[0] == "insertion"
-  test_sorting_algorithm(100, 1, gen_insertion_sort)
+  if ARGV[1] == "time"
+    test_sorting_algorithm(1000, 10, gen_insertion_sort, "time")
+  elsif ARGV[1] == "comparisons"
+    test_sorting_algorithm(100, 1, gen_insertion_sort, "comparisons")
+  else
+    usage()
+  end
 elsif ARGV[0] == "selection"
-  test_sorting_algorithm(100, 1, gen_selection_sort)
+  if ARGV[1] == "time"
+    test_sorting_algorithm(1000, 10, gen_selection_sort, "time")
+  elsif ARGV[1] == "comparisons"
+    test_sorting_algorithm(100, 1, gen_selection_sort, "comparisons")
+  else
+    usage()
+  end
+else
+  usage()
 end
