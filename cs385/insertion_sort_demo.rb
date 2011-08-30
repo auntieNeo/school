@@ -39,12 +39,12 @@ def gen_selection_sort
   return Proc.new { |a|  # dunno about this Proc thing... I'm just trying to get a grip on ruby
     comparison_count = 0
     0.upto(a.size - 2) { |i|
-      puts  "i = #{i}"
+#      puts  "i = #{i}"
       # find the least value element from index i onward
       least = i
       j = i+1
       j.upto(a.size - 1) { |j|
-        puts "j = #{j}"
+#        puts "j = #{j}"
         comparison_count += 1
         if a[j] < a[least] then
           least = j
@@ -59,11 +59,21 @@ def gen_selection_sort
   }
 end
 
+def gen_random_array n
+  a = Array.new(n)
+  0.upto(n - 1) { |i|
+    a[i] = rand(2**(31) - 1)
+  }
+  return  a
+end
+
 def test_sorting_algorithm(max_n, delta_n, sort_method)
-  a = [4, 3, -5, 2, 7, 67, 57, -64, -34, 2, 0]
-  comparison_count = sort_method.call(a)
-  puts a.to_s
-  puts comparison_count
+  n = 1
+  while n <= max_n
+    comparison_count = sort_method.call(gen_random_array(n))
+    puts comparison_count
+    n += delta_n
+  end
 end
 
 #insertion_sort a
