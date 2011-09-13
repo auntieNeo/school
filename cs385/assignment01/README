@@ -1,0 +1,7 @@
+sort_demo.rb is the ruby file that contains implementations of both insertion and selection sort. Running this file with different arguments will test these algorithms by time or by number of comparisons, and output data suitable for graphing with gnuplot.
+
+The generate_graphs.sh script will call the ruby script for both tests and create .dat files, and then call gnuplot on those .dat files.
+
+The sort_demo.p file is the gnuplot script that generates all the graphs in .svg format from the .dat files.
+
+The assignment01 file contains my writeup for an NP-complete problem.
