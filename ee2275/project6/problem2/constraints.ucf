@@ -1,0 +1,15 @@
+NET "s(0)" LOC = "P38";
+NET "s(1)" LOC = "P36";
+NET "s(2)" LOC = "P29";
+NET "l0" LOC = "P15";
+NET "l1" LOC = "P14";
+NET "l2" LOC = "P8";
+NET "l3" LOC = "P7";
+NET "l4" LOC = "P5";
+NET "l5" LOC = "P4";
+NET "l6" LOC = "P3";
+NET "l7" LOC = "P2";
+NET "b0" LOC = "P69";
+NET "b1" LOC = "P48";
+NET "b2" LOC = "P47";
+NET "b3" LOC = "P41";
