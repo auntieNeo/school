@@ -1,6 +1,7 @@
 NET "s(0)" LOC = "P38";
 NET "s(1)" LOC = "P36";
 NET "s(2)" LOC = "P29";
+
 NET "l0" LOC = "P15";
 NET "l1" LOC = "P14";
 NET "l2" LOC = "P8";
@@ -9,7 +10,26 @@ NET "l4" LOC = "P5";
 NET "l5" LOC = "P4";
 NET "l6" LOC = "P3";
 NET "l7" LOC = "P2";
+
 NET "b0" LOC = "P69";
 NET "b1" LOC = "P48";
 NET "b2" LOC = "P47";
 NET "b3" LOC = "P41";
+
+NET "bin(0)" LOC = "P18";
+NET "bin(1)" LOC = "P12";
+NET "bin(2)" LOC = "P10";
+NET "bin(3)" LOC = "P6";
+
+NET "hex(6)" LOC = "P25";
+NET "hex(5)" LOC = "P16";
+NET "hex(4)" LOC = "P23";
+NET "hex(3)" LOC = "P21";
+NET "hex(2)" LOC = "P20";
+NET "hex(1)" LOC = "P17";
+NET "hex(0)" LOC = "P83";
+
+NET "an0" LOC = "P33";
+NET "an1" LOC = "P32";
+NET "an2" LOC = "P26";
+NET "an3" LOC = "P34";
