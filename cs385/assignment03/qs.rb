@@ -1,17 +1,17 @@
 class Array
   def quicksort
-    qs(0, self.length - 1);
+    qsort(0, self.length - 1);
   end
 
   private
-  def qs(left, right)
+  def qsort(left, right)
     if left < right then
       # partition step
       pivot = partition(left, right);
 
       # recursive step
-      qs(left, pivot - 1);
-      qs(pivot + 1, right);
+      qsort(left, pivot - 1);
+      qsort(pivot + 1, right);
     end
   end
 
