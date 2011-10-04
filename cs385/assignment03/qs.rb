@@ -36,7 +36,8 @@ class Array
 
   public
   def quickselect(k)
-    return self.uniq.qselect(0, self.length - 1, k)
+    u = self.uniq;
+    return u.qselect(0, u.length - 1, k)
   end
 
   protected
@@ -54,7 +55,7 @@ class Array
     end
   end
 
-  private
+  public
   def partition(left, right)
     pivot = self[right];  # pick an arbitrary pivot value # TODO: should be more random than this
     i = left - 1;  # i indexes the lower partition
