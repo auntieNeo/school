@@ -4,12 +4,16 @@
 # call quicksort
 require './partition.rb'
 class Array
-   def quicksort(left, right)
-      if left == right
-		return self
-      elsif right <= left+4
-	     return self.bubblesort(left,right)
-      end # if
+  def quicksort(left, right)
+    if left == right
+		  return self
+    elsif right <= left+4
+	    return self.bubblesort(left,right)
+    else
+      pivot = left + (right - left) / 2;
+      self.partition(left, right, pivot);
+      self.quicksort
+    end # if
 
 	  # You can fill in the rest and test it.
 	  # This is an assignment problem for assignment #3.
