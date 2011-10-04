@@ -1,4 +1,5 @@
 class Array
+  public
   def quicksort
     qsort(0, self.length - 1);
   end
