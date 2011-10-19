@@ -1,0 +1,23 @@
+NET "an(0)" LOC = "P34";
+NET "an(1)" LOC = "P33";
+NET "an(2)" LOC = "P32";
+NET "an(3)" LOC = "P26";
+
+NET "sevSeg(6)" LOC = "P25";
+NET "sevSeg(5)" LOC = "P16";
+NET "sevSeg(4)" LOC = "P23";
+NET "sevSeg(3)" LOC = "P21";
+NET "sevSeg(2)" LOC = "P20";
+NET "sevSeg(1)" LOC = "P17";
+NET "sevSeg(0)" LOC = "P83";
+
+NET "clock" LOC = "P54";
+
+NET "sw(0)" LOC = "P38";
+NET "sw(1)" LOC = "P36";
+NET "sw(2)" LOC = "P29";
+NET "sw(3)" LOC = "P24";
+NET "sw(4)" LOC = "P18";
+NET "sw(5)" LOC = "P12";
+NET "sw(6)" LOC = "P10";
+NET "sw(7)" LOC = "P6";
