@@ -21,3 +21,12 @@ NET "sw(4)" LOC = "P18";
 NET "sw(5)" LOC = "P12";
 NET "sw(6)" LOC = "P10";
 NET "sw(7)" LOC = "P6";
+
+NET "ld(0)" LOC = "P15";
+NET "ld(1)" LOC = "P14";
+NET "ld(2)" LOC = "P8";
+#NET "ld(3)" LOC = "P7";
+#NET "ld(4)" LOC = "P5";
+#NET "ld(5)" LOC = "P4";
+#NET "ld(6)" LOC = "P3";
+#NET "ld(7)" LOC = "P2";
