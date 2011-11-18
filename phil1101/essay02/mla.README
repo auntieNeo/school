@@ -1,0 +1,71 @@
+===============================
+|
+|   The MLA Package 
+|   for LaTeX and pdfLaTeX
+|
+|   By Ryan Aycock
+|   Edited by Steven Wheelwright
+|      and Edward Z. Yang
+|   December 09, 2007 
+|
+===============================
+
+LaTeX is a wonderful tool that has long been known for typesetting scientific papers books.  Unfortunately, when it comes to the humanities, writers are left out in the cold due to the lack of packages for writing in the MLA style.  The aim of this work is to allow students and other academics properly typeset their materials with minimal effort on their part.
+
+The MLA Package is released under the LaTeX license.  Visit www.ctan.org for more information.
+
+To learn LaTeX, start with "The Not So Short Introduction to LaTeX" by Tobias Oetiker.  It is available online at CTAN:/tex-archive/info/lshort .  Or you can search Google for any results.
+
+===============================
+
+
+To use this package,
+1. Put  \usepackage{ifpdf} and \usepackage{mla}  in the preamble
+2. After the \begin{document}, put \begin{mla}{Firstname}{Lastname}{Prof's lastname}{class name}{date}{Paper title}
+3. Immediately - the next line - start typing your paper.
+4. Put   \end{mla}   just before \end{document}
+
+To use the bibliography feature,
+1. Use  \begin{workscited} to start the bibliography.  There is no need to declare a new page or even type "Works Cited" at the top of the page.
+2. Use   \bibent  before each entry.
+3. Put   \end{workscited} at the end.
+4. There is no reason to use BiBTeX or any of the other bibliography packages.
+
+Tips for writing MLA:
+1. I strongly recommend using \documentclass[12pt,letterpaper]{article}
+2. Some professors require block quotes to be singled space.  To accomplish this with the MLA package, use the blocks and blockm environments for single paragraph and multiple paragraph cites, respectively.
+3. LaTeX will not tab the first paragraph after new sections.  To get around this, use  \tab
+4. LaTeX does not allow double spaces after periods like most term and research papers require.
+5. When typing your paper, hit the spacebar twice as normal.  After you are finished with your project, do a find/replace by changing all double spaces into (space)\(space).
+
+===============================
+
+The following template is what I use:
+
+\documentclass[12pt,letterpaper]{article}
+\usepackage{ifpdf}
+\usepackage{mla}
+\begin{document}
+\begin{mla}{Ryan}{Aycock}{Professor's last name}{Class name}{\today}{Really Cool Title}
+Start typing paragraph 1 here.
+
+Continue the rest of the paper as normal.
+
+\begin{workscited}
+
+\bibent
+author's last name, first name.  ``Paper Title."  \textit{Book Title}.  Date of publication.
+
+\end{workscited}
+\end{mla}
+\end{document}
+
+===============================
+
+Other notes:
+1. Don't forget to format symbols correctly (e.g., & should really be \&).  This will save you hours of headaches.
+2. Either replace (space)(space) with (space)\(space) or eliminate the \frenchspacing command in the package file.
+3. I added (and commented out) several commands that you may find useful such as the graphics and index packages.  Just delete the % and away you go.
+4. In my example template, I used italics for the book titles.  Official MLA guidelines suggest underlining a book's title.  I have found that italics is easier to read and that most professors prefer italics anyway.
+
+If you have any more questions -- about the package, not about LaTeX -- write to me at raycock@med.miami.edu
