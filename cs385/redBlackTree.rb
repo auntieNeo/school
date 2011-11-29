@@ -158,15 +158,15 @@ class RedBlackNode
   end
 
   public
-  def print()
-    printf("n_%d [style=filled color=%s fontcolor=white];\n", @value, @red ? "red" : "black");
+  def print(fh)
+    fh.write(sprintf("n_%d [style=filled color=%s fontcolor=white];\n", @value, @red ? "red" : "black"))
     if @lnode != nil then
-      printf("n_%d -> n_%d;\n", @value, @lnode.value);
-      @lnode.print()
+      fh.write(sprintf("n_%d -> n_%d;\n", @value, @lnode.value))
+      @lnode.print(fh)
     end
     if @rnode != nil then
-      printf("n_%d -> n_%d;\n", @value, @rnode.value);
-      @rnode.print()
+      fh.write(sprintf("n_%d -> n_%d;\n", @value, @rnode.value))
+      @rnode.print(fh)
     end
   end
 end
@@ -197,9 +197,13 @@ class RedBlackTree
     end
   end
 
-  def print
-    if @root != nil then
-      @root.print();
+  def print(filename)
+    File.open(filename, "w") do |fh|
+      fh.puts("digraph g {")
+      if @root != nil then
+        @root.print(fh);
+      end
+      fh.puts("}")
     end
   end
 
