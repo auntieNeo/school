@@ -159,7 +159,7 @@ class RedBlackNode
 
   public
   def print(fh)
-    fh.write(sprintf("n_%d [style=filled color=%s fontcolor=white];\n", @value, @red ? "red" : "black"))
+    fh.write(sprintf("n_%d [label=%d style=filled color=%s fontcolor=white];\n",@value, @value, @red ? "red" : "black"))
     if @lnode != nil then
       fh.write(sprintf("n_%d -> n_%d;\n", @value, @lnode.value))
       @lnode.print(fh)
