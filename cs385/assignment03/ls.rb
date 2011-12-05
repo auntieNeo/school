@@ -17,13 +17,13 @@ class Array
   end
 
   public
-  def quickselect(k)
+  def linearselect(k)
     u = self.uniq;  # search from the list of unique elements
-    return u.qselect(0, u.length - 1, k)
+    return u.lselect(0, u.length - 1, k);
   end
 
   protected
-  def qselect(left, right, k)
+  def lselect(left, right, k)
     if left == right then
       return self[left];
     end
@@ -32,15 +32,15 @@ class Array
     if pivot == k then
       return self[k];
     elsif k > pivot
-      return qselect(pivot + 1, right, k);
+      return lselect(pivot + 1, right, k);
     else
-      return qselect(left, pivot - 1, k);
+      return lselect(left, pivot - 1, k);
     end
   end
 
   private
   def partition(left, right)
-    pivot = self[right];  # pick an arbitrary pivot value # TODO: should be more random than this
+    pivot = medianOfMedians();  # find the median of medians (recursively) to use as a pivot value
     i = left - 1;  # i indexes the lower partition
     j = left;  # j indexes the upper partition
     left.upto(right - 1) do |j|
@@ -63,5 +63,25 @@ class Array
 
     # return the pivot index between the partitions
     return i + 1;
+  end
+
+  def medianOfMedians
+    # find all the medians
+    medians = Array.new;
+    i = 0;
+    while i < self.length do
+      medians << self.slice(i, 5).medianOfSmallArray;
+      i += 5;
+    end
+    # return the median of the medians
+    return medians.linearselect(medians.length / 2);
+  end
+
+  protected
+  def medianOfSmallArray
+#    assert(self.length <= 5, "medianOfSmallArray should only be called for arrays with less than 5 elements.");
+#    assort(self.length > 0, "The array cannot be empty.");
+    sorted = self.sort;  # sort the array in constant time, as the array cannot be larger than 5 elements
+    return sorted[sorted.length / 2];
   end
 end
