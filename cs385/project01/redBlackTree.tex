@@ -1,0 +1,70 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[pdftex]{graphicx}
+\usepackage{graphviz}
+\begin{document}
+\section{Red Black Tree Implementation in Ruby}
+\subsection{Node Insertion}
+Insertion of a node into the red black tree begins in the \texttt{insert} method of the \texttt{RedBlackTree} class, which immediately calls the \texttt{insert} method of the \texttt{RedBlackNode}. The \texttt{insert} method inserts the node into the tree as though it were an ordinary binary tree. After inserting the node, \texttt{insert} sets the new node's color to red and then calls the \texttt{insert\_fix\_color} method on the node.
+
+The \texttt{insert\_fix\_color} method is called recursively to correct node color, and ultimately tree balance issues, when a new node is inserted. The algorithm works on the assumption that the majority of the tree is already balanced and that only the current node violates the rule of having no adjacent red nodes. By using this assumption, the algorithm only needs to focus on the current node, its parrent, the current node's uncle, and the current node's grandparent in order to correct the imbalance in the tree.
+
+There are basically two versions of the same color fixing algorithm; one of them for when the parent node is an lnode, and the other, a mirrored version of the first, for when the parent node is an rnode. These two casses are are handled in cases I and II respectively.
+
+Starting in Case I, the algirithm checks the color of the node's uncle. If the node's uncle is red (Case 1--A), then it is possible to recolor the nodes in the tree without effecting the black node count. The parent and uncle node are made black, and then the grandparent node is made red. This effectively pushes the red node problem up the tree, so the \texttt{insert\_fix\_color} method is called recursively on the grandparent node.
+
+On the other hand, if the node's uncle is black (Case I--B), simply recoloring nodes will not resolve the problem, because the black count cannot be preserved. At this point, at least one tree rotation will need to be done in order to balance the tree.
+\pagebreak
+If the current node is an rnode (Case I--B--1), then the \texttt{left\_rotate} method is called on the parent. This rotation is performed simply to change the situation from Case I--B--1 to Case I--B--2. The rotation moves the current node to the position of its former parent, and its former parent becames an lnode of the current node. \texttt{insert\_fix\_color} is called on the former parent, which should cause the algorithm to drop down into Case I--B--2.
+\begin{figure}
+\centering
+\digraph[scale=0.75]{Case1b2Before}{
+  node [style=filled fontcolor=white];
+  gp [color=black];
+  p [color=red];
+  u [color=black];
+  gp -> p; gp -> u;
+  c [color=red];
+  s [color=black];
+  p -> c;
+  p -> s;
+}
+\label{Case1b2Before}
+\caption{The state of the tree when we enter Case I--B--2. Sub-trees and ancestors of gp are not shown.}
+\end{figure}
+\begin{figure}
+\centering
+\digraph[scale=0.75]{Case1b2Rotated}{
+  node [style=filled fontcolor=white];
+  p [color=red];
+  c [color=red];
+  gp [color=black];
+  p -> c; p -> gp;
+  s [color=black];
+  u [color=black];
+  gp -> s; gp -> u;
+}
+\label{Case1b2Rotated}
+\caption{The tree after a right rotation in Case I--B--2.}
+\end{figure}
+\begin{figure}
+\centering
+\digraph[scale=0.75]{Case1b2Colored}{
+  node [style=filled fontcolor=white];
+  p [color=black];
+  c [color=red];
+  gp [color=red];
+  p -> c; p -> gp;
+  s [color=black];
+  u [color=black];
+  gp -> s; gp -> u;
+}
+\label{Case1b2Colored}
+\caption{The tree after rotation and coloring at the end of Case I--B--2. Notice that there is no more red node conflict, and that the black node count of each path is the same as it was in Figure~\ref{Case1b2Before}.}
+\end{figure}
+
+If the current node is an lnode (Case I--B--2), then the \texttt{right\_rotate} method is called on the grandparent, and the parent and grandparent are recolored. See figures \ref{Case1b2Before} through \ref{Case1b2Colored}. By the end of Case I--B--2, there are no more red node conflicts and the black node count is balanced, so the algorithm returns.
+
+Case II is the same as case Case I, except many of the operations are mirrored. For example, when the algorithm checks for an lnode in Case I, it will check for an rnode in Case II. Right rotation operations are replaced with left rotation operations and vice versa.
+
+\subsection{Node Deletion}
+\end{document}
