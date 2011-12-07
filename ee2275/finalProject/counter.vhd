@@ -89,10 +89,23 @@ architecture behavior of counter_16bit is
           cen : in std_logic;
           rst : in std_logic);
   end component;
+  component FDCE
+    generic( INIT : bit :=  '0');
+    port ( C   : in    std_logic; 
+           CE  : in    std_logic; 
+           CLR : in    std_logic; 
+           D   : in    std_logic; 
+           Q   : out   std_logic);
+  end component;
   signal tc0, tc1, tc2, tc3 : std_logic;
+  signal c1_clk, c2_clk, c3_clk : std_logic;
 begin
+  flip_flop_tc0 : FDCE port map (C => clk, CE => cen, CLR => rst, D => tc0, Q => c1_clk);
+  flip_flop_tc1 : FDCE port map (C => clk, CE => cen, CLR => rst, D => tc1, Q => c2_clk);
+  flip_flop_tc2 : FDCE port map (C => clk, CE => cen, CLR => rst, D => tc2, Q => c3_clk);
   counter_0 : counter_4bit port map (b(0) => b(0), b(1) => b(1), b(2) => b(2), b(3) => b(3), tc => tc0, clk => clk, cen => cen, rst => rst);
-  counter_1 : counter_4bit port map (b(0) => b(4), b(1) => b(5), b(2) => b(6), b(3) => b(7), tc => tc1, clk => tc0, cen => cen, rst => rst);
-  counter_2 : counter_4bit port map (b(0) => b(8), b(1) => b(9), b(2) => b(10), b(3) => b(11), tc => tc2, clk => tc1, cen => cen, rst => rst);
-  counter_3 : counter_4bit port map (b(0) => b(12), b(1) => b(13), b(2) => b(14), b(3) => b(15), tc => tc, clk => tc2, cen => cen, rst => rst);
+  counter_1 : counter_4bit port map (b(0) => b(4), b(1) => b(5), b(2) => b(6), b(3) => b(7), tc => tc1, clk => c1_clk, cen => cen, rst => rst);
+  counter_2 : counter_4bit port map (b(0) => b(8), b(1) => b(9), b(2) => b(10), b(3) => b(11), tc => tc2, clk => c2_clk, cen => cen, rst => rst);
+  counter_3 : counter_4bit port map (b(0) => b(12), b(1) => b(13), b(2) => b(14), b(3) => b(15), tc => tc3, clk => c3_clk, cen => cen, rst => rst);
+  tc <= tc0 and tc1 and tc2 and tc3;
 end behavior;
