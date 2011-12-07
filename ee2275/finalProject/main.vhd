@@ -7,6 +7,7 @@ entity main is
        an : inout std_logic_vector(3 downto 0);
        sevSeg : out std_logic_vector(6 downto 0);
        --ld : out std_logic_vector(7 downto 0);
+       btn : in std_logic_vector(0 downto 0);
        clock : in std_logic);
 end main;
 
@@ -29,7 +30,7 @@ architecture behavior of main is
   signal counter : std_logic_vector(15 downto 0);
 begin
 
-  counter_0: counter_16bit port map (b => counter, clk => divided_clock, cen => '1', rst => '0');
+  counter_0: counter_16bit port map (b => counter, clk => divided_clock, cen => btn(0), rst => '0');
 
   -- create and connect the hex encoder to the 7 segment display
   hex0: bin2hex port map (bin(0) => counter(0), bin(1) => counter(1), bin(2) => counter(2), bin(3) => counter(3), hex => d0);

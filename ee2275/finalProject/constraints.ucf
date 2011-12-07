@@ -30,3 +30,5 @@ NET "clock" LOC = "P54";
 #NET "ld(5)" LOC = "P4";
 #NET "ld(6)" LOC = "P3";
 #NET "ld(7)" LOC = "P2";
+
+NET "btn(0)" LOC = "P69";
