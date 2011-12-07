@@ -101,8 +101,8 @@ architecture behavior of counter_16bit is
   signal c1_clk, c2_clk, c3_clk : std_logic;
 begin
   flip_flop_tc0 : FDCE port map (C => clk, CE => cen, CLR => rst, D => tc0, Q => c1_clk);
-  flip_flop_tc1 : FDCE port map (C => clk, CE => cen, CLR => rst, D => tc1, Q => c2_clk);
-  flip_flop_tc2 : FDCE port map (C => clk, CE => cen, CLR => rst, D => tc2, Q => c3_clk);
+  flip_flop_tc1 : FDCE port map (C => c1_clk, CE => cen, CLR => rst, D => tc1, Q => c2_clk);
+  flip_flop_tc2 : FDCE port map (C => c2_clk, CE => cen, CLR => rst, D => tc2, Q => c3_clk);
   counter_0 : counter_4bit port map (b(0) => b(0), b(1) => b(1), b(2) => b(2), b(3) => b(3), tc => tc0, clk => clk, cen => cen, rst => rst);
   counter_1 : counter_4bit port map (b(0) => b(4), b(1) => b(5), b(2) => b(6), b(3) => b(7), tc => tc1, clk => c1_clk, cen => cen, rst => rst);
   counter_2 : counter_4bit port map (b(0) => b(8), b(1) => b(9), b(2) => b(10), b(3) => b(11), tc => tc2, clk => c2_clk, cen => cen, rst => rst);
