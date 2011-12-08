@@ -157,6 +157,10 @@ class RedBlackNode
     end
   end
 
+  def transplant(node)
+    
+  end
+
   public
   def print(fh)
     fh.write(sprintf("n_%d [label=%d style=filled color=%s fontcolor=white];\n",@value, @value, @red ? "red" : "black"))
