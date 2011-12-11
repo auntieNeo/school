@@ -19,7 +19,7 @@ class Array
   public
   def linearselect(k)
     u = self.uniq;  # search from the list of unique elements
-    return u.lselect(0, u.length - 1, k);
+    return u[u.lselect(0, u.length - 1, k)];
   end
 
   protected
@@ -30,8 +30,8 @@ class Array
     # partition the array recursively to find k
     pivot = partition(left, right);
     if pivot == k then
-      return self[k];
-    elsif k > pivot
+      return k;
+    elsif k > pivot then
       return lselect(pivot + 1, right, k);
     else
       return lselect(left, pivot - 1, k);
@@ -40,11 +40,20 @@ class Array
 
   private
   def partition(left, right)
-    pivot = medianOfMedians();  # find the median of medians (recursively) to use as a pivot value
+    printf("entered partition routine. left: %d  right: %d\n", left, right);
+    p self.slice(left..right);
+    pivot = self.slice(left..right).medianOfMedians() + left;  # find the median of medians (recursively) to use as a pivot value
+    printf("optimal pivot index: %d\n", pivot);
+
+    # put the pivot at the right end
+    foo = self[right];
+    self[right] = self[pivot];
+    self[pivot] = foo;
+
     i = left - 1;  # i indexes the lower partition
     j = left;  # j indexes the upper partition
     left.upto(right - 1) do |j|
-      if(self[j] <= pivot) then
+      if(self[j] <= self[right]) then
         # swap the element at index j into the lower partition, and increment both i and j
         foo = self[i + 1];
         self[i + 1] = self[j];
@@ -65,23 +74,46 @@ class Array
     return i + 1;
   end
 
+  protected
   def medianOfMedians
+    puts "entered medianOfMedians routine"
+    # base case, simply find the median
+    if self.length <= 5 then
+      sorted = self.sort;  # sort the array in constant time, as the array cannot be larger than 5 elements
+      return self.index(sorted[sorted.length / 2]);
+    end
+
     # find all the medians
     medians = Array.new;
     i = 0;
     while i < self.length do
-      medians << self.slice(i, 5).medianOfSmallArray;
+      # sort half of the small sub array in constant time
+      # sorting is performed in-place so that we can easily calculate and return the index of the median of medians
+      j = i;
+      while j < [i + 3, self.length - 1].min do
+        k = j + 1;
+        least = j;
+        while k < [i + 5, self.length].min do
+          if self[k] < self[least] then
+            least = k;
+          end
+          k += 1;
+        end
+        foo = self[j];
+        self[j] = self[least];
+        self[least] = foo;
+        j += 1;
+      end
+      # add one of the medians
+      medians << self[[i + 2, self.length - 1].min];  # NOTE: for arrays smaller than 5, the best median isn't always chosen here, but that does not matter
       i += 5;
     end
-    # return the median of the medians
-    return medians.linearselect(medians.length / 2);
-  end
-
-  protected
-  def medianOfSmallArray
-#    assert(self.length <= 5, "medianOfSmallArray should only be called for arrays with less than 5 elements.");
-#    assort(self.length > 0, "The array cannot be empty.");
-    sorted = self.sort;  # sort the array in constant time, as the array cannot be larger than 5 elements
-    return sorted[sorted.length / 2];
+    puts "partly-sorted self:"
+    p self;
+    # find the median of the medians recursively
+    medianIndex = medians.lselect(0, medians.length - 1, medians.length / 2);
+    # calculate the index to return
+    result = [(medianIndex * 5) + 2, self.length - 1].min;
+    return result;
   end
 end
