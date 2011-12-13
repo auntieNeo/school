@@ -23,10 +23,10 @@ class Array
 
   private
   def partition(left, right)
-    printf("entered partition routine. left: %d  right: %d\n", left, right);
-    p self.slice(left..right);
+#    printf("entered partition routine. left: %d  right: %d\n", left, right);
+#    p self.slice(left..right);
     pivot = medianOfMedians(left, right);  # find the median of medians (recursively) to use as a pivot value
-    printf("optimal pivot index: %d\n", pivot);
+#    printf("optimal pivot index: %d\n", pivot);
 
     # put the pivot at the right end
     foo = self[right];
@@ -59,7 +59,7 @@ class Array
 
   protected
   def medianOfMedians(left, right)
-    puts "entered medianOfMedians routine"
+#    puts "entered medianOfMedians routine"
     # base case, simply find the median
     if right - left <= 5 then
       sorted = self.slice(left..right).sort;  # sort the array in constant time, as the array cannot be larger than 5 elements
@@ -98,15 +98,15 @@ class Array
       medians << MedianDatum.new(self[[i + 2, right].min], [i + 2, right].min);  # NOTE: for arrays smaller than 5, the best median isn't always chosen here, but that does not matter
       i += 5;
     end
-    printf "partly-sorted self:";
-    p self;
-    printf("medians: ");
-    p medians;
+#    printf "partly-sorted self:";
+#    p self;
+#    printf("medians: ");
+#    p medians;
     # find the median of the medians recursively
     medianRank = medians.lselect(0, medians.length - 1, medians.length / 2);
     medianIndex = medians[medianRank].index;
-    printf("median of medians: %d\n", medians[medianRank].value);
-    printf("median index: %d\n", medianIndex);
+#    printf("median of medians: %d\n", medians[medianRank].value);
+#    printf("median index: %d\n", medianIndex);
     # calculate the index to return
     result = medianIndex;
     return result;
