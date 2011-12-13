@@ -1,8 +1,8 @@
 class Array
   public
   def linearselect(k)
-    u = self.uniq;  # search from the list of unique elements
-    return u[u.lselect(0, u.length - 1, k)];
+#    u = self.uniq;  # search from the list of unique elements
+    return self[self.lselect(0, self.length - 1, k)];
   end
 
   public
