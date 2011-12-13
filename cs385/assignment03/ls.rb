@@ -108,7 +108,7 @@ class Array
     printf("median of medians: %d\n", medians[medianRank].value);
     printf("median index: %d\n", medianIndex);
     # calculate the index to return
-    result = medianIndex + left;
+    result = medianIndex;
     return result;
   end
 end
