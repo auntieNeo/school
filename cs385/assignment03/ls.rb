@@ -95,15 +95,50 @@ class Array
         j += 1;
       end
       # add one of the medians
-      medians << self[[i + 2, right].min];  # NOTE: for arrays smaller than 5, the best median isn't always chosen here, but that does not matter
+      medians << MedianDatum.new(self[[i + 2, right].min], [i + 2, right].min);  # NOTE: for arrays smaller than 5, the best median isn't always chosen here, but that does not matter
       i += 5;
     end
-    puts "partly-sorted self:"
+    printf "partly-sorted self:";
     p self;
+    printf("medians: ");
+    p medians;
     # find the median of the medians recursively
     medianRank = medians.lselect(0, medians.length - 1, medians.length / 2);
+    medianIndex = medians[medianRank].index;
+    printf("median of medians: %d\n", medians[medianRank].value);
+    printf("median index: %d\n", medianIndex);
     # calculate the index to return
-    result = [(medianRank * 5) + 2, right - left].min + left;
+    result = medianIndex + left;
     return result;
+  end
+end
+
+class MedianDatum
+  # this class is simply used as a tupple that can store both a value and an index, and is treated as though it were a number of its value
+  attr_accessor :value, :index
+  public
+  def initialize(value, index)
+    @value = value;
+    @index = index;
+  end
+
+  def <(y)
+    return @value < y.value;
+  end
+
+  def >(y)
+    return @value > y.value;
+  end
+
+  def <=(y)
+    return @value <= y.value;
+  end
+
+  def >=(y)
+    return @value >= y.value;
+  end
+
+  def <=>(y)
+    return @value <=> y.value;
   end
 end
