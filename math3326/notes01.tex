@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+\Large{Jonathan Glines}
+\end{flushright}
+\begin{flushleft}
+\section*{Notes}
+Monday Completeness of $\mathbb{R}$.
+
+Terms: bounded above, bounded below, bounded upper and lower bounds.
+
+Completeness. Every nonempty set $S \subseteq \mathbb{R}$ that is bounded above has a least upper bound.
+
+Unique; called $\text{sup}S$
+
+Greatest lower bound, too (``$\text{inf}S$")
+
+Examples
+
+Proofs involving sup or inf.
+
+\subsection*{More on Completeness}
+\subsubsection*{Sample problem (#10 Section 2.3)}
+Suppose that $A, B \subseteq \mathbb{R}$ are nonempty and bounded above. Show that $A \cup B$ is bounded above and that its supremum equals $\text{max}\{\text{sup}A, \text{sup}B\}$.
+
+\textbf{Proof} Let $\alpha = \text{sup}A$ and $\beta = \text{sup}B$. To be definite, may suppose that $\beta \geq \alpha$.
+
+Want to show that $\text{sup}\left(A \cup B\right) = \beta$.
+
+Must show exactly two things.
+
+\begin{enumerate}
+\item $\beta$ is an upper bound for $A \cup B$.
+\item If $u$ any upper bound for $A \cup B$, then $\beta \leq u$.
+\end{enumerate}
+
+1. Every element $x \in A \cup B$ is either in $B$ or $A$.
+$x \in B \implies x \leq \beta \text{Because $\beta$ is an upper bound for $B$.}$
+
+$x \in A \implies x \leq \alpha \leq \beta \text{Because $\alpha$ is an upper bound for $A$.}$
+
+2. Suppose that $u$ is an upper bound for $A \cup b$. Then $u$ is an upper bound for $B$. ($b \in B \implies b \in A\cupB \implies b \leq u$.) Because $\beta$ is the least upper bound for $B$. Follows that $\beta \leq u$.
+
+\subsection*{Problem}
+$A, B \subseteq \mathbb{R}$ nonempty.
+Suppose that $a \leq b$ for all $a \in A, b\in B$.
+
+Prove that $A$ is bounded above, $B$ bounded below, and that $\text{sup}A \leq \text{inf}B$.
+\subsubsection*{Proof}
+$A$ bounded above (by any element of $B$). $B$ bounded below (by any element of $A$).
+
+Let $\alpha = \text{sup}A$ and $\beta = \text{inf}B$. Want to show that $\alpha \leq \beta$.
+
+Strategy. Show that $\beta$ is an upper bound for $A$.
+
+How? Show that $a \leq \beta$ for all $a \in A$.
+
+Consider an element $a \in A$. Because $a \leq b$ for all $b\in B$, $a$ is a lower bound for $B$. Because $\beta$ is the \textbf{greatest} lower bound, $a \leq \beta$.
+
+Because this holds for all $a \in A$, $\beta$ is an upper bound for $A$.
+
+Because $\alpha$ is the least upper bound for $A$, $\alpha \leq \beta$.
+
+\subsection*{``Applications"}
+A real-value function $f$ is said to be \underline{bounded above}. In other words, there is a number $u$ such that $f(x) \leq u$ for all $x \in U$.
+
+Similarly for ``bounded below", ``bounded".
+
+\subsubsection*{Examples}
+\begin{itemize}
+\item[a.] $f(x) = e^x$
+
+Not bounded above
+Bounded below by $0$, for example.
+
+$\text{inf}f = 0$
+
+\item[b.] $$f(x) = \frac{1}{x^2 + 1}$$
+
+Bounded. Bounded above by 1, bounded below by $-6$, for example.
+
+$\text{sup}f = 1$
+$\text{inf}f = 0$
+\end{itemize}
+
+\underline{Example} $f, g \mathbb{R} \rightarrow \mathbb{R}$ both bounded abov. Prove that $text{sup}(f + g) \leq \text{sup}f + \text{sup} g$, and give an example where $<$ holds.
+
+Set up: Let $\alpha = \text{sup}f$ and $\beta = \text{sup}g$.
+
+Want to show that $\text{sup}(f + g) \leq \alpha + \beta$.
+
+Enough to show that $\alpha + \beta$ is an upper bound for $f + g$.
+
+$\alpha$ an upper bound for $f$: $f(x) \leq \alpha$ for all $x \in \mathbb{R}$
+
+\end{flushleft}
+\end{document}

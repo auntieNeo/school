@@ -1,0 +1,31 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+\Large{Jonathan Glines}
+\end{flushright}
+\begin{flushleft}
+\section*{Section 1.1}
+\subsection*{Exercise 10}
+Conjecture a formula for the sum $1 / \left(1 \cdot 3\right) + 1 / \left(3 \cdot 5\right) + \cdots + 1 / \left(\left(2n - 1 \right)\left(2n + 1\right)\right)$, and prove your conjecture by using Mathematical Induction.
+\subsubsection*{Solution}
+By looking at the first several values of the series starting at $n = 1$, I conjectured that a formula for this sum might be $f\left(n\right) = n / \left(2n + 1\right)$.
+
+Let $S$ be the set $\left\{n \in \mathbb{N} : 1 / \left(1 \cdot 3\right) + 1 / \left(3 \cdot 5\right) + \cdots + 1 / \left(\left(2n - 1 \right)\left(2n + 1\right)\right) = n / \left(2n + 1\right) \right\}$. Note that $1 \in S$, because $1 / \left(1 \cdot 3\right) = 1 / \left(2\cdot 1 + 1\right) = 1/3$.
+
+Let $n_1$ be any number in $\mathbb{N}$ such that $n_1 \in S$. With some algebra, we can relate $f\left(n_1\right)$ to the next number in the series.
+\begin{align*}
+\sum_{n=1}^{n_1}\frac{1}{\left(2n - 1 \right)\left(2n + 1\right)} &= \frac{n_1}{2n_1 + 1} \\
+% \sum_{n=1}^{n_1}\frac{1}{\left(2n_1 - 1 \right)\left(2n_1 + 1\right)} + \frac{1}{\left(2\left(n_1 + 1\right) - 1 \right)\left(2\left(n_1 + 1\right) + 1\right)}  &= \frac{n_1}{2n_1 + 1} + \frac{1}{\left(2\left(n_1 + 1\right) - 1 \right)\left(2\left(n_1 + 1\right) + 1\right)}\\
+\sum_{n=1}^{n_1 + 1}\frac{1}{\left(2n - 1 \right)\left(2n + 1\right)} &= \frac{n_1}{2n_1 + 1} + \frac{1}{\left(2n_1 + 1\right)\left(2n_1 + 3\right)} \\
+%&= \frac{n_1}{2n_1 + 1} + \frac{1}{\left(2n_1 + 1\right)\left(2n_1 + 3\right)} \\
+&= \frac{n_1\left(2n_1 + 3\right) + 1}{\left(2n_1 + 1\right)\left(2n_1 + 3\right)} \\
+&= \frac{2\left(n_1\right)^2 + 3n_1 + 1}{\left(2n_1 + 1\right)\left(2n_1 + 3\right)} \\
+&= \frac{\left(2n_1 + 1\right)\left(n_1 + 1\right)}{\left(2n_1 + 1\right)\left(2n_1 + 3\right)} = \frac{n_1 + 1}{2n_1 + 3} = \frac{n_1 + 1}{2\left(n_1 + 1\right) + 1}
+\end{align*}
+We see that our original expression for the next number in the series reduces to an expression of the form $\frac{n}{2n + 1} = f\left(n\right)$ with $n = n_1 + 1$. This tells us that $n_1 \in S$ implies $n_1 + 1 \in S$. By Mathematical Induction, $S = \mathbb{N}$ and the conjectured formula holds true for every $n$ in $\mathbb{N}$.
+\end{flushleft}
+\end{document}
