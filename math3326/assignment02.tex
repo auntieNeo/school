@@ -2,6 +2,7 @@
 \special{papersize=8.5in,11in}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath}
+\usepackage{colonequals}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
@@ -32,8 +33,27 @@ Let $K \mathrel{\mathop:}= \left\{s + t\sqrt{2} : s, t \in \mathbb{Q}\right\}$. 
 \end{itemize}
 (Thus, the set $K$ is a \textit{subfield} of $\mathbb{R}$. With the order inherited from $\mathbb{R}$, the set $K$ is an ordered field that lies between $\mathbb{Q}$ and $\mathbb{R}$.)
 
+\subsubsection*{Notes}
+\begin{itemize}
+\item[(a)] $x, y \in \mathbb{Q} \implies x + y \in \mathbb{Q} \text{ and } xy \in \mathbb{Q}$
+\item[(b)] $x \in \mathbb{Q}, y \notin \mathbb{Q} \implies x + y \notin \mathbb{Q}$
+\item[(c)] $x \in \mathbb{Q} \setminus \{0\}, y \notin \mathbb{Q} \implies xy \notin \mathbb{Q}$
+\end{itemize}
+Items (b) and (c) can be proved by contradiction.\\
+\underline{Prove by contradiction}\\
+Given that $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, assume that $x + y \in \mathbb{Q}$. Find a contradiction.
+
 \subsection*{Exercise 15(b)}
 If $0 < a < b$, show that $1/b < 1/a$.
+
+\subsubsection*{Notes}
+Quite abstract.
+
+$0 < a < b \implies \frac{1}{b} < \frac{1}{a}$ don't assume any order properties other than what has been presented.
+
+\underline{Possible approach}:
+
+Given that $0 < a < b$, suppose that $\frac{1}{b} \geq \frac{1}{a}$. Find a contradiction.
 
 \subsection*{Exercise 18}
 Let $a, b \in \mathbb{R}$, and suppose that for every $\epsilon > 0$ we have $a \leq b + \epsilon$. Show that $a \leq b$.
@@ -51,7 +71,27 @@ Find all values of $x$ that satisfy the following equations:
 \end{itemize}
 
 \section*{Section 2.3 Exercises 2, 5, and 11}
+
+\subsection*{Exercise 2}
 Let $S_2 \mathrel{\mathop:}= \left\{x \in \mathbb{R} : x > 0\right\}$. Does $S_2$ have lower bounds? Does $S_2$ have upper bounds? Does $\text{inf}S_2$ exist? Does $\text{sup}S_2$ exist? Prove your statements.
+
+\subsection*{Exercise 5}
+Find the infimum and supremum, if they exist, of each of the following sets.
+\begin{itemize}
+\item[(a)] $A \mathrel{\mathop:}= \left\{x \in \mathbb{R} : 2x + 5 > 0\right\}$
+\item[(b)] $B \mathrel{\mathop:}= \left\{x \in \mathbb{R} : x + 2 \geq x^2\right\}$
+\item[(c)] $C \mathrel{\mathop:}= \left\{x \in \mathbb{R} : x < 1/x\right\}$
+\item[(d)] $D \mathrel{\mathop:}= \left\{x \in \mathbb{R} : x^2 - 2x - 5 < 0\right\}$
+\end{itemize}
+
+\subsection*{Exercise 11}
+Let $S$ be a bounded set in $\mathbb{R}$ and let $S_0$ be a nonempty subset of $S$. Show that $\inf S \leq \inf S_0 \leq \sup S_0 \leq \sup S$.
+
 \section*{Section 2.4 Exercise 7}
+
+\subsection*{Exercise 7}
+
+Let $A$ and $B$ be bounded nonempty subsets of $\mathbb{R}$, and let $A + B \colonequals \left\{a + b : a \in A, b \in B\right\}$. Prove that $\sup\left(A + B\right) = \sup A + \sup B$ and $\inf \left(A + B\right) = \inf A + \inf B$.
+
 \end{flushleft}
 \end{document}
