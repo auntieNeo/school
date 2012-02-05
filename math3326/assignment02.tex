@@ -27,8 +27,24 @@ Suggestion:
 \end{enumerate}
 
 \subsubsection*{Solution}
+To make our proof easier, before proving that $\left(ab\right)^{-1} = a^{-1}b^{-1}$ we will prove that $\left(ab\right)\left(cd\right) = \left(ac\right)\left(bd\right)$ for all $a, b, c, d \in \mathbb{R}$.
 \begin{proof}
-Need to add a proof here.
+TODO.
+\end{proof}
+\begin{proof}
+First, notice that because $\left(ab\right)\left(ab\right)^{-1} = 1$, we can apply property (M3) in the following way.
+\begin{align*}
+\left(a^{-1}b^{-1}\right) &= \left(a^{-1}b^{-1}\right)\left(\left(ab\right)\left(ab\right)^{-1}\right) & \text{(M3)}\\
+\intertext{Now we rearange this using properties (M2), }
+&= \left(\left(a^{-1}b^{-1}\right)\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M2)}
+\intertext{From here, our strategy will be to rearrange the factor on the left by un-associating its factors using properties (M3) and (M2), and then moving those factors using property (M1).}
+&= \left(\left[\left(a^{-1}b^{-1}\right) \cdot 1\right]\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M3)}\\
+&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\cdot1\right)\right]\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M2)}\\
+&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\right)\right]\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M3)}\\
+&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\right)\right]\left[\left(ab\right) \cdot 1\right]\right)\left(ab\right)^{-1} & \text{(M3)}\\
+&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\right)\right]\left[\left(a\right) \left(b \cdot 1\right)\right]\right)\left(ab\right)^{-1} & \text{(M2)}\\
+&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\right)\right]\left[\left(a\right) \left(b\right)\right]\right)\left(ab\right)^{-1} & \text{(M3)}\\
+\end{align*}
 \end{proof}
 
 \subsection*{Exercise 8}
