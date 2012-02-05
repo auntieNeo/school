@@ -1,8 +1,9 @@
 \documentclass[12pt]{article}
 \special{papersize=8.5in,11in}
 \usepackage[utf8]{inputenc}
-\usepackage{amssymb,amsmath}
+\usepackage{amssymb,amsmath,amsthm}
 \usepackage{colonequals}
+\usepackage{parskip}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
@@ -24,6 +25,11 @@ Suggestion:
 \item Show that $a^{-1}b^{-1}$ has the same property that $(ab)^{-1}$ does, namely $(a^{-1}b^{-1})(ab) = 1$.
 \item Somehow conclude that $(ab)^{-1} = a^{-1}b^{-1}$.
 \end{enumerate}
+
+\subsubsection*{Solution}
+\begin{proof}
+Need to add a proof here.
+\end{proof}
 
 \subsection*{Exercise 8}
 \begin{itemize}
@@ -98,5 +104,43 @@ Let $S$ be a bounded set in $\mathbb{R}$ and let $S_0$ be a nonempty subset of $
 
 Let $A$ and $B$ be bounded nonempty subsets of $\mathbb{R}$, and let $A + B \colonequals \left\{a + b : a \in A, b \in B\right\}$. Prove that $\sup\left(A + B\right) = \sup A + \sup B$ and $\inf \left(A + B\right) = \inf A + \inf B$.
 
+\subsubsection*{Solution}
+\begin{proof}
+Let $u = \sup A$ and $w = \sup B$. We have $u \geq x$ for all $x \in A$, and $w \geq y$ for all $y \in B$. By adding these inequalities, we get $u + w \geq x + y$ for all $x \in A, y \in B$. Thus, $u + w$ must be an upper bound for $A + B$ and $\sup A + \sup B \geq \sup \left(A + B\right)$.
+
+Let $z = \sup\left(A + B\right)$. Because $z$ is an upper bound of $A + B$, we have $z \geq x + y$ for all $x \in A, y \in B$. It follows that $z - y \geq x$ and that $z - x \geq y$. Notice that $z - y$ and $z - x$ are upper bounds of $A$ and $B$ respectively. Knowing this, rewrite the inequalities as $z - y \geq \sup A$ and $z - x \geq \sup B$. Add these inequalities together to get $2z - x - y \geq \sup A + \sup B$.
+
+Set that inequality aside, and consider that $z \geq x + y$ for all $x \in A, y \in B$. Add $\sup A + \sup B$ to both sides and perform some algebra to make it look more like our previous inequality.
+\begin{align*}
+\sup A + \sup B + z &\geq x + y + \sup A + \sup B\\
+\sup A + \sup B + z - x - y &\geq \sup A + \sup B\\
+\intertext{Now subtract this inequality from the inequality that we set aside.}
+z - \sup A - \sup B &\geq 0\\
+z &\geq \sup A +\sup B \\
+\end{align*}
+And so we see that $\sup\left(A + B\right) \geq \sup A + \sup B$.
+
+Combine the inequalities and we conclude that $\sup\left(A + B\right) = \sup A + \sup B$.
+\end{proof}
+
+To prove that $\inf\left(A + B\right) = \inf A + \inf B$, we follow the same strategy that worked for proving that $\sup\left(A + B\right) = \sup A + \sup B$.
+
+\begin{proof}
+Let $u = \inf A$ and $w = \inf B$. We have $u \leq x$ for all $x \in A$, and $w \leq y$ for all $y \in B$. By adding these inequalities, we get $u + w \leq x + y$ for all $x \in A, y \in B$. Thus, $u + w$ must be a lower bound for $A + B$, and $\inf A + \inf B \leq \inf\left(A + B\right)$.
+
+Let $z = \inf\left(A + B\right)$. Because $z$ is a lower bound of $A + B$, we have $z \leq x + y$ for all $x \in A, y \in B$. It follows that $z - y \leq x$ and that $z - x \leq y$. Notice that $z - y$ and $z - x$ are lower bounds of $A$ and $B$ respectively. Knowing this, rewrite the inequalities as $z - y \leq \inf A$ and $z - x \leq \inf B$. Add these inequalities together to get $2 z - x - y \leq \inf A + \inf B$.
+
+Set that inequality aside, and consider that $z \leq x + y$ for all $x \in A, y \in B$. Add $\inf A + \inf B$ to both sides and perform some algebra to make it look more like our previous inequality.
+\begin{align*}
+\inf A + \inf B + z &\leq x + y + \inf A + \inf B\\
+\inf A + \inf B + z - x - y &\leq \inf A + \inf B\\
+\intertext{Now subtract this inequality from the inequality that we set aside.}
+z - \inf A - \inf B &\leq 0\\
+z &\leq \inf A + \inf B
+\end{align*}
+And so we see that $\inf\left(A + B\right) \leq \inf A + \inf B$.
+
+Combine the inequalities and we conclude that $\inf\left(A + B\right) = \inf A + \inf B$.
+\end{proof}
 \end{flushleft}
 \end{document}
