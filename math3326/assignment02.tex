@@ -2,6 +2,8 @@
 \special{papersize=8.5in,11in}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath,amsthm}
+\newtheorem*{thm}{Theorem}
+\newtheorem{lem}{Lemma}
 \usepackage{colonequals}
 \usepackage{parskip}
 \pagestyle{plain}
@@ -9,7 +11,6 @@
 \begin{flushright}
 \Large{Jonathan Glines}
 \end{flushright}
-\begin{flushleft}
 \section*{Section 2.1 Exercises 5, 8, 15(b), and 18}
 \subsection*{Exercise 5}
 If $a \ne 0$ and $b \ne 0$, show that $1/\left(ab\right) = \left(1/a\right)\left(1/b\right)$.
@@ -27,10 +28,18 @@ Suggestion:
 \end{enumerate}
 
 \subsubsection*{Solution}
-To make our proof easier, before proving that $\left(ab\right)^{-1} = a^{-1}b^{-1}$ we will prove that $\left(ab\right)\left(cd\right) = \left(ac\right)\left(bd\right)$ for all $a, b, c, d \in \mathbb{R}$.
+\begin{lem}
+$\left(ab\right)\left(cd\right) = \left(ac\right)\left(bd\right)$ for all $a, b, c, d \in \mathbb{R}$.
+\end{lem}
+
 \begin{proof}
 TODO.
 \end{proof}
+
+\begin{thm}
+$\left(ab\right)^{-1} = a^{-1}b^{-1}$ for all $a, b \in \mathbb{R}$.
+\end{thm}
+
 \begin{proof}
 First, notice that because $\left(ab\right)\left(ab\right)^{-1} = 1$, we can apply property (M3) in the following way.
 \begin{align*}
@@ -65,9 +74,36 @@ Given that $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, assume that $x + y \in 
 
 \subsubsection*{Solution}
 \begin{itemize}
-\item[(a)] Let $x, y$ be rational numbers such that $x = x_1 / x_2$ and $y = y_1 / y_2$, with $x_1, y_1 \in \mathbb{Z}$ and $x_2, y_2 \in \mathbb{Z} \setminus \{0\}$. The number $x + y$ would then equal $\left(x_1 + y_1\right)/\left(x_2 + y_2\right)$. The set of rational numbers $\mathbb{Q}$ is defined to be 
+\item[(a)]
+\begin{lem}
+The set $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication.
+\end{lem}
+
+\begin{proof}
+TODO.
+\end{proof}
+
+\begin{thm}
+If $x, y$ are rational numbers, then $x + y$ and $xy$ are rational numbers.
+\end{thm}
+
+\begin{proof}
+Let $x, y$ be rational numbers. From the definition of the set of rational numbers, $x = x_1/x_2$ and $y = y_1/y_2$ for some $x_1, y_1 \in \mathbb{Z}$ and some $x_2, y_2 \in \mathbb{Z} \setminus \left\{0\right\}$.
+
+The number $x + y$ would then equal $\left(x_1y_2 + y_1x_2\right)/\left(x_2 \cdot y_2\right)$. Because $x_1, y_1, x_2, y_2 \in \mathbb{Z}$ and $\mathbb{Z}$ is closed under both addition and multiplication, $x_1y_2 + y_1x_2 \in \mathbb{Z}$. 
+Because $x_2, y_2 \in \mathbb{Z}\setminus\left\{0\right\}$ and $\mathbb{Z}\setminus\left\{0\right\}$ is closed under multiplication (Lemma 2), $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$. Knowing that $x_1y_2 + y_1x_2 \in \mathbb{Z}$ and that $x_1 \cdot y_1 \in \mathbb{Z} \setminus \left\{0\right\}$, we see that $x + y$ is of the form $u / v$ where $u \in \mathbb{Z}$ and $v \in \mathbb{Z} \setminus \left\{0\right\}$. Therefore, $x + y \in \mathbb{Q}$.
+
+The number $xy$ equals $\left(x_1 \cdot y_1\right) / \left(x_2 \cdot y_2\right)$. Because $x_1, y_1 \in \mathbb{Z}$ and $\mathbb{Z}$ is closed under multiplication, $x_1 \cdot y_1 \in \mathbb{Z}$. Likewise, because $x_2, y_2 \in \mathbb{Z} \setminus \left\{0\right\}$ and $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication (Lemma 2), $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$. Knowing that $x_1 \cdot y_1 \in \mathbb{Z}$ and that $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$, we see that $xy$ is of the form $u / v$ where $u \in \mathbb{Z}$ and $v \in \mathbb{Z} \setminus \left\{0\right\}$. Therefore, $xy \in \mathbb{Q}$.
+\end{proof}
 
 \item[(b)]
+\begin{thm}
+If $x$ is a rational number and $y$ is an irrational number, then $x + y$ is an irrational number. If, in addition, $x \neq 0$, then $xy$ is an irrational number.
+\end{thm}
+
+Given $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, lets suppose that $x + y \in \mathbb{Q}$.
+
+From the definition of the set of rational numbers, $x$ must equal $x_1 / x_2$ for some $x_1 \in \mathbb{Z}$ and for some $x_2 \in \mathbb{Z} \setminus \left\{0\right\}$. It follows that $x + y = x_1 / x_2 + y$
 \end{itemize}
 
 \subsection*{Exercise 15(b)}
@@ -82,8 +118,37 @@ $0 < a < b \implies \frac{1}{b} < \frac{1}{a}$ don't assume any order properties
 
 Given that $0 < a < b$, suppose that $\frac{1}{b} \geq \frac{1}{a}$. Find a contradiction.
 
+\subsubsection*{Solution}
+\begin{lem}
+Let $x$ be any element of $\mathbb{R}$. If $x > 0$, then $x^{-1} > 0$.
+\end{lem}
+
+\begin{proof}
+Because $x > 0$ and $x \cdot x^{-1} = 1 > 0$, by Theorem 2.1.10 from the book $x^{-1}$ must be positive.
+\end{proof}
+
+\begin{thm}
+Let $a, b$ be elements of $\mathbb{R}$. If $0 < a < b$, then $1/b < 1/a$.
+\end{thm}
+
+\begin{proof}
+From Lemma 3, we see that both $1/a$ and $1/b$ are positive numbers. Knowing this, we can apply part (c) of Theorem 2.1.7 from the book, which states that if $a > b$ and $c > 0$, then $ca > cb$.
+\begin{align*}
+0 &< a < b \\
+0\cdot\left(1/a\right) &< a\cdot\left(1/a\right) < b\cdot\left(1/a\right) \\
+0 &< 1 < b / a \\
+0\cdot\left(1/b\right) &< 1\cdot\left(1/b\right) < \left(b / a\right)\cdot\left(1 / b\right)\\
+0 &< 1/b < 1/a
+\end{align*}
+And here we conclude that $1 / b < 1 / a$.
+\end{proof}
+
 \subsection*{Exercise 18}
 Let $a, b \in \mathbb{R}$, and suppose that for every $\epsilon > 0$ we have $a \leq b + \epsilon$. Show that $a \leq b$.
+
+\subsubsection*{Solution}
+\begin{thm}
+\end{thm}
 
 \section*{Section 2.2 Exercises 5 and 8}
 
@@ -121,6 +186,12 @@ Let $S$ be a bounded set in $\mathbb{R}$ and let $S_0$ be a nonempty subset of $
 Let $A$ and $B$ be bounded nonempty subsets of $\mathbb{R}$, and let $A + B \colonequals \left\{a + b : a \in A, b \in B\right\}$. Prove that $\sup\left(A + B\right) = \sup A + \sup B$ and $\inf \left(A + B\right) = \inf A + \inf B$.
 
 \subsubsection*{Solution}
+\begin{thm}
+Let $A$ and $B$ be bounded nonempty subsets of $\mathbb{R}$, and let $A + B \colonequals \left\{a + b : a \in A, b \in B\right\}$.
+
+Then $\sup\left(A + B\right) = \sup A + \sup B$.
+\end{thm}
+
 \begin{proof}
 Let $u = \sup A$ and $w = \sup B$. We have $u \geq x$ for all $x \in A$, and $w \geq y$ for all $y \in B$. By adding these inequalities, we get $u + w \geq x + y$ for all $x \in A, y \in B$. Thus, $u + w$ must be an upper bound for $A + B$ and $\sup A + \sup B \geq \sup \left(A + B\right)$.
 
@@ -141,6 +212,12 @@ Combine the inequalities and we conclude that $\sup\left(A + B\right) = \sup A +
 
 To prove that $\inf\left(A + B\right) = \inf A + \inf B$, we follow the same strategy that worked for proving that $\sup\left(A + B\right) = \sup A + \sup B$.
 
+\begin{thm}
+Let $A$ and $B$ be bounded nonempty subsets of $\mathbb{R}$, and let $A + B \colonequals \left\{a + b : a \in A, b \in B\right\}$.
+
+Then $\inf\left(A + B\right) = \inf A + \inf B$.
+\end{thm}
+
 \begin{proof}
 Let $u = \inf A$ and $w = \inf B$. We have $u \leq x$ for all $x \in A$, and $w \leq y$ for all $y \in B$. By adding these inequalities, we get $u + w \leq x + y$ for all $x \in A, y \in B$. Thus, $u + w$ must be a lower bound for $A + B$, and $\inf A + \inf B \leq \inf\left(A + B\right)$.
 
@@ -158,5 +235,4 @@ And so we see that $\inf\left(A + B\right) \leq \inf A + \inf B$.
 
 Combine the inequalities and we conclude that $\inf\left(A + B\right) = \inf A + \inf B$.
 \end{proof}
-\end{flushleft}
 \end{document}
