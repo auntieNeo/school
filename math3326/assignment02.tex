@@ -40,7 +40,7 @@ $\left(ab\right)\left(cd\right) = \left(ac\right)\left(bd\right)$ for all $a, b,
 &= b \cdot d \cdot \left(ca\right) & \text{(M2), associative}\\
 &= b \cdot d \cdot \left(ac\right) & \text{(M1)}\\
 &= \left(ac\right) \cdot b \cdot d & \text{(M1)}\\
-&= \left(ac\right) \cdot \left(bd\right) & \text{(M2)}\\
+&= a \cdot c \cdot \left(bd\right) & \text{(M2)}\\
 &= \left(ac\right)\left(bd\right) & \qedhere
 \end{align*}
 \end{proof}
@@ -176,7 +176,11 @@ Given $a, b \in \mathbb{R}$ such that for every $\varepsilon > 0$ we have $a \le
 
 By subtracting $\varepsilon$ from both sides of the given inequality, we find that $a - \varepsilon \leq b$.
 
-Because $\varepsilon > 0$, with some algebra it follows that $a - \varepsilon < a$. Combine this inequality with our earlier inequality and we have.
+Because $\varepsilon > 0$, with some algebra it follows that $a - \varepsilon < a$.
+
+Suppose to the contrary that $a > b$. We can then write the inequality $a - \varepsilon \leq b < a$. Add $\varepsilon$ to everything in this inequality and we get $a \leq b + \varepsilon < a + \varepsilon$. There exists an element $\varepsilon_0 \in \mathbb{R}$ such that $a \leq b + \varepsilon$ and $b + \varepsilon < a + \varepsilon$ cannot hold at the same time. Because we supposed $a > b$, there must be some interval between $a$ and $b$. Let $\varepsilon_0 = \left|a - b\right| \div 2$ be half of that interval. Notice that $a \leq b + \varepsilon_0$ now does not hold, because we supposed that $a < b$ and $\varepsilon_0$ is not large enough to make $b + \varepsilon_0$ greater than $a$. This contradicts what we were given, so we conclude that $a \leq b$.
+
+$b - \varepsilon < b$.
 
 \section*{Section 2.2 Exercises 5 and 8}
 
@@ -213,7 +217,7 @@ $S_2$ does have lower bounds. The number -1 is a lower bound for $S_2$, because 
 
 $S_2$ does not have upper bounds. Let $S_N$ be the set $\left\{n \in \mathbb{N} : n \in S_2\right\}$. The number $1$ is in the set $S_N$ because $1$ is in the set $S_2$. Let $n_0$ be any number in $S_N$. Because $n_0$ is an element of $S_N$, $n_0$ must be greater than $0$. We see immediately that $n_0 + 1$ is also greater than $0$, which means $n_0 + 1 \in S_2$ and thus $n_0 + 1 \in S_N$. By Mathematical Induction, $S_N = \mathbb{N}$, and we see that $\mathbb{N} \subset S_2$. Because $\mathbb{N}$ has no upper bounds, we conclude that $S_2$ has no upper bounds.
 
-$\inf S_2$ does exist. Let $\bar{S}_2$ be the set $\left\{x : -x \in S_2\right\}$. Any lower bound $l \in S_2$ corresponds to an upper bound $-l \in \bar{S}_2$, because for every $x \in S_2$, we have $l \leq x$ and $-l \geq -x$. Because $\bar{S}_2$ is bounded above, the Completeness Property of $\mathbb{R}$ tells us that $\sup \bar{S}_2$ exists. Let $u$ be any upper bound for $\bar{S}_2$. It follows that for any $-x \in \bar{S}_2$ we have $u \geq \sup \bar{S}_2 \geq -x$ and also $-u \leq -\sup\bar{S}_2 \leq x$. FIXME
+$\inf S_2$ does exist. Let $\bar{S}_2$ be the set $\left\{x : -x \in S_2\right\}$. Any lower bound $l \in S_2$ corresponds to an upper bound $-l \in \bar{S}_2$, because for every $x \in S_2$, we have $l \leq x$ and $-l \geq -x$. Because $\bar{S}_2$ is bounded above, the Completeness Property of $\mathbb{R}$ tells us that $\sup \bar{S}_2$ exists. Let $u$ be any upper bound for $\bar{S}_2$. It follows that for any $-x \in \bar{S}_2$ we have $u \geq \sup \bar{S}_2 \geq -x$ and also $-u \leq -\sup\bar{S}_2 \leq x$. Because $-x$ in $\bar{S}_2$ corresponds to $x$ in $S_2$, we see that $-u$ is a lower bound for all $x$ in $S_2$, and that $-\sup\bar{S}_2$ is a lower bound greater than any such lower bound $-u$. Thus, $\inf S_2$ exists and it equals $-\sup\bar{S}_2$.
 
 $\sup S_2$ does not exist, because $S_2$ does not have any upper bounds.
 
