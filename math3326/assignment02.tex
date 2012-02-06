@@ -41,19 +41,18 @@ $\left(ab\right)^{-1} = a^{-1}b^{-1}$ for all $a, b \in \mathbb{R}$.
 \end{thm}
 
 \begin{proof}
-First, notice that because $\left(ab\right)\left(ab\right)^{-1} = 1$, we can apply property (M3) in the following way.
+Let $a, b$ be elements in $\mathbb{R}$. Notice that because $\left(ab\right)\left(ab\right)^{-1} = 1$, we can apply property (M3) in the following way.
 \begin{align*}
-\left(a^{-1}b^{-1}\right) &= \left(a^{-1}b^{-1}\right)\left(\left(ab\right)\left(ab\right)^{-1}\right) & \text{(M3)}\\
-\intertext{Now we rearange this using properties (M2), }
+a^{-1}b^{-1} &= \left(a^{-1}b^{-1}\right)\left(\left(ab\right)\left(ab\right)^{-1}\right) & \text{(M3)}\\
+\intertext{Now we rearange this using property (M2). }
 &= \left(\left(a^{-1}b^{-1}\right)\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M2)}
-\intertext{From here, our strategy will be to rearrange the factor on the left by un-associating its factors using properties (M3) and (M2), and then moving those factors using property (M1).}
-&= \left(\left[\left(a^{-1}b^{-1}\right) \cdot 1\right]\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M3)}\\
-&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\cdot1\right)\right]\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M2)}\\
-&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\right)\right]\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M3)}\\
-&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\right)\right]\left[\left(ab\right) \cdot 1\right]\right)\left(ab\right)^{-1} & \text{(M3)}\\
-&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\right)\right]\left[\left(a\right) \left(b \cdot 1\right)\right]\right)\left(ab\right)^{-1} & \text{(M2)}\\
-&= \left(\left[\left(a^{-1}\right)\left(b^{-1}\right)\right]\left[\left(a\right) \left(b\right)\right]\right)\left(ab\right)^{-1} & \text{(M3)}\\
+\intertext{From here, apply Lemma 1 and properties (M4) and (M3) to get the following.}
+&= \left(\left(a^{-1}a\right)\left(b^{-1}b\right)\right)\left(ab\right)^{-1} & \text{Lemma 1} \\
+&= \left(\left(1\right)\left(1\right)\right)\left(ab\right)^{-1} & \text{(M4)} \\
+&= \left(1\right)\left(ab\right)^{-1} & \text{(M3)} \\
+&= \left(ab\right)^{-1} & \text{(M3)} \\
 \end{align*}
+Here we conclude that $a^{-1}b^{-1} = \left(ab\right)^{-1}$.
 \end{proof}
 
 \subsection*{Exercise 8}
@@ -62,15 +61,15 @@ First, notice that because $\left(ab\right)\left(ab\right)^{-1} = 1$, we can app
 \item[(b)] Prove that if $x$ is a rational number and $y$ is an irrational number, then $x + y$ is an irrational number. If, in addition, $x \neq 0$, then show that $xy$ is an irrational number.
 \end{itemize}
 
-\subsubsection*{Notes}
-\begin{itemize}
-\item[(a)] $x, y \in \mathbb{Q} \implies x + y \in \mathbb{Q} \text{ and } xy \in \mathbb{Q}$
-\item[(b)] $x \in \mathbb{Q}, y \notin \mathbb{Q} \implies x + y \notin \mathbb{Q}$
-\item[(c)] $x \in \mathbb{Q} \setminus \{0\}, y \notin \mathbb{Q} \implies xy \notin \mathbb{Q}$
-\end{itemize}
-Items (b) and (c) can be proved by contradiction.\\
-\underline{Prove by contradiction}\\
-Given that $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, assume that $x + y \in \mathbb{Q}$. Find a contradiction.
+%\subsubsection*{Notes}
+%\begin{itemize}
+%\item[(a)] $x, y \in \mathbb{Q} \implies x + y \in \mathbb{Q} \text{ and } xy \in \mathbb{Q}$
+%\item[(b)] $x \in \mathbb{Q}, y \notin \mathbb{Q} \implies x + y \notin \mathbb{Q}$
+%\item[(c)] $x \in \mathbb{Q} \setminus \{0\}, y \notin \mathbb{Q} \implies xy \notin \mathbb{Q}$
+%\end{itemize}
+%Items (b) and (c) can be proved by contradiction.\\
+%\underline{Prove by contradiction}\\
+%Given that $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, assume that $x + y \in \mathbb{Q}$. Find a contradiction.
 
 \subsubsection*{Solution}
 \begin{itemize}
@@ -98,10 +97,10 @@ If $x, y$ are rational numbers, then $x + y$ and $xy$ are rational numbers.
 \begin{proof}
 Let $x, y$ be rational numbers. From the definition of the set of rational numbers, $x = x_1/x_2$ and $y = y_1/y_2$ for some $x_1, y_1 \in \mathbb{Z}$ and some $x_2, y_2 \in \mathbb{Z} \setminus \left\{0\right\}$.
 
-The number $x + y$ would then equal $\left(x_1y_2 + y_1x_2\right)/\left(x_2 \cdot y_2\right)$. Because $x_1, y_1, x_2, y_2 \in \mathbb{Z}$ and $\mathbb{Z}$ is closed under both addition and multiplication, $x_1y_2 + y_1x_2 \in \mathbb{Z}$. 
-Because $x_2, y_2 \in \mathbb{Z}\setminus\left\{0\right\}$ and $\mathbb{Z}\setminus\left\{0\right\}$ is closed under multiplication (Lemma 2), $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$. Knowing that $x_1y_2 + y_1x_2 \in \mathbb{Z}$ and that $x_1 \cdot y_1 \in \mathbb{Z} \setminus \left\{0\right\}$, we see that $x + y$ is of the form $u / v$ where $u \in \mathbb{Z}$ and $v \in \mathbb{Z} \setminus \left\{0\right\}$. Therefore, $x + y \in \mathbb{Q}$.
+The number $x + y$ would then equal $\left(x_1y_2 + y_1x_2\right)/\left(x_2 \cdot y_2\right)$. Because $x_1, y_1, x_2, y_2 \in \mathbb{Z}$ and $\mathbb{Z}$ is closed under both addition and multiplication, the numerator $x_1y_2 + y_1x_2 \in \mathbb{Z}$. 
+Because $x_2, y_2 \in \mathbb{Z}\setminus\left\{0\right\}$ and $\mathbb{Z}\setminus\left\{0\right\}$ is closed under multiplication (Lemma 2), the divisor $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$. Knowing that $x_1y_2 + y_1x_2 \in \mathbb{Z}$ and that $x_1 \cdot y_1 \in \mathbb{Z} \setminus \left\{0\right\}$, we see that $x + y$ is of the form $u / v$ where $u \in \mathbb{Z}$ and $v \in \mathbb{Z} \setminus \left\{0\right\}$. Therefore, $x + y \in \mathbb{Q}$.
 
-The number $xy$ equals $\left(x_1 \cdot y_1\right) / \left(x_2 \cdot y_2\right)$. Because $x_1, y_1 \in \mathbb{Z}$ and $\mathbb{Z}$ is closed under multiplication, $x_1 \cdot y_1 \in \mathbb{Z}$. Likewise, because $x_2, y_2 \in \mathbb{Z} \setminus \left\{0\right\}$ and $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication (Lemma 2), $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$. Knowing that $x_1 \cdot y_1 \in \mathbb{Z}$ and that $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$, we see that $xy$ is of the form $u / v$ where $u \in \mathbb{Z}$ and $v \in \mathbb{Z} \setminus \left\{0\right\}$. Therefore, $xy \in \mathbb{Q}$.
+The number $xy$ equals $\left(x_1 \cdot y_1\right) / \left(x_2 \cdot y_2\right)$. Because $x_1, y_1 \in \mathbb{Z}$ and $\mathbb{Z}$ is closed under multiplication, the numerator $x_1 \cdot y_1 \in \mathbb{Z}$. Likewise, because $x_2, y_2 \in \mathbb{Z} \setminus \left\{0\right\}$ and $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication (Lemma 2), the denominator $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$. Knowing that $x_1 \cdot y_1 \in \mathbb{Z}$ and that $x_2 \cdot y_2 \in \mathbb{Z} \setminus \left\{0\right\}$, we see that $xy$ is of the form $u / v$ where $u \in \mathbb{Z}$ and $v \in \mathbb{Z} \setminus \left\{0\right\}$. Therefore, $xy \in \mathbb{Q}$.
 \end{proof}
 
 \item[(b)]
@@ -109,9 +108,15 @@ The number $xy$ equals $\left(x_1 \cdot y_1\right) / \left(x_2 \cdot y_2\right)$
 If $x$ is a rational number and $y$ is an irrational number, then $x + y$ is an irrational number. If, in addition, $x \neq 0$, then $xy$ is an irrational number.
 \end{thm}
 
+\begin{proof}
 Given $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, lets suppose that $x + y \in \mathbb{Q}$.
 
-From the definition of the set of rational numbers, $x$ must equal $x_1 / x_2$ for some $x_1 \in \mathbb{Z}$ and for some $x_2 \in \mathbb{Z} \setminus \left\{0\right\}$. It follows that $x + y = x_1 / x_2 + y$
+Let $z = x + y$. From the definition of the set of rational numbers, $x$ must equal $x_1 / x_2$ and $z$ must equal $z_1 / z_2$ for some $x_1, z_1 \in \mathbb{Z}$ and for some $x_2, z_2 \in \mathbb{Z} \setminus \left\{0\right\}$. It follows that $y = z - x = z_1/z_2 - x_1/x_2 = \left(z_1 x_2 - x_1 z_2\right) / \left(z_2 x_2\right)$. Because $x_1, z_1, x_2, z_2 \in \mathbb{Z}$ and $\mathbb{Z}$ is closed under both addition and multiplication, the numerator $z_1 x_2 - x_1 z_2 \in \mathbb{Z}$. Because $x_2, z_2 \in \mathbb{Z} \setminus \left\{0\right\}$ and $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication (Lemma 2), the denominator $z_2 x_2 \in \mathbb{Z} \setminus \left\{0\right\}$. Knowing that $y = \left(z_1 x_2 - x_1 z_2\right) / \left(z_2 x_2\right)$ and that the numerator and denominator are in sets $\mathbb{Z}$ and $\mathbb{Z} \setminus \left\{0\right\}$ respectievly, we see that $y$ is of the form $u/v$ where $u \in \mathbb{Z}$ and $v \in \mathbb{Z} \setminus \left\{0\right\}$. This suggests that $y \in \mathbb{Q}$, which contradicts our premise that $y \notin \mathbb{Q}$. Thus, $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$ implies $x + y \notin \mathbb{Q}$.
+
+Given $x \in \mathbb{Q}$ and $y \in \mathbb{Q}$ such that $x \neq 0$, suppose that $xy \in \mathbb{Q}$.
+
+Let $z = xy$. From the definition of the set of rational numbers, $x$ must equal $x_1/x_2$ and $z$ must equal $z_1/z_2$ for some $x_1, z_1 \in \mathbb{Z}$ and for some $x_2, z_2 \in \mathbb{Z} \setminus \left\{0\right\}$. Also note that because $x \neq 0$, in order for $x_1/x_2 \neq 0$ it must be the case that $x_1 \neq 0$ and $x_1 \in \mathbb{Z} \setminus \left\{0\right\}$. It follows that $y = zx^{-1} = \left(z_1/z_2\right)\left(x_2/x_1\right) = \left(z_1 x_2\right)/\left(z_2 x_1\right)$. Because $z_1, x_2 \in \mathbb{Z}$ and $\mathbb{Z}$ is closed under multiplication, the numerator $z_1 x_2 \in \mathbb{Z}$. Because $z_2, x_1 \in \mathbb{Z} \setminus \left\{0\right\}$ and $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication (Lemma 2), the denominator $z_2 x_1 \in \mathbb{Z} \setminus \left\{0\right\}$. Knowing that $y = \left(z_1 x_2\right)/\left(z_2 x_1\right)$ and that the numerator and denominator are in sets $\mathbb{Z}$ and $\mathbb{Z} \setminus \left\{0\right\}$ respectively, we see that $y$ is of the form $u/v$ where $u \in \mathbb{Z}$ and $v \in \mathbb{Z} \setminus \left\{0\right\}$. This suggests that $y \in \mathbb{Q}$, which contradicts our premise that $y \notin \mathbb{Q}$. Thus, $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$ with $x \neq 0$ implies $xy \notin \mathbb{Q}$.
+\end{proof}
 \end{itemize}
 
 \subsection*{Exercise 15(b)}
