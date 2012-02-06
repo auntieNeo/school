@@ -15,17 +15,17 @@
 \subsection*{Exercise 5}
 If $a \ne 0$ and $b \ne 0$, show that $1/\left(ab\right) = \left(1/a\right)\left(1/b\right)$.
 
-\subsubsection*{Notes}
-Very abstract. Show $\left(ab\right)^{-1} = a^{-1}b^{-1}$. Know \underline{only} that: $\left(ab\right)^{-1}\cdot\left(ab\right) = 1$ ($(ab)(ab)^{-1} = 1$ also)
-\[
-a^{-1} a = 1,\quad
-b^{-1} b = 1
-\]
-Suggestion:
-\begin{enumerate}
-\item Show that $a^{-1}b^{-1}$ has the same property that $(ab)^{-1}$ does, namely $(a^{-1}b^{-1})(ab) = 1$.
-\item Somehow conclude that $(ab)^{-1} = a^{-1}b^{-1}$.
-\end{enumerate}
+%\subsubsection*{Notes}
+%Very abstract. Show $\left(ab\right)^{-1} = a^{-1}b^{-1}$. Know \underline{only} that: $\left(ab\right)^{-1}\cdot\left(ab\right) = 1$ ($(ab)(ab)^{-1} = 1$ also)
+%\[
+%a^{-1} a = 1,\quad
+%b^{-1} b = 1
+%\]
+%Suggestion:
+%\begin{enumerate}
+%\item Show that $a^{-1}b^{-1}$ has the same property that $(ab)^{-1}$ does, namely $(a^{-1}b^{-1})(ab) = 1$.
+%\item Somehow conclude that $(ab)^{-1} = a^{-1}b^{-1}$.
+%\end{enumerate}
 
 \subsubsection*{Solution}
 \begin{lem}
@@ -192,6 +192,15 @@ Find all values of $x$ that satisfy the following equations:
 \subsection*{Exercise 2}
 Let $S_2 \mathrel{\mathop:}= \left\{x \in \mathbb{R} : x > 0\right\}$. Does $S_2$ have lower bounds? Does $S_2$ have upper bounds? Does $\text{inf}S_2$ exist? Does $\text{sup}S_2$ exist? Prove your statements.
 
+\subsubsection*{Solution}
+$S_2$ does have lower bounds. The number -1 is a lower bound for $S_2$, because for every element $x \in S_2$, $x$ is greater than $0$ and also clearly greater than $-1$.
+
+$S_2$ does not have upper bounds. Let $S_N$ be the set $\left\{n \in \mathbb{N} : n \in S_2\right\}$. The number $1$ is in the set $S_N$ because $1$ is in the set $S_2$. Let $n_0$ be any number in $S_N$. Because $n_0$ is an element of $S_N$, $n_0$ must be greater than $0$. We see immediately that $n_0 + 1$ is also greater than $0$, which means $n_0 + 1 \in S_2$ and thus $n_0 + 1 \in S_N$. By Mathematical Induction, $S_N = \mathbb{N}$, and we see that $\mathbb{N} \subset S_2$. Because $\mathbb{N}$ has no upper bounds, we conclude that $S_2$ has no upper bounds.
+
+$\inf S_2$ does exist. Let $\bar{S}_2$ be the set $\left\{x : -x \in S_2\right\}$. Any lower bound $l \in S_2$ corresponds to an upper bound $-l \in \bar{S}_2$, because for every $x \in S_2$, we have $l \leq x$ and $-l \geq -x$. Because $\bar{S}_2$ is bounded above, the Completeness Property of $\mathbb{R}$ tells us that $\sup \bar{S}_2$ exists. Let $u$ be any upper bound for $\bar{S}_2$. It follows that for any $-x \in \bar{S}_2$ we have $u \geq \sup \bar{S}_2 \geq -x$ and also $-u \leq -\sup\bar{S}_2 \leq x$. FIXME
+
+$\sup S_2$ does not exist, because $S_2$ does not have any upper bounds.
+
 \subsection*{Exercise 5}
 Find the infimum and supremum, if they exist, of each of the following sets.
 \begin{itemize}
@@ -226,7 +235,7 @@ x^2 - x - 2 &\leq 0 \\
 \end{align*}
 $\left(x + 1\right)\left(x - 2\right)$ has roots at $-1$ and $2$, so consider some values in that range and conjecture that $\inf B = -1$ and $\sup B = 2$.
 
-To test if $-1$ is indeed the infimum of $B$, first check if it is a lower bound. All elements $x$ in $B$ satisfy the inequality $-x^2 + x \geq -2$. Any element $y < -1$ would be such that $-y^2 + y < -2$ because $-\left(-1\right)^2 + \left(-1\right) = -2$ and the expression $-y^2 + y$ is strictly decreasing FIXME.
+To prove that $-1 = \inf B$, we first check that -1 is a lower bound for $B$. All elements $x$ in $B$ satisfy the inequality $-x^2 + x \geq -2$. Any element $y < -1$ will not satisfy that inequality because $-\left(-1\right)^2 + \left(-1\right) = -2$ and the expression $-y^2 + y$ only decreases for decreasing values of $y$. Thus, no elements in $B$ are less than $-1$, and $-1$ is a lower bound for $B$.
 \item[(c)]
 First use some algebra to simplify the inequality.
 \begin{align*}
@@ -244,6 +253,11 @@ Similarly, to prove that $1$ is the lowest upper bound of $C$, consider any elem
 \end{itemize}
 \subsection*{Exercise 11}
 Let $S$ be a bounded set in $\mathbb{R}$ and let $S_0$ be a nonempty subset of $S$. Show that $\inf S \leq \inf S_0 \leq \sup S_0 \leq \sup S$.
+
+\subsubsection*{Solution}
+\begin{thm}
+Let $S$ be a bounded set in $\mathbb{R}$ and let $S_0$ be a nonempty subset of $S$. Then $\inf S \leq \inf S_0 \leq \sup S_0 \leq \sup S$.
+\end{thm}
 
 \section*{Section 2.4 Exercise 7}
 
