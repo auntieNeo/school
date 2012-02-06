@@ -174,13 +174,9 @@ Let $a, b \in \mathbb{R}$, and suppose that for every $\varepsilon > 0$ we have 
 Given $a, b \in \mathbb{R}$ such that for every $\varepsilon > 0$ we have $a \leq b + \varepsilon$, $a \leq b$.
 \end{thm}
 
-By subtracting $\varepsilon$ from both sides of the given inequality, we find that $a - \varepsilon \leq b$.
-
-Because $\varepsilon > 0$, with some algebra it follows that $a - \varepsilon < a$.
-
-Suppose to the contrary that $a > b$. We can then write the inequality $a - \varepsilon \leq b < a$. Add $\varepsilon$ to everything in this inequality and we get $a \leq b + \varepsilon < a + \varepsilon$. There exists an element $\varepsilon_0 \in \mathbb{R}$ such that $a \leq b + \varepsilon$ and $b + \varepsilon < a + \varepsilon$ cannot hold at the same time. Because we supposed $a > b$, there must be some interval between $a$ and $b$. Let $\varepsilon_0 = \left|a - b\right| \div 2$ be half of that interval. Notice that $a \leq b + \varepsilon_0$ now does not hold, because we supposed that $a < b$ and $\varepsilon_0$ is not large enough to make $b + \varepsilon_0$ greater than $a$. This contradicts what we were given, so we conclude that $a \leq b$.
-
-$b - \varepsilon < b$.
+\begin{proof}
+Suppose to the contrary that $a > b$. Because we supposed $a > b$, there must be some interval between $a$ and $b$. Let $\varepsilon_0 = \left|a - b\right| \div 2$ be half of that interval. Notice that $a \leq b + \varepsilon_0$ now does not hold, because we supposed that $a < b$ and $\varepsilon_0$ is not large enough to make $b + \varepsilon_0$ greater than $a$. This contradicts what we were given, so we conclude that $a \leq b$.
+\end{proof}
 
 \section*{Section 2.2 Exercises 5 and 8}
 
@@ -203,8 +199,29 @@ Find all values of $x$ that satisfy the following equations:
 
 \subsubsection*{Solution}
 \begin{itemize}
-\item[(a)]
-\item[(b)]
+\item[(a)] There are two cases of interest, depending on the sign of the expression $2x - 1$.
+\begin{itemize}
+\item[Case 1:] $2x - 1 \geq 0$.
+
+In this case, we have the equation $x + 1 = 2x - 1$. Solve for $x$ and we get $x = 2$.
+
+\item[Case 2:] $2x - 1 < 0$.
+
+In this case, we have the equation $x + 1 = -2x + 1$. Solve for $x$ and we get $x = 0$.
+\end{itemize}
+Check, and we see that both $x = 2$ and $x = 0$ satisfy the equation.
+
+\item[(b)] There are two cases of interest, depending on the sign of the expression $x - 5$.
+\begin{itemize}
+\item[Case 1:] $x - 5 \geq 0$.
+
+In this case, we have the equation $2x - 1 = x - 5$. Solve for $x$ and we get $x = -4$.
+
+\item[Case 2:] $x - 5 < 0$.
+
+In this case, we have the equation $2x - 1 = -x + 5$. Solve for $x$ and we get $x = 2$.
+\end{itemize}
+Check, and we see that $x = -4$ does not satisfy the equation, but $x = 2$ does.
 \end{itemize}
 
 \section*{Section 2.3 Exercises 2, 5, and 11}
