@@ -32,15 +32,16 @@ If $a \ne 0$ and $b \ne 0$, show that $1/\left(ab\right) = \left(1/a\right)\left
 $\left(ab\right)\left(cd\right) = \left(ac\right)\left(bd\right)$ for all $a, b, c, d \in \mathbb{R}$.
 \end{lem}
 
-\begin{proof}
+\begin{proof} We can prove this using only algebreic properties (M1) and (M2) of $\mathbb{R}$.
 \begin{align*}
-\left(ab\right)\left(cd\right) &= \left(a \cdot a^{-1}\right) \left(\left(ab\right)\left(cd\right)\right) & \text{(M4), (M3)}\\
-&= \left(\left(a \cdot a^{-1}\right) \left(ab\right)\right)\left(cd\right) & \text{(M2)}\\
-&= \left(1 \cdot \left(a \cdot a^{-1}\right) \left(ab\right)\right)\left(cd\right) & \text{(M3)}\\
-&= \left(\left(1 \cdot a\right) a^{-1} \left(ab\right)\right)\left(cd\right) & \text{(M2)}\\
-&= \left(\left(1 \cdot a\right) \left(a^{-1} a\right)b\right)\left(cd\right) & \text{(M2)}\\
-&= \left(\left(1 \cdot a\right) \left(1\right)b\right)\left(cd\right) & \text{(M4)}\\
-&= \left(\left(a\right) b\right)\left(cd\right) & \text{(M3)}\\
+\left(ab\right)\left(cd\right) &= a \cdot b \cdot \left(cd\right) & \text{By order of operations.}\\
+&= b \cdot \left(cd\right) \cdot a & \text{(M1), commutative}\\
+&= b \cdot \left(dc\right) \cdot a & \text{(M1)}\\
+&= b \cdot d \cdot \left(ca\right) & \text{(M2), associative}\\
+&= b \cdot d \cdot \left(ac\right) & \text{(M1)}\\
+&= \left(ac\right) \cdot b \cdot d & \text{(M1)}\\
+&= \left(ac\right) \cdot \left(bd\right) & \text{(M2)}\\
+&= \left(ac\right)\left(bd\right) & \qedhere
 \end{align*}
 \end{proof}
 
@@ -51,7 +52,8 @@ $\left(ab\right)^{-1} = a^{-1}b^{-1}$ for all $a, b \in \mathbb{R}$.
 \begin{proof}
 Let $a, b$ be elements in $\mathbb{R}$. Notice that because $\left(ab\right)\left(ab\right)^{-1} = 1$, we can apply property (M3) in the following way.
 \begin{align*}
-a^{-1}b^{-1} &= \left(a^{-1}b^{-1}\right)\left(\left(ab\right)\left(ab\right)^{-1}\right) & \text{(M3)}\\
+a^{-1}b^{-1} &= \left(a^{-1}b^{-1}\right) \cdot 1 & \text{(M3), unit element}\\
+a^{-1}b^{-1} &= \left(a^{-1}b^{-1}\right)\left(\left(ab\right)\left(ab\right)^{-1}\right) & \text{(M4), reciprocal}\\
 \intertext{Now we rearange this using property (M2). }
 &= \left(\left(a^{-1}b^{-1}\right)\left(ab\right)\right)\left(ab\right)^{-1} & \text{(M2)}
 \intertext{From here, apply Lemma 1 and properties (M4) and (M3) to get the following.}
