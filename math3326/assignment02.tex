@@ -188,7 +188,24 @@ If $a < x < b$ and $a < y < b$, show that $\left|x - y\right| < b - a$. Interpre
 If $a < x < b$ and $a < y < b$, then $\left| x - y \right| < b - a$.
 \end{thm}
 
-The inequality $\left| x - y \right| < b - a$ is equivilant to saying that $x - y > 0 \implies x - y < b - a$ and that $x - y < 0 \implies -\left(x - y\right) < b - a$.
+\begin{proof}
+There are two cases for the inequality $\left|x - y\right| < b - a$ depending on the sign of the value $x - y$. In the first case, $x - y \geq 0$, and we should have $x - y < b - a$. In the second case, we should have $y - x < b - a$.
+
+We can show this with some algebra. First, multiply $a < y < b$ by $-1$.
+\begin{align*}
+a &< y < b\\
+-a &> -y > -b\\
+-b &< -y < -a\\
+\intertext{Now add $a < x < b$ to this inequality.}
+a - b &< x - y < b - a\\
+\intertext{Here we see that the first case is verified. Now multiply this inequality by $-1$.}
+b - a &> y - x > a - b\\
+\intertext{Finally we see that both cases of the inequality are true.}
+\end{align*}
+So we conclude that $\left|x - y \right| < b - a$.
+\end{proof}
+
+Geometrically, both $x$ and $y$ lie between both $a$ and $b$ on a number line. Because $x$ and $y$ are contained in the interval between $a$ and $b$, the distance from $x$ to $y$ is less than the distance from $a$ to $b$.
 
 \subsection*{Exercise 8}
 Find all values of $x$ that satisfy the following equations:
@@ -259,9 +276,9 @@ From this algebra, we see that $\left\{x \in \mathbb{R} : 2x + 5 > 0\right\} = \
 
 For any number $x \in A$, we see that $x > -5/2$. Clearly, $-5/2$ is less than any $x \in A$, and $-5/2$ is lower bound for $A$.
 
-To see that $-5/2$ is the greatest lower bound for $A$, let $t$ be any number greater than $-5/2$. From the way the set $A$ is defined, we see that any such $t$ satisfies the inequality $x > -5/2$, which means that $t \in A$.
+To see that $-5/2$ is the greatest lower bound for $A$, let $t$ be any number greater than $-5/2$. From the way the set $A$ is defined, we see that any such $t$ satisfies the inequality $x > -5/2$, which means that $t \in A$ and not a lower bound. Thus, $\inf A = -5/2$.
 
-Thus, $\inf A = -5/2$.
+Note that at least one element is in $A$, one such element being $1$. For any $x \in A$ we see that $x + 1 > -5/2$. Thus, $x + 1 \in A$. By mathematical induction, we find that $\mathbb{N} \subset A$ and that $A$ has no upper bounds. Because of this, $A$ does not have a supremum.
 \item[(b)]
 $B \mathrel{\mathop:}= \left\{x \in \mathbb{R} : x + 2 \geq x^2\right\}$
 \begin{align*}
@@ -285,8 +302,10 @@ We see that the set $C \mathrel{\mathop:}= \left\{x \in \mathbb{R} : x < 1/x\rig
 To prove that $-1$ is the greatest lower bound of $C$, consider any element $t$ directly above $-1$ such that $0 > t > -1$. Then there exists at least one element $u \in C$ such that $t > u$, one example being the element halfway between $-1$ and $t$. Thus, $t$ is not a lower bound, and since $t$ is an arbitrary number directly above $-1$, we conclude that $\inf C = -1$.
 %$-1 + \frac{ \left| t - \left(-1\right) \right| }{2} = -1 + \frac{t + 1}{2} = t/2 - 1/2$.
 
-Similarly, to prove that $1$ is the lowest upper bound of $C$, consider any element $t$ directly below $1$ such that $0 < t < 1$. Then there exists at least one element $u \in C$ such that $t < u$, one example being the element halfway between $t$ and $1$. Thus, $t$ is not an upper bound, and since $t$ is an arbitrary number directly below $1$, we conclude that $\sup C = 1$.
+Similarly, to prove that $1$ is the least upper bound of $C$, consider any element $t$ directly below $1$ such that $0 < t < 1$. Then there exists at least one element $u \in C$ such that $t < u$, one example being the element halfway between $t$ and $1$. Thus, $t$ is not an upper bound, and since $t$ is an arbitrary number directly below $1$, we conclude that $\sup C = 1$.
 \item[(d)]$D \mathrel{\mathop:}= \left\{x \in \mathbb{R} : x^2 - 2x - 5 < 0\right\}$
+
+We see that the expression $x^2 - 2x - 5$ has roots at $x = 1 - \sqrt{6}$ and $x = 1 + \sqrt{6}$, so we conjecture that $\inf D = 1 - \sqrt{6}$ and $\sup D = 1 + \sqrt{6}$.
 \end{itemize}
 \subsection*{Exercise 11}
 Let $S$ be a bounded set in $\mathbb{R}$ and let $S_0$ be a nonempty subset of $S$. Show that $\inf S \leq \inf S_0 \leq \sup S_0 \leq \sup S$.
@@ -295,6 +314,16 @@ Let $S$ be a bounded set in $\mathbb{R}$ and let $S_0$ be a nonempty subset of $
 \begin{thm}
 Let $S$ be a bounded set in $\mathbb{R}$ and let $S_0$ be a nonempty subset of $S$. Then $\inf S \leq \inf S_0 \leq \sup S_0 \leq \sup S$.
 \end{thm}
+
+\begin{proof}
+Because $S$ is given to be a bounded set in $\mathbb{R}$, we know that $\inf S$ and $\sup S$ exist and that $\inf S \leq \sup S$.
+
+Let $x$ be any element in $S_0$. Because $S_0 \subseteq S$, we see that $x \in S$. Since $x$ is an element of $S$, $\inf S \leq x$ by virtue of being the infimum of $S$. Because $x$ is any element in $S_0$, $\inf S$ must be a lower bound for $S_0$. The Completeness Property of $\mathbb{R}$ tells us that because $S_0$ has a lower bound, $\inf S_0$ must exist. Because $\inf S$ is a lower bound for $S_0$, but not necessarily the greatest lower bound, we now have $\inf S \leq \inf S_0$.
+
+Likewise, since $x$ is an element of $S$, $\sup S \geq x$ by virtue of being the supremum of $S$. Because $x$ is any element in $S_0$, $\sup S$ must be an upper bound for $S_0$. The Completeness Property of $\mathbb{R}$ tells us that because $S_0$ has an upper bound, $\sup S_0$ must exist. Because $\sup S$ is an upper bound for $S_0$, but not necessarily the least upper bound, we now have $\sup S_0 \leq \sup S$.
+
+Combining these two inequalities is simply seeing that $\inf S_0 \leq \sup S_0$. We conclude that $\inf S \leq \inf S_0 \leq \sup S_0 \leq \sup S$.
+\end{proof}
 
 \section*{Section 2.4 Exercise 7}
 
