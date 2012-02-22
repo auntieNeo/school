@@ -16,15 +16,89 @@
 \subsection*{Exercise 5}
 Let $S$ be a set of nonnegative real numbers that is bounded above and let $T \colonequals \left\{x^2 : x \in S\right\}$. Prove that if $u = \sup S$, then $u^2 = \sup T$. Give an example that shows the conclusion may be false if the restriction against negative numbers is removed.
 
+
+\subsubsection*{Solution}
+\begin{thm}
+Let $S$ be a set of nonnegative real numbers that is bounded above and let $T \colonequals \left\{x^2 : x \in S\right\}$. Prove that if $u = \sup S$, then $u^2 = \sup T$.
+\end{thm}
+
+Let $x$ be any element in $T$. Since $\sqrt{x} \leq x$ and $x$ is bounded above, it is clear that $\sqrt{x}$ is also bounded above. Let $U \colonequals \left\{\sqrt{x} : x \in T\right\}$.
+
+If we modify this theorem and let $S \colonequals \left\{x : -2 \leq x \leq 0\right\}$ contain negative numbers, then $\left(\sup T\right)^2 = 0 \neq \sup T$ and the conclusion is no longer true.
+
 \section*{Section 2.5 Exercises 1 and 7}
 
 \subsection*{Exercise 1}
 If $I \colonequals \left[a, b\right]$ and $I' \colonequals \left[a', b'\right]$ are closed intervals in $\mathbb{R}$, show that $I \subseteq I'$ if and only if $a' \leq a$ and $b \leq b'$.
 
+\subsubsection*{Solution}
+To show that $I'$ is is a subset of $I$, it is sufficient to show that the endpoints $a$ and $b$ are contained in $I'$. Knowing that $a \leq b$, we can write the inequality $a' \leq a \leq b \leq b'$. This clearly shows that $a$ and $b$ are contained in $I'$, so by Theorem 2.5.1 (Characterization Theorem of Intervals) FIXME
+
 \subsection*{Exercise 7}
 Let $I_n \colonequals \left[0, 1/n\right]$ for $n \in \mathbb{N}$. Prove that $\bigcap_{n = 1}^\infty I_n = \left\{0\right\}$.
 
+\subsubsection*{Solution}
+From the definition of the interval $I_n$, it is obvious that for any $x \in I_n$, $x \geq 0$.
+
+Let $y$ be any element in $I_n$ such that $y > 0$. FIXME: need to prove there exists a number $z = 1/n$ with $n \in \mathbb{N}$ such that $z < y$.
+
 \section*{Section 3.1 Exercises 5(b)(d) and 12}
+
+\subsection*{Exercise 5(b)(d)}
+Use the definition of a sequence to establish the following limits.
+\begin{itemize}
+\item[(b)]$\displaystyle\lim\left(\frac{2n}{n + 1}\right) = 2$
+\item[(d)]$\displaystyle\lim\left(\frac{n^2 - 2}{2n^2 + 3}\right) = \frac{1}{2}$
+\end{itemize}
+
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(b)]
+Given $\varepsilon > 0$, we want to find $K \in \mathbb{N}$ such that
+\begin{equation*}
+n \geq K \implies \left|\frac{2n}{n + 1} - 2\right| < \varepsilon \text{.}
+\end{equation*}
+We can simplify this inequality as follows:
+\begin{align*}
+\left|\frac{2n}{n + 1} - 2\right| &= \left|\frac{2n - 2n - 2}{n + 1}\right| = \left|\frac{-2}{n + 1}\right| = \frac{2}{n + 1} < \varepsilon\text{.}\\
+\end{align*}
+Since $\frac{2}{n + 1} < \frac{2}{n}$
+
+\begin{align*}
+\lim\left(\frac{2n}{n + 1}\right) &= 2\\
+&= \lim\left(\frac{2n}{n + 1} \cdot \frac{1/n}{1/n}\right) = \lim\left(\frac{2}{1 + 1/n}\right)
+\end{align*}
+
+\item[(d)]$\displaystyle\lim\left(\frac{n^2 - 2}{2n^2 + 3}\right) = \frac{1}{2}$
+
+\end{itemize}
+
+\subsection*{Exercise 12}
+Show that $\displaystyle\lim\left(\frac{1}{n} - \frac{1}{n + 1}\right) = 0$.
+
 \section*{Section 3.2 Exercises 2, 4, 7, and 15}
+
+\subsection*{Exercise 2}
+Give an example of two divergent sequences $X$ and $Y$ such that:
+\begin{itemize}
+\item[(a)]
+their sum $X + Y$ converges,
+\item[(b)]
+their product $XY$ converges.
+\end{itemize}
+
+\subsection*{Exercise 4}
+Show that if $X$ and $Y$ are sequences such that $X$ converges to $x \neq 0$ and $XY$ converges, then $Y$ converges.
+
+\subsection*{Exercise 7}
+If $\left(b_n\right)$ is a bounded sequence and $\lim\left(a_n\right) = 0$, show that $\lim\left(a_n b_n\right) = 0$. Explain why Theorem 3.2.3 \textit{cannot} be used.
+
+\subsection*{Exercise 15}
+Show that if $z_n \colonequals \left(a^n + b^n\right)^{1/n}$ where $0 < a < b$ , then $\lim\left(z_n\right) = b$.
+
 \section*{Section 3.3 Exercise 1}
+
+\subsection*{Exercise 1}
+Let $x_1 \colonequals 8$ and $x_{n + 1} \colonequals \frac{1}{2} x_n + 2$ for $n \in \mathbb{N}$. Show that $\left(x_n\right)$ is bounded and monotone. Find the limit.
+
 \end{document}
