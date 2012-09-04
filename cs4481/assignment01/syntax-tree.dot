@@ -1,0 +1,59 @@
+graph syntaxtree {
+  e1 [label="expression"]
+  ae [label="assign-expression"]
+  e1 -- ae
+  e2 [label="expression"]
+  eq [label="="]
+  e3 [label="expression"]
+  ae -- e2
+  ae -- eq
+  ae -- e3
+  se1 [label="subscript-expression"]
+  e2 -- se1
+  e4 [label="expression"]
+  lb1 [label="["]
+  e5 [label="expression"]
+  rb1 [label="]"]
+  se1 -- e4
+  se1 -- lb1
+  se1 -- e5
+  se1 -- rb1
+  i1 [label="identifier a"]
+  e4 -- i1
+  add1 [label="additive-expression"]
+  e5 -- add1
+  e6 [label="expression"]
+  plus1 [label="+"]
+  e7 [label="expression"]
+  add1 -- e6
+  add1 -- plus1
+  add1 -- e7
+  i2 [label="identifier i"]
+  e6 -- i2
+  n1 [label="number 1"]
+  e7 -- n1
+  add2 [label="additive-expression"]
+  e3 -- add2
+  e8 [label="expression"]
+  plus2 [label="+"]
+  e9 [label="expression"]
+  add2 -- e8
+  add2 -- plus2
+  add2 -- e9
+  se2 [label="subscript-expression"]
+  e8 -- se2
+  e10 [label="expression"]
+  lb2 [label="["]
+  e11 [label="expression"]
+  rb2 [label="["]
+  se2 -- e10
+  se2 -- lb2
+  se2 -- e11
+  se2 -- rb2
+  i3 [label="identifier a"]
+  e10 -- i3
+  i4 [label="identifier i"]
+  e11 -- i4
+  n2 [label="number 2"]
+  e9 -- n2
+}
