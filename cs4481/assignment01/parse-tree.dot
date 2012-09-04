@@ -1,4 +1,4 @@
-graph syntaxtree {
+graph parsetree {
   e1 [label="expression"]
   ae [label="assign-expression"]
   e1 -- ae
