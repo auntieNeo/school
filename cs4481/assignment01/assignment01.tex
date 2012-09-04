@@ -1,0 +1,38 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+\Large{Jonathan Glines}
+\end{flushright}
+{\tt (42 - );} and {\tt a[i);} are two examples of syntax errors in C, while {\tt 42 = i;} and {\tt 42.factor();} are two examples of semantic errors in C.
+
+For the code {\tt (42 - );} gcc gives the following error:
+
+{\tt
+errorTest.c: In function ‘main’:\\
+errorTest.c:6:9: error: expected expression before ‘)’ token
+}
+
+For the code {\tt a[i);} gcc gives the following error:
+
+{\tt
+errorTest.c: In function ‘main’:\\
+errorTest.c:7:6: error: expected ‘]’ before ‘)’ token\\
+errorTest.c:7:6: error: expected ‘;’ before ‘)’ token\\
+errorTest.c:7:6: error: expected statement before ‘)’ token
+}
+
+For the code {\tt 42 = i;} gcc gives the following error:
+
+{\tt
+errorTest.c: In function ‘main’:\\
+errorTest.c:8:6: error: lvalue required as left operand of assignment
+}
+
+{\tt
+}
+
+\end{document}
