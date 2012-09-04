@@ -45,7 +45,7 @@ graph syntaxtree {
   e10 [label="expression"]
   lb2 [label="["]
   e11 [label="expression"]
-  rb2 [label="["]
+  rb2 [label="]"]
   se2 -- e10
   se2 -- lb2
   se2 -- e11
