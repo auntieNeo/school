@@ -2,37 +2,136 @@
 \special{papersize=8.5in,11in}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath}
+\usepackage[pdftex]{graphicx}
+\usepackage{graphviz}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
 \Large{Jonathan Glines}
 \end{flushright}
-{\tt (42 - );} and {\tt a[i);} are two examples of syntax errors in C, while {\tt 42 = i;} and {\tt 42.factor();} are two examples of semantic errors in C.
+\subsection*{Exercise 1.2}
+\subsubsection*{Parse Tree}
+\includedot[scale=0.5]{parse-tree}
+\subsubsection*{Syntax Tree}
+\includedot[scale=0.5]{syntax-tree}
 
-For the code {\tt (42 - );} gcc gives the following error:
+\subsection*{Exercise 1.3}
+Compilation errors can be loosely divided into two categories: syntax errors and semantic errors. Syntax errors include missing or incorrectly placed tokens, such as the missing right parenthesis in the arithmetic expression {\tt (2+3}. Semantic errors include incorrect types in expressions and undeclared variables (in most languages), such as the assignment {\tt x = 2}, where {\tt x} is an array variable.
 
-{\tt
-errorTest.c: In function ‘main’:\\
-errorTest.c:6:9: error: expected expression before ‘)’ token
-}
+\begin{enumerate}
+\item Give two more examples of errors of each kind in a language of your choice.
 
-For the code {\tt a[i);} gcc gives the following error:
+\subsubsection*{Solution}
+{\tt (42 - );} and {\tt a[i);} are two examples of syntax errors in C, while {\tt 42 = i;} and {\tt int x = 42; x.factor();} are two examples of semantic errors in C.
 
-{\tt
-errorTest.c: In function ‘main’:\\
-errorTest.c:7:6: error: expected ‘]’ before ‘)’ token\\
-errorTest.c:7:6: error: expected ‘;’ before ‘)’ token\\
-errorTest.c:7:6: error: expected statement before ‘)’ token
-}
+\item Pick a compiler with which you are familiar and determine if it lists all syntax errors before semantic errors or if syntax and sesmantic errors are intermixed. What implications does this have for the number of passes?
 
-For the code {\tt 42 = i;} gcc gives the following error:
+\subsubsection*{Solution}
+The code {\tt 42.factor();} is interesting because while it looks like a semantic error where the programmer tried to call a member function of the constant 42, gcc treats it as a syntax error with the following output:
 
-{\tt
-errorTest.c: In function ‘main’:\\
-errorTest.c:8:6: error: lvalue required as left operand of assignment
-}
+\begin{verbatim}
+errorTest.c: In function ‘main’:
+errorTest.c:9:3: error: invalid suffix "factor." on floating constant
+\end{verbatim}
 
-{\tt
-}
+gcc will give more of a semantic error for the code {\tt int x = 42; x.factor();} like so:
+
+\begin{verbatim}
+errorTest.c: In function ‘main’:
+errorTest.c:9:16: error: request for member ‘factor’ in something
+    not a structure or union
+\end{verbatim}
+
+The fact that gcc does not suspect the former error might be semantic suggests that gcc catches the error and exits before the code goes through the semantic analyzer. This implies that gcc uses at least more than one pass; one for syntax, and another for semantics.
+\end{enumerate}
+
+%For the code {\tt (42 - );} gcc gives the following error:
+%
+%\begin{verbatim}
+%errorTest.c: In function ‘main’:\\
+%errorTest.c:6:9: error: expected expression before ‘)’ token
+%\end{verbatim}
+%
+%For the code {\tt a[i);} gcc gives the following error:
+%
+%\begin{verbatim}
+%errorTest.c: In function ‘main’:
+%errorTest.c:7:6: error: expected ‘]’ before ‘)’ token
+%errorTest.c:7:6: error: expected ‘;’ before ‘)’ token
+%errorTest.c:7:6: error: expected statement before ‘)’ token
+%\end{verbatim}
+%
+%For the code {\tt 42 = i;} gcc gives the following error:
+%
+%\begin{verbatim}
+%errorTest.c: In function ‘main’:\\
+%errorTest.c:8:6: error: lvalue required as left operand of assignment
+%\end{verbatim}
+%
+%It seems that gcc gives a semantic error that 42 is not the correct type, namely the lvalue type.
+
+\subsection*{Exercise 1.4}
+This question assumes that you have a compiler that has an option to produce assembly language output.
+\begin{enumerate}
+
+\item[a.] Determine if your compiler performs constant folding optimization
+\subsubsection*{Solution}
+gcc optimizes the code {\tt x = 40 + 2;} to the following assembly code:
+\begin{verbatim}
+movl	$42, -4(%rbp)
+\end{verbatim}
+So yes, it does perform constant folding.
+
+\item[b.] A related but more advanced optimization is that of constant propagation. For example, the code (in C syntax)
+\begin{verbatim}
+x = 4;
+y = x + 2;
+\end{verbatim}
+would, with constant propagation (and constant folding), be replaced by the code
+\begin{verbatim}
+x = 4;
+y = 6;
+\end{verbatim}
+Determine if your compiler does constant propagation.
+\subsubsection*{Solution}
+When the preceding C code is compiled with gcc without any optimization flags, it produces the following assembly code:
+\begin{verbatim}
+movl	$4, -4(%rbp)
+movl	-4(%rbp), %eax
+addl	$2, %eax
+movl	%eax, -8(%rbp)
+\end{verbatim}
+With the {\tt -O2} flag, gcc optimizes it to this assembly code:
+\begin{verbatim}
+movl	$6, %eax
+\end{verbatim}
+Apparently gcc will do both constant propagation and constant folding at the widely used {\tt -O2} optimization level.
+
+\item[c.] Give as many reasons as you can why constant propagation is more difficult than constant folding.
+
+\subsubsection*{Solution}
+Because constant propagation concerns itself with seperate tokens, in order to optimize in that way the compiler needs to keep track of constant values between tokens.
+
+The compiler also has to determine whether or not constant propagation is safe. If some function or even a race condition like another thread changes a supposably constant value before the second value is assigned, constant propagation would change the behavior. The compiler might have to look closely at the tokens that occur in-between to determine if constant propagation is safe.
+
+Global or extern values might be difficult to optimize for with constant propagation.
+
+The compiler would need to avoid applying the optimization to volatile values.
+
+Threaded applications might run into problems with ambitious constant propagation optimizations.
+
+An additional difficulty is that the compiler would need multiple constant folding/propagation passes in order to fully optimize. It would also need to determine just how many passes it needs.
+
+\item[d.] A situation related to constant propagation and constant folding is the use of named constants in a program. Using a named constant {\tt x} instead of a variable, we can translate the above example as the following C code:
+\begin{verbatim}
+const int x = 4;
+...
+y = x + 2;
+...
+\end{verbatim}
+Determine if your compiler performs propagation/folding under these circumstances. How is this different from part (b)?
+\subsubsection*{Solution}
+Compiling this named constant code with gcc and the {\tt -O2} flag results in the same optimization as in part (b).
+\end{enumerate}
 
 \end{document}
