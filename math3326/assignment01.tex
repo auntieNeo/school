@@ -49,7 +49,22 @@ h^{-1}\left(G\right) = \left\{x \in \mathbb{R} : -4 \leq x \leq 0\right\}
 Show that if $f : A \to B$ and $G, H$ are subsets of $B$, then $f^{-1}\left(G \cup H\right) = f^{-1}\left(G\right) \cup f^{-1}\left(H\right)$ and $f^{-1}\left(G \cap H\right) = f^{-1}\left(G\right) \cap f^{-1}\left(H\right)$.
 
 \subsubsection*{Solution}
-Given $x \in f^{-1}\left(G \cup H\right)$, we know that $f\left(x\right) \in G \cup H$ from the definition of inverse image. This is equivalent to $f\left(x\right) \in G$ or 
+Given $x \in f^{-1}\left(G \cup H\right)$, we know that $f\left(x\right) \in G \cup H$ from the definition of inverse image. This is equivalent to $f(x) \in G$ or $f(x) \in H$, which implies that $x \in f^{-1}(G)$ or $x \in f^{-1}(H)$. Thus, $f^{-1}\left(G \cup H\right) \subseteq f^{-1}(G) \cup f^{-1}(H)$.
+
+Given $x \in f^{-1}(G) \cup f^{-1}(H)$, we note that $x \in f^{-1}(G)$ or $x \in f^{-1}(H)$. By the definition of inverse image, we have $f(x) \in G$ or $f(x) \in H$. Thus, $f(x) \in G \cup H$. Again by the definiton of inverse image, we see that $x \in f^{-1}\left(G \cup H\right)$ and that $f^{-1}(G) \cup f^{-1}(H) \subseteq f^{-1}\left(G \cup H\right)$.
+
+Having shown that $f^{-1}\left(G \cup H\right) \subseteq f^{-1}(G) \cup f^{-1}(H)$ and that $f^{-1}(G) \cup f^{-1}(H) \subseteq f^{-1}\left(G \cup H\right)$, we conclude that $f^{-1}\left(G \cup H\right) = f^{-1}(G) \cup f^{-1}(H)$.
+
+
+Given $x \in f^{-1}\left(G \cap H\right)$, we know that $f\left(x\right) \in G \cap H$ from the definition of inverse image. This is equivalent to $f(x) \in G$ and $f(x) \in H$, which implies that $x \in f^{-1}(G)$ and $x \in f^{-1}(H)$. Thus, $f^{-1}\left(G \cap H\right) \subseteq f^{-1}(G) \cap f^{-1}(H)$.
+
+Given $x \in f^{-1}(G) \cap f^{-1}(H)$, we note that $x \in f^{-1}(G)$ and $x \in f^{-1}(H)$. By the definition of inverse image, we have $f(x) \in G$ and $f(x) \in H$. Thus, $f(x) \in G \cap H$. Again by the definiton of inverse image, we see that $x \in f^{-1}\left(G \cap H\right)$ and that $f^{-1}(G) \cap f^{-1}(H) \subseteq f^{-1}\left(G \cap H\right)$.
+
+Having shown that $f^{-1}\left(G \cap H\right) \subseteq f^{-1}(G) \cap f^{-1}(H)$ and that $f^{-1}(G) \cap f^{-1}(H) \subseteq f^{-1}\left(G \cap H\right)$, we conclude that $f^{-1}\left(G \cap H\right) = f^{-1}(G) \cap f^{-1}(H)$.
+
+\subsection*{Exercise 19(a)}
+% To prove that something is injective, show that the implication x_1 = x_2 \implies f(x_1) = f(x_2) holds
+\subsection*{Exercise 22(b)}
 
 \section*{Section 1.2 Exercises 7, 10, and 15}
 \end{document}
