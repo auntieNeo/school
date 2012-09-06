@@ -1,6 +1,7 @@
 \documentclass[12pt]{article}
 \special{papersize=8.5in,11in}
 \usepackage[utf8]{inputenc}
+\usepackage{mathtools}
 \usepackage{amssymb,amsmath}
 \pagestyle{plain}
 \begin{document}
@@ -12,10 +13,43 @@
 \subsection*{Exercise 3}
 If $A$ and $B$ are sets, show that $A \subseteq B$ if and only if $A \cap B = A$.
 \subsubsection*{Solution}
-Assume that $A \subseteq B$. Given any $x \in A$, from our assumption we know that $x \in B$. First show that $A \subseteq B \implies A \cap B = A$.
+%Assume that $A \subseteq B$. Given any $x \in A$, from our assumption we know that $x \in B$. First show that $A \subseteq B \implies A \cap B = A$.
+%
+%$A \cap B = \left\{x : x \in A, x \in B\right\}$
+%
+%Need to show that $A \cap B = A \implies A \subseteq B$.
 
-$A \cap B = \left\{x : x \in A, x \in B\right\}$
+\begin{itemize}
+\item[$\implies$] Assume $A \subseteq B$. Given $x \in A$, by our assumption we have $x \in A$ and $x \in B$, which is equivalent to both the statement $x \in A \cap B$ and the statement $A \subseteq A \cap B$.
 
-Need to show that $A \cap B = A \implies A \subseteq B$.
+Given $y \in A \cap B$, by definition of set intersection we have $y \in A$, thus $A \cap B \subseteq A$.
+
+Having shown $A \subseteq A \cap B$ and $A \cap B \subseteq A$ with the assumption $A \subseteq B$, we conclude that $A \subseteq B \implies A \cap B = A$.
+
+\item[$\impliedby$] Assume $A \cap B = A$. We know that $A \subseteq A \cap B$ from set equality. Given $x \in A$ we have $x \in A$ and $x \in B$. Thus, $A \cap B = A \implies A \subseteq B$.
+\end{itemize}
+Having shown both $A \subseteq B \implies A \cap B = A$ and $A \cap B = A \implies A \subseteq B$ we conclude that $A \subseteq B \iff A \cap B = A$.
+
+\subsection*{Exercise 11}
+Let $g\left(x\right) \coloneqq x^2$  and $f\left(x\right) \coloneqq x + 2$ for $x \in \mathbb{R}$, and let $h$ be the compolsite function $h \coloneqq g \circ f$.
+\begin{itemize}
+\item[(a)] Find the direct image $h\left(E\right)$ of $E \coloneqq \left\{x \in \mathbb{R} : 0 \leq x \leq 1\right\}$.
+\subsubsection*{Solution}
+\[
+h\left(E\right) = \left\{x \in \mathbb{R} : 4 \leq x \leq 9\right\}
+\]
+\item[(b)] Find the inverse image $h^{-1}\left(G\right)$ of $G \coloneqq \left\{x \in \mathbb{R} : 0 \leq x \leq 4\right\}$.
+\subsubsection*{Solution}
+\[
+h^{-1}\left(G\right) = \left\{x \in \mathbb{R} : -4 \leq x \leq 0\right\}
+\]
+\end{itemize}
+
+\subsection*{Exercise 15}
+Show that if $f : A \to B$ and $G, H$ are subsets of $B$, then $f^{-1}\left(G \cup H\right) = f^{-1}\left(G\right) \cup f^{-1}\left(H\right)$ and $f^{-1}\left(G \cap H\right) = f^{-1}\left(G\right) \cap f^{-1}\left(H\right)$.
+
+\subsubsection*{Solution}
+Given $x \in f^{-1}\left(G \cup H\right)$, we know that $f\left(x\right) \in G \cup H$ from the definition of inverse image. This is equivalent to $f\left(x\right) \in G$ or 
+
 \section*{Section 1.2 Exercises 7, 10, and 15}
 \end{document}
