@@ -1,0 +1,30 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+\Large{Jonathan Glines}
+\end{flushright}
+\subsection*{Exercise 2.16}
+It can be shown that the Hill cipher with the matrix $\left(\begin{matrix} a & b \\ c & d\end{matrix}\right)$ requires that $\left(ad - bc\right)$ is relatively prime to 26; that is, the only common positive integer factor of $\left(ad - bc\right)$ and 26 is 1. Thus, if $\left(ad - bc\right) = 13$ or is even, the matrix is not allowed. Determine the number of different (good) keys there are for a $2 \times 2$ Hill cipher without counting them one by one, using the following steps.
+\begin{itemize}
+\item[a.] Find the number of matrices whose determinant is even because one or both rows are even. (A row is ``even" if both entries in the row are even.)
+
+There are 13 even numbers in the range from 0 to 25, and with two numbers per row and two rows that works out to $\left(13 \cdot 13\right)^2 = 28561$ matrices whose determinant is even because one or both rows are even.
+
+\item[b.] Find the number of matrices whose determinant is even because on or both columns are even. (A column is ``even" if both entries in the column are even.)
+
+Similar to (a.), there are $\left(13 \cdot 13\right)^2 = 28561$ matrices whose determinant is even because one or both columns are even.
+
+\item[c.] Find the number of matrices whose determinant is even because all of the entries are odd.
+
+There are $13^4 = 28561$ matrices whose determinant is even because all of the entries are odd.
+
+\item[d.] Taking into account overlaps, find the total number of matrices whose determinant is even.
+
+
+
+\end{itemize}
+\end{document}
