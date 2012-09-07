@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{mathtools}
 \usepackage{amssymb,amsmath}
+\usepackage{listings}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
@@ -283,4 +284,8 @@ There are $13^4 = 28561$ matrices whose determinant is even because all of the e
 \end{itemize}
 
 \subsection*{Exercise 17}
+I wrote an implementation of the Vigen\`{e}re cipher in C++ as follows:
+\lstset{language=C++,breakatwhitespace=true,breaklines=true,basicstyle={\small\ttfamily}}
+\lstinputlisting{vigenere.cpp}
+The output of this program is ``{\tt PBVWETLXOZR}".
 \end{document}
