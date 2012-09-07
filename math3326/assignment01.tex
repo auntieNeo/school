@@ -64,7 +64,20 @@ Having shown that $f^{-1}\left(G \cap H\right) \subseteq f^{-1}(G) \cap f^{-1}(H
 
 \subsection*{Exercise 19(a)}
 % To prove that something is injective, show that the implication x_1 = x_2 \implies f(x_1) = f(x_2) holds
-\subsection*{Exercise 22(b)}
+Show that if $f : A \to B$ is injective and $E \subseteq A$, then $f^{-1}\left(\left(f(E\right)\right) = E$. Give an example to show that equality need not hold if $f$ is not injective.
+\subsubsection*{Solution}
+Given $x \in E$, we know that $x \in A$. We also know that $f(x) \in f(E)$. By looking at how the set $f^{-1}\left(f\left(E\right)\right) = \left\{y \in A : f(y) \in f(E)\right\}$ is defined, we clearly see that $x \in f^{-1}\left(f(E)\right)$. Thus, $E \subseteq f^{-1}\left(f(E)\right)$.
 
-\section*{Section 1.2 Exercises 7, 10, and 15}
+Given $x \in f^{-1}\left(f(E)\right)$, we know that $f(x) \in f(E)$. From the definition of direct image of a set, there exists $t \in E$ such that $f(x) = f(t)$. Because $f : A \to B$ is injective, $x = t \in E$ and $f^{-1}(f(E)) \subseteq E$.
+
+Having shown both $E \subseteq f^{-1}\left(f(E)\right)$ and $f^{-1}(f(E)) \subseteq E$, we conclude that $f^{-1}(f(E)) = E$.
+
+With the function $f(x) = x^2$, which is not injective, and the set $E = \left\{1\right\}$, we see that $f(E) = \left\{1\right\}$ and $f^{-1}(f(E)) = \left\{-1, 1\right\} \neq E$.
+
+\subsection*{Exercise 22(b)}
+Let $F : A \to B$ and $g : B \to C$ be functions. Show that if $g \circ f$ is surjective, then $g$ is surjective.
+\subsubsection*{Solution}
+Given $z \in C$, there exists $x \in A$ such that $g(f(x)) = z$. Let $y = f(x) \in B$. Then $g(y) = g(f(x)) = z$. Having produced $y \in B$ such that $g(y) = z$ for an arbitrary $z \in C$, we conclude that $g$ is surjective.
+
+%\section*{Section 1.2 Exercises 7, 10, and 15}
 \end{document}
