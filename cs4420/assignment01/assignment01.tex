@@ -10,14 +10,255 @@
 \end{flushright}
 \section*{Chapter 2 Exercises 16 and 17}
 \subsection*{Exercise 16}
-For a matrix $\left(\begin{matrix} a b \\ c d\end{matrix}\right)$, the determinant $ad - bc$ will be even if and only if $ad$ and $bc$ are both even or $ad$ and $bc$ are both odd. Instead of finding the number of matrices with even rows and the number with even columns, we can simply make an exhaustive list of the possible distribution of even entries in a matrix.
-\[
-\begin{matrix}
+For a matrix $\left(\begin{matrix} a & b \\ c & d\end{matrix}\right) \mod 26$, the determinant $\left(ad - bc\right) \mod 26$ will be even if and only if $ad$ and $bc$ are both even or $ad$ and $bc$ are both odd. Instead of finding the number of matrices with even rows and the number with even columns, we can simply make an exhaustive list of the possible arrangements of even entries in a matrix. Here I have marked matrices that have even determinants with a $*$ symbol.
 
-\end{matrix}
+Matrix with no even entries:
+\[
+\stackrel{*}
+{
+\left(\begin{matrix}
+o & o \\
+o & o \\
+\end{matrix}\right)
+}
+\]
+
+Matrices with one even entry:
+\[
+\left(\begin{matrix}
+e & o \\
+o & o \\
+\end{matrix}\right)
+\left(\begin{matrix}
+o & e \\
+o & o \\
+\end{matrix}\right)
+\left(\begin{matrix}
+o & o \\
+e & o \\
+\end{matrix}\right)
+\left(\begin{matrix}
+o & o \\
+o & e \\
+\end{matrix}\right)
+\]
+
+Matrices with two even entries:
+\[
+\stackrel{*}
+{
+\left(\begin{matrix}
+e & e \\
+o & o \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+o & o \\
+e & e \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+e & o \\
+e & o \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+o & e \\
+o & e \\
+\end{matrix}\right)
+}
+\left(\begin{matrix}
+e & o \\
+o & e \\
+\end{matrix}\right)
+\left(\begin{matrix}
+o & e \\
+e & o \\
+\end{matrix}\right)
+\]
+
+Matrices with three even entries:
+\[
+\stackrel{*}
+{
+\left(\begin{matrix}
+o & e \\
+e & e \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+e & o \\
+e & e \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+e & e \\
+o & e \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+e & e \\
+e & o \\
+\end{matrix}\right)
+}
+\]
+
+Matrix with all even entries:
+\[
+\stackrel{*}
+{
+\left(\begin{matrix}
+e & e \\
+e & e \\
+\end{matrix}\right)
+}
+\]
+
+If we count using these categories, these matrices can be counted without any overlap among themselves. Note that since we're working in $\mod 26$, the set of even numbers in our matrices $e$ has cardinality $\left|e\right| = 13$, and the set of odd numbers in our matrices $o$ has cardinality $\left|o\right| = 13$.
+
+\pagebreak
+We count the matrices with an even determinant that have:
+\begin{itemize}
+\item[no even entries:] There are $13^4$ of these matrices with even determinants.
+\item[one even entries:] None of these matrices have an even determinant.
+\item[two even entries:] Only four of the arrangements of the matrices with two even entries have even determinants, which gives us $\left(13^4\right) \cdot 4$ of these matrices with even determinants.
+\item[three even entries:] All arrangements of matrices with three even entries have determinants, which gives us $\left(13^4\right) \cdot 4$ of these matrices with even determinants.
+\item[all even entries:] There are $13^4$ of these matrices with even determinants.
+\end{itemize}
+
+This gives us a total of $\left(13^4\right) \cdot 10$ matrices with an even determinant.
+
+Now that we have the number of matrices with an even determinant, we need to find the number of matrices with a determinant divisible by 13. In principle this is similar to counting the number of matrices with an even determinant, except instead of determinants divisible by 2 we're looking for determinants divisible by 13.
+
+Too see which matrices have determinants divisible by 13, we look back at our matrix $\left(\begin{matrix} a & b \\ c & d\end{matrix}\right) \mod 26$, which has a determinant $ad - bc \mod 26$. This determinant is only divisible by 13 when both $ad$ and $bc$ are divisible by 13. To see when this occurs, we simply enumerate all of the possible arrangements as before, only this time looking at entries divisible by 13 rather than 2. Matrices marked with a $*$ symbol have a determinant divisible by 13.
+
+Let $B = \left\{0, 13\right\}$ be the set of numbers found in our matrices divisible by 13, and let $X = \left\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25\right\}$. Let $b \in B$ and $x \in X$.
+
+Matrix with no entries divisible by 13:
+\[
+\stackrel{*}
+{
+\left(\begin{matrix}
+x & x \\
+x & x \\
+\end{matrix}\right)
+}
+\]
+
+Matrices with one entry divisible by 13:
+\[
+\left(\begin{matrix}
+b & x \\
+x & x \\
+\end{matrix}\right)
+\left(\begin{matrix}
+x & b \\
+x & x \\
+\end{matrix}\right)
+\left(\begin{matrix}
+x & x \\
+b & x \\
+\end{matrix}\right)
+\left(\begin{matrix}
+x & x \\
+x & b \\
+\end{matrix}\right)
+\]
+
+Matrices with two entries divisible by 13:
+\[
+\stackrel{*}
+{
+\left(\begin{matrix}
+b & b \\
+x & x \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+x & x \\
+b & b \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+b & x \\
+b & x \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+x & b \\
+x & b \\
+\end{matrix}\right)
+}
+\left(\begin{matrix}
+b & x \\
+x & b \\
+\end{matrix}\right)
+\left(\begin{matrix}
+x & b \\
+b & x \\
+\end{matrix}\right)
+\]
+
+Matrices with three entries divisible by 13:
+\[
+\stackrel{*}
+{
+\left(\begin{matrix}
+x & b \\
+b & b \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+b & x \\
+b & b \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+b & b \\
+x & b \\
+\end{matrix}\right)
+}
+\stackrel{*}
+{
+\left(\begin{matrix}
+b & b \\
+b & x \\
+\end{matrix}\right)
+}
+\]
+
+Matrix with all entries divisible by 13:
+\[
+\stackrel{*}
+{
+\left(\begin{matrix}
+b & b \\
+b & b \\
+\end{matrix}\right)
+}
 \]
 
 \subsubsection*{The Book's Method}
-\begin{itemize}
-\end{itemize}
 \end{document}
