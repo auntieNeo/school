@@ -3,6 +3,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage{mathtools}
 \usepackage{amssymb,amsmath}
+\usepackage{listings}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
@@ -280,7 +281,21 @@ Similar to (a.), there are $\left(13 \cdot 13\right)^2 = 28561$ matrices whose d
 There are $13^4 = 28561$ matrices whose determinant is even because all of the entries are odd.
 
 \item[d.] Taking into account overlaps, find the total number of matrices whose determinant is even.
+
+\item[e.] Find the number of matrices whose determinant is a multiple of 13 because the first column is a multiple of 13.
+
+\item[f.] Find the number of matrices whose determinant is a multiple of 13 where the first column is not a multiple of 13 but the second column is a multiple of the first modulo 13.
+
+\item[g.] Find the total number of matrices whose determinant is a multiple of 13.
+
+\item[h.] Find the number of matrices whose determinant is a multiple of 26 because they fit cases parts (a) and (e), (b) and (e), (c) and (e), (a) and (f), and so on.
+
+\item[i.] Find the total number of matrices whose determinant is neither a multiple of 2 nor a multiple of 13.
 \end{itemize}
 
 \subsection*{Exercise 17}
+I wrote an implementation of the Vigen\`{e}re cipher in C++ as follows:
+\lstset{language=C++,breakatwhitespace=true,breaklines=true,basicstyle={\small\ttfamily}}
+\lstinputlisting{vigenere.cpp}
+The output of this program is ``{\tt PBVWETLXOZR}".
 \end{document}
