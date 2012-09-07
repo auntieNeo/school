@@ -1,0 +1,11 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage{amssymb,amsmath}
+\usepackage{listings}
+\pagestyle{plain}
+\begin{document}
+\section*{Proposal for DES Cipher in x86 Assembly}
+My plan is to implement the DES algorithm in x86 assembly language. DES is an encryption algorithm that provides an otherwise acceptable level of security, if it weren't for the relatively small key space of $2^{56}$ possible keys. With enough computing power, it is possible to launch a successful brute force attack on this cipher. While $2^{56}$ is a weak number by today's encryption standards, the computational power required to brute force the DES algorithm in a reasonable amount of time is still out of reach of most personal computers. However, dictionary based attacks are feasible on personal computers, but performance of the algorithm's implementation is very important. 
+\end{document}
