@@ -2,6 +2,8 @@
 \special{papersize=8.5in,11in}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath}
+\usepackage{mathtools}
+\usepackage{multirow}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
@@ -10,7 +12,7 @@
 \section*{Assignment 1}
 \subsection*{Exercise 1}
 According to the text and presentaton, what are the classes of computing applications (four)? Provide a one sentence description of each.
-\subsubsection*{Solution}
+\subsubsection*{Answer}
 \begin{itemize}
 \item[Desktop Computers] Computers meant to be used by a single user for tasks that require graphics and input, such as word processing, web browsing, and games.
 \item[Servers] Computers on the network meant to be used by multiple, simultaneous users for consolidating data and facilitating its exchange.
@@ -20,7 +22,7 @@ According to the text and presentaton, what are the classes of computing applica
 
 \subsection*{Exercise 2}
 Name five devices with embedded computers that you have used?
-\subsubsection*{Solution}
+\subsubsection*{Answer}
 \begin{itemize}
 \item Microwave
 \item Wrist Watch
@@ -31,7 +33,7 @@ Name five devices with embedded computers that you have used?
 
 \subsection*{Exercise 3}
 According to the class text and presentation, what are the five classic components of a computer?
-\subsubsection*{Solution}
+\subsubsection*{Answer}
 \begin{itemize}
 \item Input
 \item Output
@@ -42,12 +44,201 @@ According to the class text and presentation, what are the five classic componen
 
 \subsection*{Exercise 4}
 What is an Instruction Set Architecture (ISA)?
-\subsubsection*{Solution}
+\subsubsection*{Answer}
 An ISA is an interface that specifies the machine instructions that a particular machine provides to the lowest level of software, written in machine code, that run on that machine.
 
 \subsection*{Exercise 5}
 Define the following terms:
 \begin{itemize}
-\item[response time] Something
+\item[(a) response time:] The time it takes to perform a task from execution start to finish.
+\item[(b) throughput:] The amount of work performed per unit of time.
+\end{itemize}
+
+\subsection*{Exercise 6}
+Explain the impact on throughput and response time for each of the following changes in a computer system:
+\begin{itemize}
+\item[(a)] Replacing the processor in a computer with a faster version.
+\subsubsection*{Answer}
+Using a faster processor will reduce response time by reducing the amount of time each task takes to execute. It will also increase throughput by making it possible to complete more tasks in a shorter period of time.
+\item[(b)] Adding additional processors to a system that uses multiple processors for separate tasks---for example, search the web.
+\subsubsection*{Answer}
+Adding processors will reduce response time by making more processors available to the running tasks and reducing the amount of time a task might have to wait for processor time. However, this will not reduce response time for a non-parallel task that already utilizes the CPU to its full extent.
+
+Adding processors will increase throughput by allowing multiple tasks to execute at the same time, such that when twice as many processors are being utilized twice as much work is done per unit of time.
+\end{itemize}
+
+\subsection*{Exercise 7}
+What is the formula for each of the following:
+\begin{itemize}
+\item[(a)] Performance, based on execution time, for a given computer $X$.
+\[\boxed{\text{performance}_X = \frac{1}{\text{execution\_time}_X}}\]
+\item[(b)] Relative performance between computers $A$ and $B$.
+\[
+\frac{\text{performance}_A}{\text{performance}_B} = \frac{\text{execution\_time}_B}{\text{execution\_time}_A}
+\]
+\item[(c)] CPU performance in terms of instruction count.
+\begin{align*}
+\text{CPU time} &= \text{clock cycles used by task} \times \text{clock cycle time} \\
+&= \frac{\text{clock cycles used by task}}{\text{clock rate}}
+\end{align*}
+\end{itemize}
+
+\subsection*{Exercise 8}
+What are the hardware/software components affecting program performance (four)?
+\subsubsection*{Answer}
+%FIXME: This is just a guess and probably not the pidgen-holed answers he's looking for.
+\begin{enumerate}
+\item Processor
+\item Memory
+\item Data Path
+\item Algorithm
+\end{enumerate}
+
+\subsection*{Exercise 9}
+A given application written in C++ runs 15 seconds on a desktop processor. A new Java compiler is released that requires only 0.6 as many instructions as the old compiler. Unfortunately, it increases CPI by 1.1. How fast can we expect the application to run using this new compiler?
+\subsubsection*{Solution}
+The total CPU time that this application uses is found by multiplying the total instruction count by the CPI and the clock cycle time. Assuming that the 15 seconds that our application ran does not include any IO time, we simply multiply the original time by these ratios to get an estimate for the new time.
+\[
+15\text{ seconds} \times 0.6 \times 1.1 = 9.9 \text{ seconds} \approx \boxed{10 \text{ seconds}}
+\]
+We might expect the re-compiled application to finish in about 10 seconds.
+
+\subsection*{Exercise 10}
+Consider three different processors P1, P2, and P3 executing teh same insturciton set with clock rates and CPIs given in the following table.
+
+\begin{center}
+\begin{tabular}{| c | c | c |}
+\hline
+Processor & CR & CPI \\
+\hline
+P1 & 2 GHz & 1.5 \\
+\hline
+P2 & 1.5 GHz & 1 \\
+\hline
+P3 & 3 GHz & 2.5 \\
+\hline
+\end{tabular}
+\end{center}
+
+\begin{itemize}
+\item[(a)] Which processor has the highest performance?
+\begin{align*}
+\text{P1 performance} &\approx 2\text{ GHz} \times \frac{1}{1.5 \text{ CPI}} \approx 1.3 \text{ billion instructions per second} \\
+\text{P2 performance} &\approx 1.5\text{ GHz} \times \frac{1}{1 \text{ CPI}} \approx 1.5 \text{ billion instructions per second} \\
+\text{P3 performance} &\approx 3\text{ GHz} \times \frac{1}{2.5 \text{ CPI}} \approx 1.2 \text{ billion instructions per second}
+\end{align*}
+\fbox{P2 has the highest performance.}
+\item[(b)] If the processors each execute a program in 10 seconds, find the number of cycles and the number of instructions for each.
+\begin{align*}
+\text{P1 total cycles} \approx 2 \text{ GHz} \times 10 \text{ seconds} &\approx 20 \text{ billion cycles} \\
+\text{P1 total instructions} \approx 1.3 \times 10^{9} \text{ IPS} \times 10 \text{ seconds} &\approx 13 \text{ billion instructions} \\
+\text{P2 total cycles} \approx 1.5 \text{ GHz} \times 10 \text{ seconds} &\approx 15 \text{ billion cycles} \\
+\text{P2 total instructions} \approx 1.5 \times 10^{9} \text{ IPS} \times 10 \text{ seconds} &\approx 15 \text{ billion instructions} \\
+\text{P3 total cycles} \approx 3 \text{ GHz} \times 10 \text{ seconds} &\approx 30 \text{ billion cycles} \\
+\text{P3 total instructions} \approx 1.2 \times 10^{9} \text{ IPS} \times 10 \text{ seconds} &\approx 12 \text{ billion instructions} \\
+\end{align*}
+\item[(c)] We are trying to reduce the time by 30\% but this leads to an increase in 20\% in the CPI. What clock rate should we have to get this time reduction?
+\end{itemize}
+
+\subsection*{Exercise 11} Use the following additional information for the questions below:
+\begin{center}
+\begin{tabular}{| c | c | c | c |}
+\hline
+Processor & CR & Instruction Count & Time \\
+\hline
+P1 & 2 GHz & $20 \times 10^9$ & 7s \\
+\hline
+P2 & 1.5 GHz & $30 \times 10^9$ & 10s \\
+\hline
+P3 & 3 GHz & $90 \times 10^9$ & 9s \\
+\hline
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item[(a)] Find the IPC (instructions per cycle) for each processor.
+\begin{align*}
+\text{P1 IPC} &\approx \frac{20 \times 10^9 \text{ instructions}}{2 \text{ GHz} \times 7\text{s}} \approx 1.4 \text{ IPC} \\
+\text{P2 IPC} &\approx \frac{30 \times 10^9 \text{ instructions}}{1.5 \text{ GHz} \times 10\text{s}} \approx 2 \text{ IPC} \\
+\text{P3 IPC} &\approx \frac{90 \times 10^9 \text{ instructions}}{3 \text{ GHz} \times 9\text{s}} \approx 3.3 \text{ IPC}
+\end{align*}
+\item[(b)] Find the clock rate for P2 that reduces its execution time to that of P1.
+\begin{align*}
+7\text{s} &= 30 \times 10^9 \text{ instructions} \times \frac{1}{2\text{ IPC}} \times \frac{1}{x\text{ GHz}} \\
+\frac{1}{x\text{ GHz}} &= 7\text{s} \times \frac{1}{30 \times 10^9\text{ instructions}} \times 2\text{ IPC} \\
+x\text{ GHz} &= \frac{1}{7\text{s}} \times 30 \times 10^9\text{ instructions} \times \frac{1}{2\text{ IPC}} = 
+\end{align*}
+\item[(c)] Find the number of instructions for P2 that reduces its execution to that of P3.
+\end{itemize}
+
+\subsection*{Exercise 12}
+Consider two different implementation of the same instruction set architecture. There are four classes of instructions A, B, C, and D. The clock rate and CPI of each implementation are given in the following table.
+\begin{center}
+\begin{tabular}{| c | c | c | c | c | c |}
+\hline
+& CR & CPI Class A & CPI Class B & CPI Class C & CPI Class D \\
+\hline
+P1 & 1.5 GHz & 1 & 2 & 3 & 4 \\
+\hline
+P2 & 2 GHz & 2 & 2 & 2 & 2 \\
+\hline
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item[(a)] Given a program with $10^6$ instructions divided into classes as follows: 10\% class A, 20\% class B, 50\% class C, and 20\% class D, which implementation is faster?
+\subsubsection*{Answer}
+\begin{align*}
+\text{CPI P1} \approx 1 \times 10\% + 2 \times 20\% + 3 \times 50\% + 4 \times 20\% = 2.8\text{ CPI} \\
+\text{Instructions Per Second P1} \approx 1.5\text{ GHz} \times \frac{1}{2.8\text{ CPI}} \approx 0.54 \times 10^9\text{ IPS} \\
+\text{CPI P2} \approx 2 \times 10\% + 2 \times 20\% + 2 \times 50\% + 2 \times 20\% = 2\text{ CPI} \\
+\text{Instructions Per Second P2} \approx 2\text{ GHz} \times \frac{1}{2\text{ CPI}} = 1 \times 10^9\text{ IPS} \\
+\end{align*}
+\fbox{P2's implementation is faster.}
+\item[(b)] What is the global CPI for each implementation?
+\subsubsection*{Answer}
+Assuming that the program given in (a) is representitive of the programs we run, P1 has approximately \fbox{2.8 CPI} and P2 has approximately \fbox{2 CPI}.
+\end{itemize}
+
+\subsection*{Exercise 13}
+Consider two different implementations, P1 and P2, of the same instruction set. There are five classes of instructions (A, B, C, D, and E) in the instruction set. The clock rate and CPI for each class is as follows:
+\begin{center}
+\begin{tabular}{| c | c | c | c | c | c | c | c |}
+\hline
+\multicolumn{2}{|c|}{} & CR & CPI Class A & CPI Class B & CPI Class C & CPI Class D & CPI Class E \\
+\hline
+\multirow{2}{*}{a.} & P1 & 1.0 GHz & 1 & 2 & 3 & 4 & 3 \\
+\cline{3-8}
+& P2 & 1.5GHz & 2 & 2 & 2 & 4 & 4 \\
+\hline
+\multirow{2}{*}{b.} & P1 & 1.0 GHz & 1 & 1 & 2 & 3 & 2 \\
+\cline{3-8}
+& P2 & 1.5 GHz & 1 & 2 & 3 & 4 & 3 \\
+\hline
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item[(a)] Assume that peak performance is defined as the fastest rate that a computer can execute any instruction sequence. What are the peak performances of P1 and P2 expressed in insturctions per second?
+\item[(b)] If the number of instructions in a certain program is divided equally among the classes of instructions except for class A, which occurs twice as often as each of the others. Which computer is faster? How much is it faster?
+\item[(c)] If the number of instructions executed in a certain program is divided equally among the classes of instructions except for class E, which occurs twice as often as each of the others. Which computer is faster? How much is it faster?
+\end{itemize}
+
+\subsection*{Exercise 14}
+Compilers can have a profound impact on the performance of an application on a given processor. This problem will explore the impact compilers have on execution time.
+\begin{center}
+\begin{tabular}{| c | c | c | c | c |}
+\hline
+\multirow{2}{*}{} & \multicolumn{2}{|c|}{Compiler A} & \multicolumn{2}{|c|}{Compiler B} \\
+\cline{2-5}
+& Instruction Conut & Execution Time & Instruction Conut & Execution Time \\
+\hline
+a. & $1.0\times10^9$ & 1s & $1.2\times10^9$ & 1.4s \\
+\hline
+b. & $1.0\times10^9$ & 0.8s & $1.2\times10^9$ & 0.7s \\
+\hline
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item[(a)] For the same program, two different compilers are used. The table above shows the execution time of the two different compiled programs. Find the average CPI for each program given that the processor has a clock cycle time of 1 nanosecond.
+\item[(b)] Assume the average CPIs found in (a), but that the compiled programs run on two different processors are the same. How much faster is the clock of the processor running compiler A's code versus the clock of the processor running compiler B's code?
+\item[(c)] A new compiler is developed that uses only 600 million instructions and has an average CPI of 1.1. What is the speed-up of using the new compiler 
 \end{itemize}
 \end{document}
