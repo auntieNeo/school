@@ -41,7 +41,7 @@ void sdes_encrypt(unsigned char *plaintext, size_t plaintext_blocks, short unsig
   }
   printf("permute first subkey\nK_1: 0x%04X\n", K_1);
   // do another shift of each 5-bit half of the key
-  p_key << 1;
+  p_key <<= 1;
   p_key |= (p_key & (1 << 5)) >> 5;
   p_key &= ~(1 << 5);
   p_key |= (p_key & (1 << 10)) >> 5;
