@@ -36,7 +36,7 @@ void sdes_encrypt(unsigned char *plaintext, size_t plaintext_blocks, short unsig
   K_1 = 0;
   for(i = 0; i < 8; i++)
   {
-    bit = (p_key & (1 << (P8[i]))) >> P8[i];
+    bit = (p_key & (1 << (P8[i] - 1))) >> (P8[i] - 1);
     K_1 |= bit << i;
   }
   printf("permute first subkey\nK_1: 0x%04X\n", K_1);
