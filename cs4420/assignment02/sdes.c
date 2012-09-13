@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
 
@@ -5,16 +6,18 @@
 const unsigned char P10[10] = {3, 5, 2, 7, 4, 10, 1, 9, 8, 6};
 // permutation for the 8-bit subkeys
 const unsigned char P8[8] = {6, 3, 7, 4, 8, 5, 10, 9};
+// initial permutation
+const unsigned char IP[8] = {2, 6, 3, 1, 4, 8, 5, 7};
 
-void sdes_encrypt(unsigned char *plaintext, size_t plaintext_blocks, short unsigned int key);
-void sdes_decrypt(unsigned char *ciphertext, size_t ciphertext_blocks, short unsigned int key);
+void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key);
+void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, size_t blocks, short unsigned int key);
 
-void sdes_encrypt(unsigned char *plaintext, size_t plaintext_blocks, short unsigned int key)
+void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key)
 {
   char K_1, K_2;
   short unsigned int p_key;
   unsigned char bit;
-  int i;
+  int i, j;
 
   printf("key: 0x%04X\n", key);
   // TODO: put a lot of this stuff in macros
@@ -59,13 +62,30 @@ void sdes_encrypt(unsigned char *plaintext, size_t plaintext_blocks, short unsig
   printf("K_1: 0x%04X\n", K_1);
   printf("K_2: 0x%04X\n", K_2);
 
-  for(i = 0; i < plaintext_blocks; i++)
+  for(i = 0; i < blocks; i++)
   {
+    printf("plaintext[%d]: 0x%02X\n", i, plaintext[i]);
+    // apply the initial permutation
+    ciphertext[i] = 0;
+    for(j = 0; j < 8; j++)
+    {
+      bit = (plaintext[i] & (1 << (IP[j] - 1))) >> (IP[j] - 1);
+      ciphertext[i] |= bit << j;
+    }
+    printf("initial permutation\nciphertext[%d]: 0x%02X", i, ciphertext[i]);
+
+    // the function F_K
+
+    return;
   }
 }
 
 int main(int argc, char **argv)
 {
-  sdes_encrypt(NULL, 0, 0x0282);
+  char *buffer;
+
+  buffer = malloc(7);
+  sdes_encrypt("orange", buffer, 7, 0x0282);
+  free(buffer);
   return 0;
 }
