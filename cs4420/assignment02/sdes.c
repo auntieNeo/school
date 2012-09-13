@@ -50,7 +50,7 @@ void sdes_encrypt(unsigned char *plaintext, size_t plaintext_blocks, short unsig
   K_2 = 0;
   for(i = 0; i < 8; i++)
   {
-    bit = (p_key & (1 << (P8[i]))) >> P8[i];
+    bit = (p_key & (1 << (P8[i] - 1))) >> (P8[i] - 1);
     K_2 |= bit << i;
   }
   printf("permute second subkey\n");
