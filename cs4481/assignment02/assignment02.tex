@@ -1,0 +1,42 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+{
+\Large Jonathan Glines\\
+\Large CS 4481\\
+\Large Assignment 2\\
+}
+\end{flushright}
+\subsection*{Exercise 1.9}
+An alternative to the method fo porting a compiler described in Section 1.6 and Figure 1.3 is to use an interpreter for the intermediate code produced by the compiler and to do away with a back end altogether. Such a method is used by the Pascal P-system, which includes a Pascal compiler that produces P-code, a kind of assembly code for a ``generic" stack machine, and a P-code interpreter that simulates the execution of the P-code. Both the Pascal compiler and the P-code interpreter are written in P-code.
+\begin{itemize}
+\item[a.] Describe the steps needed to obtain a working Pascal compiler on an arbitrary machine, given a Pascal P-system.
+\subsubsection*{Answer}
+Given a Pascal P-system, the only thing that needs to be done to get a Pascal compiler on this machine is to write a P-code interpreter. The interpreter can be written in machine code, or it can be written in any other language with existing compilers or assemblers for this machine.
+
+\item[b.] Describe the steps needed to obtain a working native-code compiler from your system in (a)(i.e., a compiler that produces executible code for the host machine, rather than using the P-code interpreter.)
+\subsubsection*{Answer}
+\begin{enumerate}
+\item To write a native-code compiler for the given machine $B$, we would first rewrite the source code for an existing compiler $C_1$ that runs on machine $A$ to compile code for machine $B$. We'll call the source for this new compiler $S$. We can even rewrite our P-code compiler and use a P-code interpreter for machine $A$.
+\item Now we compile $S$ using $C_1$ (which already runs on machine $A$) to obtain a retargeted compiler $C_2$ which runs on machine $A$ but generates code that runs on machine $B$.
+\item Finally we compile $S$ again, but this time using $C_2$ to obtain a compiler $C_3$ that both runs on machine $B$ and generates code for machine $B$.
+\end{enumerate}
+\end{itemize}
+
+\subsection*{Exercise 2.1 Parts (a), (e), (f), and (i)}
+\begin{itemize}
+\item[a.] All strings of lowercase letters that begin and end in {\tt a}.
+\begin{verbatim}^a[a-z]a$\end{verbatim}
+\item[e.] All strings of digits such that all the {\tt 2}'s occur before all the {\tt 9}'s.
+\begin{verbatim}(([0-8]*[0-13-9]*)|\d)\end{verbatim}
+\item[f.] All strings of {\tt a}'s and {\tt b}'s that contain no three consecutive {\tt b}'s.
+\begin{verbatim}\end{verbatim}
+\item[i.] All strings of {\tt a}'s and {\tt b}'s that contain exactly as many {\tt a}'s as {\tt b}'s.
+\begin{verbatim}\end{verbatim}
+\end{itemize}
+
+\end{document}
