@@ -16,7 +16,18 @@ Assignment 1 \\
 \subsection*{Exercise 7}
 Prove that $5^{2n} - 1$ is divisible by 8 for all $n \in \mathbb{N}$.
 \subsubsection*{Solution}
-We start with the statement $S \coloneqq $
+First we see that when $n = 1$, the expression $5^{2n} - 1 = 5^2 - 1 = 24 = 8(3)$ is divisible by 8.
+
+Now given $n \in \mathbb{N}$, we assume that $5^{2n} - 1$ is divisible by 8. This is the same as saying that $5^{2n} - 1 = 8k$ for some $k \in \mathbb{Z}$. With some algebra, it can be shown that $5^{2\left(n + 1\right)} - 1$ is also divisible by 8.
+\begin{align*}
+5^{2n} - 1 &= 8k \\
+5^{2n} \cdot 5^2 - 5^2 &= 8k \cdot 5^2 \\
+5^{2\left(n + 1\right)} - 25 &= 8\left(5^2 k\right) \\
+5^{2\left(n + 1\right)} - 1 &= 8\left(5^2 k\right) + 24 = 8\left(5^2 k + 3\right) \\
+\end{align*}
+And now we have $5^{2\left(n + 1\right)} - 1$ in the form $8h$ with $h = 5^2 k + 3 \in \mathbb{Z}$, thus showing that $5^{2\left(n + 1\right)} - 1$ is also divisible by 8.
+
+By Mathematical Induction, $5^{2n} - 1$ must be divisible by 8 for all $n \in \mathbb{N}$.
 
 \subsection*{Exercise 10}
 Conjecture a formula for the sum $1/\left(1\cdot 3\right) + 1/\left(3 \cdot 5\right) + \cdots + 1 /\left(\left(2n - 1\right)\left(2n+1\right)\right)$, and prove your conjecture by using Mathematical Induction.
@@ -33,6 +44,17 @@ Now we assume that $\frac{1}{1 \cdot 3} + \frac{1}{3 \cdot 5} + \cdots + \frac{1
 
 \subsection*{Exercise 15}
 Prove that $2n - 3 \leq 2^{n-2}$ for all $n \geq 5$, $n \in \mathbb{N}$.
+\subsubsection*{Solution}
+First we check that $2n - 3 \leq 2^{n-2}$ for $n = 5$. This is true, since it works out to be $2(5) - 3 = 7 \leq 8 = 2^{5 - 2}$.
+
+Now given $n \geq 5$, $n \in \mathbb{N}$, we assume that $2n - 3 \leq 2^{n-2}$ is true. With some algebra it can be shown that $2\left(n + 1\right) - 3 \leq 2^{\left(n + 1\right) - 2}$ must also be true.
+\begin{align*}
+2n - 3 &\leq 2^{n - 2} \\
+2n - 3 + 2 &\leq 2^{n - 2} + 2 \\
+2\left(n + 1\right) - 3 &\leq 2^{n - 1} = 2^{\left(n + 1\right) - 2} \\
+\end{align*}
+
+So we conclude by Mathematical Induction that $2n - 3 \leq 2^{n-2}$ for all $n \geq 5$, $n \in \mathbb{N}$.
 
 \section*{Section 1.3 Exercises 2, 5, and 10}
 
@@ -66,6 +88,23 @@ f \coloneqq \left\{\stackrel{A}{B} \right.
 \subsection*{Exercise 10}
 \begin{itemize}
 \item[(a)] If $\left(m, n\right)$ is the 6th point down the 9th diagonal of the array in Figure 1.3.1, calculate its number according to the counting method given for Theorem 1.3.8.
+\subsubsection*{Solution}
+Numbers can be found quickly by finding $\psi$ of the row minus one, and then adding $m$ (with $m$ corresponding to the $m$th point down the diagonal). In this case we compute the following:
+\begin{align*}
+\psi\left(8\right) + 9 = \left(1 + 2 + \cdots + 8\right) + 9 = \frac{8\left(8 + 1\right)}{2} + 9 = 36 + 9 = 45
+\end{align*}
+So this ordered pair is number $45$.
+
 \item[(b)] Given that $h\left(m, 3\right) = 19$, find $m$.
+\begin{align*}
+h\left(m, 3\right) &= \psi\left(m + 3 - 2\right) + m \\
+&= \frac{\left(m + 1\right)\left(m + 2\right)}{2} + m \\
+= 19 &= \frac{m^2 + 3m + 2 + 2m}{2} \\
+38 &= m^2 + 5m + 2 \\
+0 &= m^2 + 5m - 36 \\
+m &= \frac{-5 \pm \sqrt{5^2 - (4)(1)\left(-36\right)}}{2(1)} \\
+&= \frac{-5 \pm 13}{2} \\
+m &= 4 && m \neq -9\text{ because } m \in \mathbb{N}
+\end{align*}
 \end{itemize}
 \end{document}
