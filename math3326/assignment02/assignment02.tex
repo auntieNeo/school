@@ -81,9 +81,14 @@ Assume $C \setminus B$ is finite. Because $B \cap \left(C \setminus B\right) = \
 \subsection*{Exercise 5}
 Give an explicit definition of the bijection $f$ from $\mathbb{N}$ onto $\mathbb{Z}$ described in Example 1.3.7(b).
 \subsubsection*{Solution}
+Example 1.3.7(b) describes the mapping as $\mathbb{Z} = \left\{0, 1, -1, 2, -2, 3, -3, \dots\right\}$. Let $f : \mathbb{N} \to \mathbb{Z}$. Define $f$ as follows:
 \begin{align*}
-\mathbb{Z} &= \left\{0, 1, -1, 2, -2, 3, -3, \dots\right\} \\
-f \coloneqq \left\{\stackrel{A}{B} \right.
+f &\coloneqq \left\{
+\begin{array}{lr}
+\frac{1 - n}{2} & : n \text{ odd} \\
+\frac{n}{2} & : n \text{ even} \\
+\end{array}
+\right. \\
 \end{align*}
 \subsection*{Exercise 10}
 \begin{itemize}
