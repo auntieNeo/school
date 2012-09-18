@@ -36,8 +36,9 @@ Given a Pascal P-system, the only thing that needs to be done to get a Pascal co
 \item[e.] All strings of digits such that all the {\tt 2}'s occur before all the {\tt 9}'s.
 \begin{verbatim}(([0-8]*[0-13-9]*)|\d)\end{verbatim}
 \item[f.] All strings of {\tt a}'s and {\tt b}'s that contain no three consecutive {\tt b}'s.
-\begin{verbatim}\end{verbatim}
+Regular expressions cannot conut, so this cannot be expressed as a regular expression.
 \item[i.] All strings of {\tt a}'s and {\tt b}'s that contain exactly as many {\tt a}'s as {\tt b}'s.
+Again, regular expressions cannot conut. With this problem, we would have to count the number of {\tt a}'s and {\tt b}'s, which is impossible with regular expresisons.
 \begin{verbatim}\end{verbatim}
 \end{itemize}
 
@@ -46,55 +47,83 @@ For each part of Problem 2.1 such that it is possible to create a regular expres
 \begin{itemize}
 \item[a.] \begin{verbatim}a[a-z]a\end{verbatim}
 \digraph[scale=0.5]{aNFA}{
-start [style="invis"]
-start -> q_0 [label="start"]
-q_1 [shape=doublecircle]
-q_0 -> q_1 [label="a"]
-q_1 -> q_1 [label="a"]
-q_1 -> q_2 [label=" a-z "]
-q_2 -> q_2 [label=" a-z "]
-q_2 -> q_1 [label="a"]
-}
-\digraph[scale=0.5]{aNFA2}{
 node [shape=circle]
 start [style="invis"]
-start -> s_0 [label="start"]
-s_0 -> s_1 [label="a"]
-s_1 -> s_2 [label="[a-z]"]
-s_2 -> s_2 [label="[a-z]"]
-s_2 -> s_3 [label="a"]
-s_1 -> s_3 [label="a"]
-s_5 [shape=doublecircle]
-s_3 -> s_5 [label="&epsilon;"]
-s_0 -> s_4 [label="a"]
-s_4 -> s_5 [label="&epsilon;"]
+start -> s0 [label="start"]
+s0 -> s1 [label="a"]
+s1 -> s2 [label="[a-z]"]
+s2 -> s2 [label="[a-z]"]
+s2 -> s3 [label="a"]
+s1 -> s3 [label="a"]
+s5 [shape=doublecircle]
+s3 -> s5 [label="&epsilon;"]
+s0 -> s4 [label="a"]
+s4 -> s5 [label="&epsilon;"]
 }
-\end{itemize}
-This isn't working so well, so here's a graph based on Ken Thompson's paper {\textit Regular Expression Search Algorithm}.
-\digraph[scale=0.5]{kenNFA}{
+\item[b.] \begin{verbatim}(([0-8]*[0-13-9]*)|\d)\end{verbatim}
+\digraph[scale=0.5]{bNFA}{
+node [shape=circle]
 start [style="invis"]
-n0 [label="+"]
-start -> n0
-n1 [label="a"]
-n0 -> n1
-n2 [label="+"]
-n1 -> n2
-n3 [label="[a-z]"]
-n2 -> n3
-n3 -> n2
-n4 [label="a"]
-n2 -> n4
-end [style="invis"]
-n4 -> end
-n5 [label="a"]
-n0 -> n5
-n5 -> end
+start -> s0 [label="start"]
+s0 -> s1 [label="&epsilon;"]
+s1 -> s2 [label="[0-8]"]
+s2 -> s2 [label="[0-8]"]
+s2 -> s3 [label="&epsilon;"]
+s1 -> s3 [label="&epsilon;"]
+s3 -> s4 [label="&epsilon;"]
+s4 -> s5 [label="[0-13-9]"]
+s5 -> s5 [label="[0-13-9]"]
+s5 -> s6 [label="&epsilon;"]
+s4 -> s6 [label="&epsilon;"]
+s9 [shape=doublecircle]
+s6 -> s9 [label="&epsilon;"]
+s0 -> s7 [label="&epsilon;"]
+s7 -> s8 [label="decimal digit"]
+s8 -> s9 [label="&epsilon;"]
 }
+
+\end{itemize}
+%And here's a graph based on Ken Thompson's paper {\it Regular Expression Search Algorithm}.
+%\digraph[scale=0.5]{kenNFA}{
+%start [style="invis"]
+%n0 [label="+"]
+%start -> n0
+%n1 [label="a"]
+%n0 -> n1
+%n2 [label="+"]
+%n1 -> n2
+%n3 [label="[a-z]"]
+%n2 -> n3
+%n3 -> n2
+%n4 [label="a"]
+%n2 -> n4
+%end [style="invis"]
+%n4 -> end
+%n5 [label="a"]
+%n0 -> n5
+%n5 -> end
+%}
 
 \subsection*{4.}
 For each NFA in the previous problem, convert the NFA into a DFA using the procedure shown in class.
 \begin{itemize}
 \item[a.] \begin{verbatim}a[a-z]a\end{verbatim}
+\digraph[scale=0.5]{aDFA}{
+node [shape=circle]
+start [style="invis"]
+q0 [label="{s0}"]
+start -> q0 [label="start"]
+q1 [label="{s1, s5}", shape=doublecircle]
+q0 -> q1 [label="a"]
+q2 [label="{s2}"]
+q1 -> q2 [label="[b-z]"]
+q2 -> q2 [label="[b-z]"]
+q3 [label="{s5, s2}", shape=doublecircle]
+q2 -> q3 [label="a"]
+q3 -> q3 [label="a"]
+q1 -> q3 [label="a"]
+q3 -> q2 [label="[b-z]"]
+}
 \end{itemize}
 
 \end{document}
