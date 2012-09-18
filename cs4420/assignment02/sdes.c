@@ -166,7 +166,16 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
     F = sdes_F(ciphertext[i], K_2);
     // xor the upper 4 bits of the ciphertext with the output of F
     ciphertext[i] ^= F << 4;
+    printf("f_k function: 0x%02X\n", ciphertext[i]);
 
+    // apply the inverse of the initial permutation
+    temp = ciphertext[i];
+    ciphertext[i] = 0;
+    for(j = 0; j < 8; j++)
+    {
+      bit = (temp & (1 << j)) >> j;
+      ciphertext[i] |= bit << (IP[j] - 1);
+    }
     printf("first byte: 0x%02X\n", ciphertext[i]);
 
     return;
