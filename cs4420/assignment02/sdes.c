@@ -80,6 +80,8 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
   short unsigned int p_key;
   unsigned char bit;
   int i, j;
+  unsigned char F;
+  unsigned char temp;
 
   printf("key: 0x%04X\n", key);
   // TODO: put a lot of this stuff in macros
@@ -136,10 +138,24 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
     }
     printf("initial permutation\nciphertext[%d]: 0x%02X", i, ciphertext[i]);
 
-    // apply the mapping F to the lower 4 bits
-    // 
-    // expansion/permutation operation
-    // switch function
+    // apply the f_k function using K_1
+    // apply the mapping F to the lower 4 bits of the current ciphertext
+    F = sdes_F(ciphertext[i], K_1);
+    // xor the upper 4 bits of the ciphertext with the output of F
+    ciphertext[i] ^= F << 4;
+
+    // apply the switch function for the smallest Feistel network ever
+    temp = ciphertext[i];
+    ciphertext[i] <<= 4;
+    ciphertext[i] |= temp >> 4;
+
+    // apply the f_k function again, but this time using K_2
+    // apply the mapping F to the lower 4 bits of the current ciphertext
+    F = sdes_F(ciphertext[i], K_2);
+    // xor the upper 4 bits of the ciphertext with the output of F
+    ciphertext[i] ^= F << 4;
+
+    printf("first byte: 0x%02X\n", ciphertext[i]);
 
     return;
   }
@@ -149,13 +165,11 @@ int main(int argc, char **argv)
 {
   char *buffer;
 
-  /*
   buffer = malloc(7);
   sdes_encrypt("orange", buffer, 7, 0x0282);
   free(buffer);
-  */
 
-  printf("sdes_F: %02X", sdes_F(0x0D, 0xAA));
+//  printf("sdes_F: %02X", sdes_F(0x0D, 0xAA));
 
   return 0;
 }
