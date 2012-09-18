@@ -182,13 +182,73 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
   }
 }
 
+void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, size_t blocks, short unsigned int key)
+{
+  unsigned char K_1, K_2;
+  unsigned char bit;
+  int i, j;
+  unsigned char F;
+  unsigned char temp;
+
+  // get the subkeys
+  sdes_subkeys(key, &K_1, &K_2);
+
+  // encrypt each 8 bit block
+  for(i = 0; i < blocks; i++)
+  {
+    printf("ciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
+    // apply the initial permutation
+    plaintext[i] = 0;
+    for(j = 0; j < 8; j++)
+    {
+      bit = (ciphertext[i] & (1 << (IP[j] - 1))) >> (IP[j] - 1);
+      plaintext[i] |= bit << j;
+    }
+    printf("initial permutation\nplaintext[%d]: 0x%02X", i, plaintext[i]);
+
+    // apply the f_k function using K_2
+    // apply the mapping F to the lower 4 bits of the current plaintext
+    F = sdes_F(plaintext[i], K_2);
+    // xor the upper 4 bits of the plaintext with the output of F
+    plaintext[i] ^= F << 4;
+
+    // apply the switch function for the smallest Feistel network ever
+    temp = plaintext[i];
+    plaintext[i] <<= 4;
+    plaintext[i] |= temp >> 4;
+
+    // apply the f_k function again, but this time using K_1
+    // apply the mapping F to the lower 4 bits of the current plaintext
+    F = sdes_F(plaintext[i], K_2);
+    // xor the upper 4 bits of the plaintext with the output of F
+    plaintext[i] ^= F << 4;
+    printf("f_k function: 0x%02X\n", plaintext[i]);
+
+    // apply the inverse of the initial permutation
+    temp = plaintext[i];
+    plaintext[i] = 0;
+    for(j = 0; j < 8; j++)
+    {
+      bit = (temp & (1 << j)) >> j;
+      plaintext[i] |= bit << (IP[j] - 1);
+    }
+    printf("first byte: 0x%02X\n", plaintext[i]);
+
+    return;
+  }
+}
+
 int main(int argc, char **argv)
 {
-  char *buffer;
+  char *ciphertext, *plaintext;
 
-  buffer = malloc(7);
-  sdes_encrypt("orange", buffer, 7, 0x0282);
-  free(buffer);
+  ciphertext = malloc(7);
+  plaintext = malloc(7);
+  sdes_encrypt("orange", ciphertext, 7, 0x0282);
+  sdes_decrypt(plaintext, ciphertext, 7, 0x0282);
+  printf("decrypted: %c\n", *plaintext);
+  free(plaintext);
+  free(ciphertext);
 
 //  printf("sdes_F: %02X", sdes_F(0x0D, 0xAA));
 
