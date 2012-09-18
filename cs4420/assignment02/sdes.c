@@ -22,6 +22,8 @@ const unsigned char S1[4][4] = {{0, 1, 2, 3},
 // after S-box permutation
 const unsigned char P4[4] = {2, 4, 3, 1};
 
+inline unsigned char sdes_F(unsigned char R, unsigned char SK);
+void sdes_subkeys(short unsigned int key, char *K_1, char *K_2);
 void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key);
 void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, size_t blocks, short unsigned int key);
 
@@ -74,14 +76,11 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK)
   return R4;
 }
 
-void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key)
+void sdes_subkeys(short unsigned int key, char *K_1, char *K_2)
 {
-  char K_1, K_2;
   short unsigned int p_key;
   unsigned char bit;
-  int i, j;
-  unsigned char F;
-  unsigned char temp;
+  int i;
 
   printf("key: 0x%04X\n", key);
   // TODO: put a lot of this stuff in macros
@@ -100,13 +99,13 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
   p_key |= (p_key & (1 << 10)) >> 5;
   printf("circular shift\np_key: 0x%04X\n", p_key);
   // permute the first 8-bit subkey
-  K_1 = 0;
+  *K_1 = 0;
   for(i = 0; i < 8; i++)
   {
     bit = (p_key & (1 << (P8[i] - 1))) >> (P8[i] - 1);
-    K_1 |= bit << i;
+    *K_1 |= bit << i;
   }
-  printf("permute first subkey\nK_1: 0x%04X\n", K_1);
+  printf("permute first subkey\nK_1: 0x%04X\n", *K_1);
   // do another shift of each 5-bit half of the key
   p_key <<= 1;
   p_key |= (p_key & (1 << 5)) >> 5;
@@ -114,18 +113,31 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
   p_key |= (p_key & (1 << 10)) >> 5;
   printf("second circular shift\np_key: 0x%04X\n", p_key);
   // permute the second 8-bit subkey
-  K_2 = 0;
+  *K_2 = 0;
   for(i = 0; i < 8; i++)
   {
     bit = (p_key & (1 << (P8[i] - 1))) >> (P8[i] - 1);
-    K_2 |= bit << i;
+    *K_2 |= bit << i;
   }
   printf("permute second subkey\n");
   assert(sizeof(short unsigned int) == 2);
   printf("p_key: 0x%04X\n", p_key);
-  printf("K_1: 0x%04X\n", K_1);
-  printf("K_2: 0x%04X\n", K_2);
+  printf("K_1: 0x%04X\n", *K_1);
+  printf("K_2: 0x%04X\n", *K_2);
+}
 
+void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key)
+{
+  unsigned char K_1, K_2;
+  unsigned char bit;
+  int i, j;
+  unsigned char F;
+  unsigned char temp;
+
+  // get the subkeys
+  sdes_subkeys(key, &K_1, &K_2);
+
+  // encrypt each 8 bit block
   for(i = 0; i < blocks; i++)
   {
     printf("plaintext[%d]: 0x%02X\n", i, plaintext[i]);
