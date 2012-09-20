@@ -19,23 +19,35 @@ Assignment 3 \\
 If $a \in \mathbb{R}$ satisfies $a \cdot a = a$, prove that either $a = 0$ or $a = 1$.
 \subsubsection*{Solution}
 Since this section focuses on proving things using the field axioms, first I'm going to introduce a small lemma using only these field axioms.
-First we show that for $a \neq 0$, the following can be shown by the field axioms:
+\begin{lem}
+For any $a, b, c \in \mathbb{R}$, $a = b \implies a \cdot c = b \cdot c$.
+\end{lem}
+\begin{proof}
+This is trivial. Knowing that that $a \cdot c = a \cdot c$ and that $a = b$, we replace one of the $a$'s with $b$ and conclude that $a \cdot c = b \cdot c$.
+\end{proof}
+
+\begin{thm}
+If $a \in \mathbb{R}$ satisfies $a \cdot a = a$, then $a = 0$ or $a = 1$.
+\end{thm}
+\begin{proof}
+Consider any $a \in \mathbb{R}$. First we show that for $a \neq 0$, the following can be shown by the field axioms:
 \begin{align*}
 a \cdot a &= a \\
-\left(a \cdot a\right) \cdot \left(1/a\right) &= a \cdot \left(1 / a\right) \\
-a \cdot \left(a \cdot \left(1/a\right)\right) &= a \cdot \left(1/a\right) \\
-a \cdot 1 &= 1 \\
-a &= 1
+\left(a \cdot a\right) \cdot \left(1/a\right) &= a \cdot \left(1 / a\right) & \text{\bf Lemma 1}\\
+a \cdot \left(a \cdot \left(1/a\right)\right) &= a \cdot \left(1/a\right) & \text{\bf (M2)} \\
+a \cdot 1 &= 1 & \text{\bf (M4)}\\
+a &= 1 & \text{\bf (M3)}
 \end{align*}
 Thus, whenever $a \neq 0$, we must have $a = 1$.
 
-Now for the case where $a = 0$ where the multiplicitive inverse $\left(1/a\right)$ is not valid. We see that the equality is still true:
+Now for the case where $a = 0$ where the multiplicitive inverse $\left(1/a\right)$ is not valid. We see that the equality still holds:
 \begin{align*}
 a \cdot a &= a \\
-0 \cdot a &= a \\
-0 &= a
+a \cdot 0 &= a \\
+0 &= a & \text{\bf Theorem 2.1.2 (c)}
 \end{align*}
-Having considered every possibility for $a$, we conclude that the only possibilites are $a = 0$ or $a = 1$.
+Having considered every possibility for $a$, we conclude that $a = 0$ or $a = 1$.
+\end{proof}
 
 \subsection*{Exercise 8}
 \begin{itemize}
