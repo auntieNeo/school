@@ -2,7 +2,9 @@
 \special{papersize=8.5in,11in}
 \usepackage[utf8]{inputenc}
 \usepackage{mathtools}
-\usepackage{amssymb,amsmath}
+\usepackage{amssymb,amsmath,amsthm}
+\newtheorem*{thm}{Theorem}
+\newtheorem{lem}{Lemma}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
@@ -16,6 +18,7 @@ Assignment 3 \\
 \subsection*{Exercise 4}
 If $a \in \mathbb{R}$ satisfies $a \cdot a = a$, prove that either $a = 0$ or $a = 1$.
 \subsubsection*{Solution}
+Since this section focuses on proving things using the field axioms, first I'm going to introduce a small lemma using only these field axioms.
 First we show that for $a \neq 0$, the following can be shown by the field axioms:
 \begin{align*}
 a \cdot a &= a \\
