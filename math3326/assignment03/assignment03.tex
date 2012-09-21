@@ -55,27 +55,13 @@ Having considered every possibility for $a$, we conclude that either $a = 0$ or 
 \item[(b)] Prove that if $x$ is a rational number and $y$ is an irrational number, then $x + y$ is an irrational number. If, in addition, $x \neq 0$, then show that $xy$ is an irrational number.
 \end{itemize}
 \subsubsection*{Solution}
-\begin{lem}
-The set $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication.
-\end{lem}
-\begin{proof}
-Let $x, y$ be elements in $\mathbb{Z} \setminus \left\{0\right\}$. Because $\mathbb{Z} \setminus \left\{0\right\}$ is a subset of $\mathbb{Z}$ and $\mathbb{Z}$ is closed under multiplication, the product $xy \in \mathbb{Z}$. The only element in $\mathbb{Z}$ that is not in $\mathbb{Z} \setminus \left\{0\right\}$ is 0, so in order to show that $xy \in \mathbb{Z} \setminus \left\{0\right\}$ it is sufficient to show that $xy \neq 0$.
-
-Suppose to the contrary that $xy = 0$. Let $x_R, y_R$ be elements in $\mathbb{R}$ such that $x_R = x$ and $y_R = y$. We substitute $x_R$ and $y_R$ for $x$ and $y$ respectively so we can use the reciprocal property of $\mathbb{R}$.
-\begin{align*}
-xy = \left(x_R\right) \left(y_R\right) &= 0 \\
-\left(x_R\right) \left(y_R\right) \left(y_R\right)^{-1} &= 0\cdot\left(y_R\right)^{-1} \\
-x_R &= 0 = x
-\end{align*}
-This contradicts our original assumption that $x \in \mathbb{Z} \setminus \left\{0\right\}$. Thus, $xy \neq 0$, and $xy \in \mathbb{Z} \setminus \left\{0\right\}$.
-\end{proof}
 \begin{itemize}
 \item[(a)]
 \begin{thm}
 If $x, y$ are rational numbers, then $x + y$ and $xy$ are rational numbers.
 \end{thm}
 \begin{proof}
-Given $x, y \in \mathbb{Q}$, we know from the definition of $\mathbb{Q}$ that for some $p,q,r,s \in \mathbb{Z}$ with $q \neq 0$ and $s \neq 0$, we have $x = \frac{p}{q}$ and $y = \frac{r}{s}$. By substituting for $x$ and $y$ we see that $x + y = \frac{p}{q} + \frac{r}{s} = \frac{ps + rq}{qs}$ and that $xy = \frac{p}{q} \cdot \frac{r}{s} = \frac{pr}{qs}$. Because $\mathbb{Z}$ is closed under both addition and multiplication, both $ps + rq$ and $pr$ must reside in $\mathbb{Z}$. The difficulty in proving that $x + y$ and $xy$ are in $\mathbb{Q}$ is in showing that $qs \neq 0$, i.e. $qs \in \mathbb{Z} \setminus \left\{0\right\}$. Since $q, s \in \mathbb{Z} \setminus \left\{0\right\}$ and $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication from Lemma 2, $qs$ must also be in $\mathbb{Z} \setminus \left\{0\right\}$. Having found both $x + y$ and $xy$ in the form of the elements of $\mathbb{Q}$, we conclude that both $x + y$ and $xy$ are rational numbers.
+Given $x, y \in \mathbb{Q}$, we know from the definition of $\mathbb{Q}$ that for some $p,q,r,s \in \mathbb{Z}$ with $q \neq 0$ and $s \neq 0$, we have $x = \frac{p}{q}$ and $y = \frac{r}{s}$. By substituting for $x$ and $y$ we see that $x + y = \frac{p}{q} + \frac{r}{s} = \frac{ps + rq}{qs}$ and that $xy = \frac{p}{q} \cdot \frac{r}{s} = \frac{pr}{qs}$. Because $\mathbb{Z}$ is closed under both addition and multiplication, both $ps + rq$ and $pr$ must reside in $\mathbb{Z}$. The only difficulty in proving that $x + y$ and $xy$ are in $\mathbb{Q}$ is in showing that $qs \neq 0$. Since any integer $n$ can be expressed as either an $n$-fold sum of 1 or $-1$ or as $0 \in \mathbb{R}$, we know that $q, s \in \mathbb{R}$. Knowing that $q, s \in \mathbb{R}$ we apply Theorem 2.1.3 (b) to see that $qs$ can't possibly equal $0$. Thus having found both $x + y$ and $xy$ in the form of elements of $\mathbb{Q}$, we conclude that both $x + y$ and $xy$ are rational numbers.
 \end{proof}
 \item[(b)]
 \begin{thm}
@@ -117,11 +103,14 @@ x_1x_2 &= \left(s_1 + t_1\sqrt{2}\right) \left(s_2 + t_2\sqrt{2}\right) \\
 &= \left(s_1s_2 + 2t_1t_2\right) + \left(t_1s_2 + s_1t_2\right)\sqrt{2} \\
 \end{align*}
 which is of the form $s + t \sqrt{2}$ with $s_1s_2 + 2t_1t_2 = s \in \mathbb{Q}$ and $t_1s_2 + s_1t_2 = t \in \mathbb{Q}$, so we conclude that $x_1x_2 \in K$.
-\item[(b)] Let $x \in K$ with $x \neq 0$. From the definition of $K$, for some $s, t \in \mathbb{Q}$ we have $x = s + t\sqrt{2}$.
+\item[(b)] Let $x \in K$ with $x \neq 0$. From the definition of $K$, for some $s, t \in \mathbb{Q}$ we have $x = s + t\sqrt{2}$. We manipulate $1/x$ with some algebra to get
 \begin{align*}
 x &= s + t\sqrt{2} \\
-\frac{1}{x} &= \frac{1}{s + t\sqrt{2}} = \\ 
+\frac{1}{x} &= \frac{1}{s + t\sqrt{2}} = \frac{1}{s + t\sqrt{2}} \cdot \frac{s - t\sqrt{2}}{s - t\sqrt{2}} \\ 
+&= \frac{s - t\sqrt{2}}{s^2 -2t^2} \\
+&= \frac{s}{s^2 - 2t^2} + \frac{-t\sqrt{2}}{s^2 - 2t^2}
 \end{align*}
+which is of the form $s_1 + t_1\sqrt{2}$ with $\frac{s}{s^2 - 2t^2} = s_1 \in \mathbb{Q}$ and $\frac{-t}{s^2 - 2t^2} = t_1 \in \mathbb{Q}$, so we conclude that $1/x \in K$.
 \end{itemize}
 
 \subsection*{Exercise 16}
