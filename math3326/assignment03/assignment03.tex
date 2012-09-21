@@ -30,7 +30,7 @@ This is trivial. Knowing that that $a \cdot c = a \cdot c$ and that $a = b$, we 
 If $a \in \mathbb{R}$ satisfies $a \cdot a = a$, then $a = 0$ or $a = 1$.
 \end{thm}
 \begin{proof}
-Consider any $a \in \mathbb{R}$. First we show that for $a \neq 0$, the following can be shown by the field axioms:
+Consider any $a \in \mathbb{R}$. For $a \neq 0$, the following can be shown by the field axioms:
 \begin{align*}
 a \cdot a &= a \\
 \left(a \cdot a\right) \cdot \left(1/a\right) &= a \cdot \left(1 / a\right) & \text{\bf Lemma 1}\\
@@ -40,19 +40,63 @@ a &= 1 & \text{\bf (M3)}
 \end{align*}
 Thus, whenever $a \neq 0$, we must have $a = 1$.
 
-Now for the case where $a = 0$ where the multiplicitive inverse $\left(1/a\right)$ is not valid. We see that the equality still holds:
+Now for the case where $a = 0$ where the multiplicitive inverse $\left(1/a\right)$ does not exist. We see that the equation still holds:
 \begin{align*}
 a \cdot a &= a \\
 a \cdot 0 &= a \\
 0 &= a & \text{\bf Theorem 2.1.2 (c)}
 \end{align*}
-Having considered every possibility for $a$, we conclude that $a = 0$ or $a = 1$.
+Having considered every possibility for $a$, we conclude that either $a = 0$ or $a = 1$.
 \end{proof}
 
 \subsection*{Exercise 8}
 \begin{itemize}
 \item[(a)] Show that if $x, y$ are rational numbers, then $x + y$ and $xy$ are rational numbers.
 \item[(b)] Prove that if $x$ is a rational number and $y$ is an irrational number, then $x + y$ is an irrational number. If, in addition, $x \neq 0$, then show that $xy$ is an irrational number.
+\end{itemize}
+\subsubsection*{Solution}
+\begin{lem}
+The set $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication.
+\end{lem}
+\begin{proof}
+Let $x, y$ be elements in $\mathbb{Z} \setminus \left\{0\right\}$. Because $\mathbb{Z} \setminus \left\{0\right\}$ is a subset of $\mathbb{Z}$ and $\mathbb{Z}$ is closed under multiplication, the product $xy \in \mathbb{Z}$. The only element in $\mathbb{Z}$ that is not in $\mathbb{Z} \setminus \left\{0\right\}$ is 0, so in order to show that $xy \in \mathbb{Z} \setminus \left\{0\right\}$ it is sufficient to show that $xy \neq 0$.
+
+Suppose to the contrary that $xy = 0$. Let $x_R, y_R$ be elements in $\mathbb{R}$ such that $x_R = x$ and $y_R = y$. We substitute $x_R$ and $y_R$ for $x$ and $y$ respectively so we can use the reciprocal property of $\mathbb{R}$.
+\begin{align*}
+xy = \left(x_R\right) \left(y_R\right) &= 0 \\
+\left(x_R\right) \left(y_R\right) \left(y_R\right)^{-1} &= 0\cdot\left(y_R\right)^{-1} \\
+x_R &= 0 = x
+\end{align*}
+This contradicts our original assumption that $x \in \mathbb{Z} \setminus \left\{0\right\}$. Thus, $xy \neq 0$, and $xy \in \mathbb{Z} \setminus \left\{0\right\}$.
+\end{proof}
+\begin{itemize}
+\item[(a)]
+\begin{thm}
+If $x, y$ are rational numbers, then $x + y$ and $xy$ are rational numbers.
+\end{thm}
+\begin{proof}
+Given $x, y \in \mathbb{Q}$, we know from the definition of $\mathbb{Q}$ that for some $p,q,r,s \in \mathbb{Z}$ with $q \neq 0$ and $s \neq 0$, we have $x = \frac{p}{q}$ and $y = \frac{r}{s}$. By substituting for $x$ and $y$ we see that $x + y = \frac{p}{q} + \frac{r}{s} = \frac{ps + rq}{qs}$ and that $xy = \frac{p}{q} \cdot \frac{r}{s} = \frac{pr}{qs}$. Because $\mathbb{Z}$ is closed under both addition and multiplication, both $ps + rq$ and $pr$ must reside in $\mathbb{Z}$. The difficulty in proving that $x + y$ and $xy$ are in $\mathbb{Q}$ is in showing that $qs \neq 0$, i.e. $qs \in \mathbb{Z} \setminus \left\{0\right\}$. Since $q, s \in \mathbb{Z} \setminus \left\{0\right\}$ and $\mathbb{Z} \setminus \left\{0\right\}$ is closed under multiplication from Lemma 2, $qs$ must also be in $\mathbb{Z} \setminus \left\{0\right\}$. Having found both $x + y$ and $xy$ in the form of the elements of $\mathbb{Q}$, we conclude that both $x + y$ and $xy$ are rational numbers.
+\end{proof}
+\item[(b)]
+\begin{thm}
+If $x$ is a rational number and $y$ is an irrational number, then $x + y$ is an irrational number. If, in addition, $x \neq 0$, then $xy$ is an irrational number.
+\end{thm}
+\begin{proof}
+Given $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, suppose that $x + y \in \mathbb{Q}$. We can write $x + y = \frac{p}{q}$ for some $p, q \in \mathbb{Z}$ with $q \neq 0$. From the definition of $\mathbb{Q}$, we know that $x = \frac{r}{s}$ for some $r, s \in \mathbb{Z}$ with $s \neq 0$. We solve for $y$ to get $y$ in the form of a rational number.
+\begin{align*}
+x + y &= \frac{p}{q} \\
+y &= \frac{p}{q} - \frac{r}{s} = \frac{ps - rq}{qs} \\
+\end{align*}
+Since we showed that the rational numbers are closed under addition in part (a), this suggests that $y$ is a rational number. Since this contradicts the given premise that $y$ is irrational, we conclude that $x + y$ must be irrational.
+
+Given $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$ with $x \neq 0$, suppose that $xy \in \mathbb{Q}$. We can write $xy = \frac{p}{q}$ for some $p, q \in \mathbb{Z}$ with $q \neq 0$. From the definition of $\mathbb{Q}$, we know that $x = \frac{r}{s}$ for some $r, s \in \mathbb{Z}$ with $s \neq 0$. Knowing that $x \neq 0$, we can use its inverse when we solve for $y$ and get $y$ in the form of a rational number.
+\begin{align*}
+xy &= \frac{p}{q} \\
+\frac{r}{s} \cdot y &= \frac{p}{q} \\
+y &= \frac{p}{q} \cdot \frac{s}{r} = \frac{ps}{qr} \\
+\end{align*}
+Again drawing from the work in part (a), we know that the rational numbers are closed under multiplication, which would suggest here that $y$ is a rational number. Since this contradicts the given premise that $y$ is irrational, we conclude that $xy$ must be irrational.
+\end{proof}
 \end{itemize}
 
 \subsection*{Exercise 9}
@@ -61,14 +105,57 @@ Let $K \coloneqq \left\{s + t\sqrt{2} : s, t \in \mathbb{Q}\right\}$. Show that 
 \item[(a)] If $x_1, x_2 \in K$, then $x_1 + x_2 \in K$ and $x_1x_2 \in K$.
 \item[(b)] If $x \neq 0$ and $x \in K$, then $1/x \in K$.
 \end{itemize}
-(Thus, the set $K$ is a {\it subfield} of $\mathbb{R}$. With the order inherited from $\mathbb{R}$, the set $K$ is an ordered field that lies between $\mathbb{Q}$ and $\mathbb{R}$.
+(Thus, the set $K$ is a {\it subfield} of $\mathbb{R}$. With the order inherited from $\mathbb{R}$, the set $K$ is an ordered field that lies between $\mathbb{Q}$ and $\mathbb{R}$.)
+\subsubsection*{Solution}
 
 \subsection*{Exercise 16}
 Find all real numbers $x$ that satisfy the following inequalities.
 \begin{itemize}
 \item[(a)] $x^2 > 3x + 4$,
+
+Find the points where $x^2$ and $3x + 4$ intersect:
+\begin{align*}
+x^2 &= 3x + 4 \\
+0 &= -x^2 + 3x + 4 \\
+&= \left(-x + 4\right) \left(x + 1\right) & \text{$x = 4$ or $x = -1$}\\
+\end{align*}
+Consider each interval:
+
+For $\left(-\infty, -1\right)$, we have $x^2 > 3x+4$.
+
+For $\left(-1, 4\right)$, we have $x^2 < 3x+4$.
+
+For $\left(4, \infty\right)$, we have $x^2 > 3x+4$.
+
+The real numbers $x$ that satisfy $x^2 > 3x + 4$ are $x \in \left(-\infty, -1\right) \cup \left(4, \infty\right)$.
 \item[(b)] $1 < x^2 < 4$,
+
+$x$ intersects the horizontal lines 1 and 4 when $x = \pm 1$ and $x = \pm 2$.
+
+Consider each of the five intervals:
+
+For $\left(-\infty, -2\right)$, the inequality is not satisfied because $x^2 > 4$.
+
+For $\left(-2, -1\right)$, the inequality is satisfied.
+
+For $\left(-1, 1\right)$, the inequality is not satisfied because $x^2 < 1$.
+
+For $\left(1, 2\right)$, the inequality is satisfied.
+
+For $\left(2, \infty\right)$, the inequality is not satisfied because $x^2 > 4$.
+
+The real numbers $x$ that satisfy the inequality $1 < x^2 < 4$ are $x \in \left(-2, -1\right) \cup \left(1, 2\right)$.
 \item[(c)] $1/x < x$,
+
+Find the point where $1/x$ and $x$ intersect:
+\begin{align*}
+1/x &= x \\
+0 &= x - 1/x & \text{$x = 1$ or $x = -1$}
+\end{align*}
+
+Consider each of the three intervals:
+
+For $\left(-\infty, -1\right)$, % I'm confused here; my method doesn't account for asymptotes. I forgot the calculus method.
 \item[(d)] $1/x < x^2$.
 \end{itemize}
 
