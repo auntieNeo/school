@@ -40,7 +40,7 @@ a &= 1 & \text{\bf (M3)}
 \end{align*}
 Thus, whenever $a \neq 0$, we must have $a = 1$.
 
-Now for the case where $a = 0$ where the multiplicative inverse $\left(1/a\right)$ does not exist. We see that the equation still holds:
+Now for the case where $a = 0$, where the multiplicative inverse $\left(1/a\right)$ does not exist, we see that the equation still holds:
 \begin{align*}
 a \cdot a &= a \\
 a \cdot 0 &= a \\
@@ -82,14 +82,14 @@ Given $x, y \in \mathbb{Q}$, we know from the definition of $\mathbb{Q}$ that fo
 If $x$ is a rational number and $y$ is an irrational number, then $x + y$ is an irrational number. If, in addition, $x \neq 0$, then $xy$ is an irrational number.
 \end{thm}
 \begin{proof}
-Given $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, suppose that $x + y \in \mathbb{Q}$. We can write $x + y = \frac{p}{q}$ for some $p, q \in \mathbb{Z}$ with $q \neq 0$. From the definition of $\mathbb{Q}$, we know that $x = \frac{r}{s}$ for some $r, s \in \mathbb{Z}$ with $s \neq 0$. We solve for $y$ to get $y$ in the form of a rational number.
+Given $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$, suppose that $x + y \in \mathbb{Q}$. We can write $x + y = \frac{p}{q}$ for some $p, q \in \mathbb{Z}$ with $q \neq 0$. From the definition of $\mathbb{Q}$, we know that $x = \frac{r}{s}$ for some $r, s \in \mathbb{Z}$ with $s \neq 0$. We solve for $y$ to get $y$ in the form of a rational number:
 \begin{align*}
 x + y &= \frac{p}{q} \\
 y &= \frac{p}{q} - \frac{r}{s} = \frac{ps - rq}{qs} \\
 \end{align*}
 Since we showed that the rational numbers are closed under addition in part (a), this suggests that $y$ is a rational number. Since this contradicts the given premise that $y$ is irrational, we conclude that $x + y$ must be irrational.
 
-Given $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$ with $x \neq 0$, suppose that $xy \in \mathbb{Q}$. We can write $xy = \frac{p}{q}$ for some $p, q \in \mathbb{Z}$ with $q \neq 0$. From the definition of $\mathbb{Q}$, we know that $x = \frac{r}{s}$ for some $r, s \in \mathbb{Z}$ with $s \neq 0$. Knowing that $x \neq 0$, we can use its inverse when we solve for $y$ and get $y$ in the form of a rational number.
+Given $x \in \mathbb{Q}$ and $y \notin \mathbb{Q}$ with $x \neq 0$, suppose that $xy \in \mathbb{Q}$. We can write $xy = \frac{p}{q}$ for some $p, q \in \mathbb{Z}$ with $q \neq 0$. From the definition of $\mathbb{Q}$, we know that $x = \frac{r}{s}$ for some $r, s \in \mathbb{Z}$ with $s \neq 0$. Knowing that $x \neq 0$, we can use its inverse when we solve for $y$ and get $y$ in the form of a rational number:
 \begin{align*}
 xy &= \frac{p}{q} \\
 \frac{r}{s} \cdot y &= \frac{p}{q} \\
@@ -108,7 +108,9 @@ Let $K \coloneqq \left\{s + t\sqrt{2} : s, t \in \mathbb{Q}\right\}$. Show that 
 (Thus, the set $K$ is a {\it subfield} of $\mathbb{R}$. With the order inherited from $\mathbb{R}$, the set $K$ is an ordered field that lies between $\mathbb{Q}$ and $\mathbb{R}$.)
 \subsubsection*{Solution}
 \begin{itemize}
-\item[(a)] Let $x_1, x_2 \in K$. From the definition of $K$, for some $s_1, t_1, s_2, t_2 \in \mathbb{Q}$ we have $x_1 = s_1 + t_1 \sqrt{2}$ and $x_2 = s_2 + t_2\sqrt{2}$. With some algebra we get $x_1 + x_2 = s_1 + s_2 + \left(t_1 + t_2\right)\sqrt{2}$. Since this is of the form $s + t\sqrt{2}$ with $s_1 + s_2 = s \in \mathbb{Q}$ and $t_1 + t_2 = t \in \mathbb{Q}$, we conclude that $x_1 + x_2 \in K$. Similarly, with even more algebra we get
+\item[(a)] Let $x_1, x_2 \in K$. From the definition of $K$, for some $s_1, t_1, s_2, t_2 \in \mathbb{Q}$ we have $x_1 = s_1 + t_1 \sqrt{2}$ and $x_2 = s_2 + t_2\sqrt{2}$. With some algebra we get $x_1 + x_2 = s_1 + s_2 + \left(t_1 + t_2\right)\sqrt{2}$. Since this is of the form $s + t\sqrt{2}$ with $s_1 + s_2 = s \in \mathbb{Q}$ and $t_1 + t_2 = t \in \mathbb{Q}$, we conclude that $x_1 + x_2 \in K$.
+
+Similarly, with even more algebra we get
 \begin{align*}
 x_1x_2 &= \left(s_1 + t_1\sqrt{2}\right) \left(s_2 + t_2\sqrt{2}\right) \\
 &= s_1s_2 + t_1s_2\sqrt{2} + s_1t_2\sqrt{2} + 2t_1t_2 \\
