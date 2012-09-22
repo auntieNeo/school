@@ -10,13 +10,23 @@ struct my_struct {
 
 // permutation for the 10-bit key
 const unsigned char P10[10] = {3, 5, 2, 7, 4, 10, 1, 9, 8, 6};
+const size_t P10_count = 10;
+const size_t P10_max = 10;
 // permutation for the 8-bit subkeys
 const unsigned char P8[8] = {6, 3, 7, 4, 8, 5, 10, 9};
+const size_t P8_count = 8;
+const size_t P8_max = 10;
 // initial permutation and inverse of that
 const unsigned char IP[8] = {2, 6, 3, 1, 4, 8, 5, 7};
+const size_t IP_count = 8;
+const size_t IP_max = 8;
 const unsigned char IP_inverse[8] = {4, 1, 3, 5, 7, 2, 8, 6};
+const size_t IP_inverse_count = 8;
+const size_t IP_inverse_max = 8;
 // expansion/permutation operation for F
 const unsigned char EP[8] = {4, 1, 2, 3, 2, 3, 4, 1};
+const size_t EP_count = 8;
+const size_t EP_max = 4;
 // S-boxes
 const unsigned char S0[4][4] = {{1, 0, 3, 2},
                                 {3, 2, 1, 0},
@@ -33,8 +43,8 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK);
 void sdes_subkeys(short unsigned int key, char *K_1, char *K_2);
 void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key);
 void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, size_t blocks, short unsigned int key);
-inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count);
-inline unsigned short sdes_permute_short(unsigned short s, const unsigned char *p, size_t count);
+inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count, size_t max);
+inline unsigned short sdes_permute_short(unsigned short s, const unsigned char *p, size_t count, size_t max);
 
 inline unsigned char sdes_F(unsigned char R, unsigned char SK)
 {
@@ -45,9 +55,7 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK)
 
   printf("R: 0x%02X\n", R);
   // expand/permute the low bit of R into RP
-  R <<= 4;
-  printf("R: 0x%02X\n", R);
-  R = sdes_permute_char(R, EP, 8);
+  R = sdes_permute_char(R, EP, EP_count, EP_max);
   printf("after EP: 0x%02X\n", R);
 
   // apply the subkey
@@ -82,27 +90,26 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK)
   return R4;
 }
 
-inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count)
+inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count, size_t max)
 {
   int i;
   unsigned char result = 0;
   for(i = 0; i < count; i++)
   {
     result <<= 1;
-    result |= (c >> (count - p[i])) & 1;
-    printf("result: 0x%02X\n", result);
+    result |= (c >> (max - p[i])) & 1;
   }
   return result;
 }
 
-inline unsigned short sdes_permute_short(unsigned short s, const unsigned char *p, size_t count)
+inline unsigned short sdes_permute_short(unsigned short s, const unsigned char *p, size_t count, size_t max)
 {
   int i;
   unsigned short result = 0;
   for(i = 0; i < count; i++)
   {
     result <<= 1;
-    result |= (s >> (count - p[i])) & 1;
+    result |= (s >> (max - p[i])) & 1;
   }
   return result;
 }
@@ -116,45 +123,28 @@ void sdes_subkeys(short unsigned int key, char *K_1, char *K_2)
 //  printf("key: 0x%04X\n", key);
   // TODO: put a lot of this stuff in macros
   // permute the 10-bit key
-  p_key = 0;
-  for(i = 0; i < 10; i++)
-  {
-    bit = (key & (1 << (P10[i] - 1))) >> (P10[i] - 1);
-    p_key |= bit << i;
-  }
-//  printf("permute 10-bit key\np_key: 0x%04X\n", p_key);
+  p_key = sdes_permute_short(key, P10, P10_count, P10_max);
+  printf("permute 10-bit key\np_key: 0x%04X\n", p_key);
+
   // do a circular shift of each 5-bit half of the key
   p_key <<= 1;
   p_key |= (p_key & (1 << 5)) >> 5;
   p_key &= ~(1 << 5);
   p_key |= (p_key & (1 << 10)) >> 5;
-//  printf("circular shift\np_key: 0x%04X\n", p_key);
+  printf("circular shift\np_key: 0x%04X\n", p_key);
+
   // permute the first 8-bit subkey
-  *K_1 = 0;
-  for(i = 0; i < 8; i++)
-  {
-    bit = (p_key & (1 << (P8[i] - 1))) >> (P8[i] - 1);
-    *K_1 |= bit << i;
-  }
-//  printf("permute first subkey\nK_1: 0x%04X\n", *K_1);
-  // do another shift of each 5-bit half of the key
-  p_key <<= 1;
-  p_key |= (p_key & (1 << 5)) >> 5;
-  p_key &= ~(1 << 5);
-  p_key |= (p_key & (1 << 10)) >> 5;
-//  printf("second circular shift\np_key: 0x%04X\n", p_key);
+  *K_1 = sdes_permute_char(p_key, P8, P8_count, P8_max);
+
+  // do another shift of 2 bits of each 5-bit half of the key
+  p_key <<= 2;
+  p_key |= (p_key & (0x3 << 5)) >> 5;
+  p_key &= ~(0x3 << 5);
+  p_key |= (p_key & (0x3 << 10)) >> 5;
+  printf("circular shift\np_key: 0x%04X\n", p_key);
+
   // permute the second 8-bit subkey
-  *K_2 = 0;
-  for(i = 0; i < 8; i++)
-  {
-    bit = (p_key & (1 << (P8[i] - 1))) >> (P8[i] - 1);
-    *K_2 |= bit << i;
-  }
-//  printf("permute second subkey\n");
-  assert(sizeof(short unsigned int) == 2);
-//  printf("p_key: 0x%04X\n", p_key);
-//  printf("K_1: 0x%04X\n", *K_1);
-//  printf("K_2: 0x%04X\n", *K_2);
+  *K_2 = sdes_permute_char(p_key, P8, P8_count, P8_max);
 }
 
 void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key)
@@ -174,7 +164,7 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
   {
     printf("plaintext[%d]: 0x%02X\n", i, plaintext[i]);
     // apply the initial permutation
-    ciphertext[i] = sdes_permute_char(plaintext[i], IP, 8);
+    ciphertext[i] = sdes_permute_char(plaintext[i], IP, IP_count, IP_max);
     printf("IP\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
 
     // apply the f_k function using K_1
@@ -202,7 +192,7 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
     printf("E2: 0x%02X\n", ciphertext[i]);
 
     // apply the inverse of the initial permutation
-    ciphertext[i] = sdes_permute_char(ciphertext[i], IP_inverse, 8);
+    ciphertext[i] = sdes_permute_char(ciphertext[i], IP_inverse, IP_inverse_count, IP_inverse_max);
 //    printf("first byte: 0x%02X\n", ciphertext[i]);
     printf("E3: 0x%02X\n", ciphertext[i]);
 
