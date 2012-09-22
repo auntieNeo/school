@@ -2,12 +2,19 @@
 #include <stdio.h>
 #include <assert.h>
 
+struct my_struct {
+  char something;
+  unsigned char goats;
+  char *substruct;
+} blah;
+
 // permutation for the 10-bit key
 const unsigned char P10[10] = {3, 5, 2, 7, 4, 10, 1, 9, 8, 6};
 // permutation for the 8-bit subkeys
 const unsigned char P8[8] = {6, 3, 7, 4, 8, 5, 10, 9};
-// initial permutation
+// initial permutation and inverse of that
 const unsigned char IP[8] = {2, 6, 3, 1, 4, 8, 5, 7};
+const unsigned char IP_inverse[8] = {4, 1, 3, 5, 7, 2, 8, 6};
 // expansion/permutation operation for F
 const unsigned char EP[8] = {4, 1, 2, 3, 2, 3, 4, 1};
 // S-boxes
@@ -26,6 +33,8 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK);
 void sdes_subkeys(short unsigned int key, char *K_1, char *K_2);
 void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key);
 void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, size_t blocks, short unsigned int key);
+inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count);
+inline unsigned short sdes_permute_short(unsigned short s, const unsigned char *p, size_t count);
 
 inline unsigned char sdes_F(unsigned char R, unsigned char SK)
 {
@@ -34,26 +43,23 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK)
   unsigned char bit;
   unsigned char S0_row, S0_col, S1_row, S1_col;
 
-//  printf("R: 0x%02X\n", R);
+  printf("R: 0x%02X\n", R);
   // expand/permute the low bit of R into RP
-  R2 = 0;
-  for(i = 0; i < 8; i++)
-  {
-    bit = (R & (1 << (EP[i] - 1))) >> (EP[i] - 1);
-    R2 |= bit << i;
-  }
-//  printf("R2: 0x%02X\n", R2);
+  R <<= 4;
+  printf("R: 0x%02X\n", R);
+  R = sdes_permute_char(R, EP, 8);
+  printf("after EP: 0x%02X\n", R);
 
   // apply the subkey
-  R2 ^= SK;
+  R ^= SK;
 //  printf("subkey R2: 0x%02X\n", R2);
 
   // apply the S-boxes
   S0_row = S0_col = S1_row = S1_col = 0;
-  S0_row = ((R2 & 1) << 1) | ((R2 & (1 << 3)) >> 3);
-  S0_col = (R2 & (1 << 1)) | ((R2 & (1 << 2)) >> 2);
-  S1_row = ((R2 & (1 << 4)) >> 3) | ((R2 & (1 << 7)) >> 7);
-  S1_col = ((R2 & (1 << 5)) >> 4) | ((R2 & (1 << 6)) >> 6);
+  S0_row = ((R & 1) << 1) | ((R & (1 << 3)) >> 3);
+  S0_col = (R & (1 << 1)) | ((R & (1 << 2)) >> 2);
+  S1_row = ((R & (1 << 4)) >> 3) | ((R & (1 << 7)) >> 7);
+  S1_col = ((R & (1 << 5)) >> 4) | ((R & (1 << 6)) >> 6);
 //  printf("test: 0x%02X\n", ((R2 & (1 << 6)) >> 6));
 //  printf("S0_row: 0x%02X\n", S0_row);
 //  printf("S0_col: 0x%02X\n", S0_col);
@@ -74,6 +80,31 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK)
 //  printf("R4: 0x%02X\n", R4);
 
   return R4;
+}
+
+inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count)
+{
+  int i;
+  unsigned char result = 0;
+  for(i = 0; i < count; i++)
+  {
+    result <<= 1;
+    result |= (c >> (count - p[i])) & 1;
+    printf("result: 0x%02X\n", result);
+  }
+  return result;
+}
+
+inline unsigned short sdes_permute_short(unsigned short s, const unsigned char *p, size_t count)
+{
+  int i;
+  unsigned short result = 0;
+  for(i = 0; i < count; i++)
+  {
+    result <<= 1;
+    result |= (s >> (count - p[i])) & 1;
+  }
+  return result;
 }
 
 void sdes_subkeys(short unsigned int key, char *K_1, char *K_2)
@@ -136,51 +167,42 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
 
   // get the subkeys
   sdes_subkeys(key, &K_1, &K_2);
+  printf("K_1: 0x%02X  K_2: 0x%02X\n", K_1, K_2);
 
   // encrypt each 8 bit block
   for(i = 0; i < blocks; i++)
   {
-    printf("E0: 0x%02X\n", plaintext[i]);
-//    printf("plaintext[%d]: 0x%02X\n", i, plaintext[i]);
+    printf("plaintext[%d]: 0x%02X\n", i, plaintext[i]);
     // apply the initial permutation
-    ciphertext[i] = 0;
-    for(j = 0; j < 8; j++)
-    {
-      bit = (plaintext[i] & (1 << (IP[j] - 1))) >> (IP[j] - 1);
-      ciphertext[i] |= bit << j;
-    }
-//    printf("initial permutation\nciphertext[%d]: 0x%02X", i, ciphertext[i]);
-
-    printf("E1: 0x%02X\n", ciphertext[i]);
+    ciphertext[i] = sdes_permute_char(plaintext[i], IP, 8);
+    printf("IP\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
 
     // apply the f_k function using K_1
     // apply the mapping F to the lower 4 bits of the current ciphertext
     F = sdes_F(ciphertext[i], K_1);
+    printf("F: 0x%02X\n", F);
     // xor the upper 4 bits of the ciphertext with the output of F
     ciphertext[i] ^= F << 4;
+    printf("xor F on upper bits\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
 
     // apply the switch function for the smallest Feistel network ever
     temp = ciphertext[i];
     ciphertext[i] <<= 4;
     ciphertext[i] |= temp >> 4;
+    printf("switch\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
 
     // apply the f_k function again, but this time using K_2
     // apply the mapping F to the lower 4 bits of the current ciphertext
     F = sdes_F(ciphertext[i], K_2);
+    printf("F: 0x%02X\n", F);
     // xor the upper 4 bits of the ciphertext with the output of F
     ciphertext[i] ^= F << 4;
-//    printf("f_k function: 0x%02X\n", ciphertext[i]);
+    printf("xor F on upper bits\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
 
     printf("E2: 0x%02X\n", ciphertext[i]);
 
     // apply the inverse of the initial permutation
-    temp = ciphertext[i];
-    ciphertext[i] = 0;
-    for(j = 0; j < 8; j++)
-    {
-      bit = (temp & (1 << j)) >> j;
-      ciphertext[i] |= bit << (IP[j] - 1);
-    }
+    ciphertext[i] = sdes_permute_char(ciphertext[i], IP_inverse, 8);
 //    printf("first byte: 0x%02X\n", ciphertext[i]);
     printf("E3: 0x%02X\n", ciphertext[i]);
 
@@ -251,6 +273,7 @@ void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, siz
   }
 }
 
+/*
 void test()
 {
   unsigned char F;
@@ -271,6 +294,7 @@ void test()
   // xor the upper 4 bits of the ciphertext with the output of F
   ciphertext[i] ^= F << 4;
 }
+*/
 
 int main(int argc, char **argv)
 {
@@ -278,13 +302,12 @@ int main(int argc, char **argv)
 
   ciphertext = malloc(7);
   plaintext = malloc(7);
-  sdes_encrypt("orange", ciphertext, 7, 0x0282);
+  sdes_encrypt("\x39range", ciphertext, 7, 0x02f2);
   sdes_decrypt(plaintext, ciphertext, 7, 0x0282);
 //  printf("decrypted: %c\n", *plaintext);
   free(plaintext);
   free(ciphertext);
 
 //  printf("sdes_F: %02X", sdes_F(0x0D, 0xAA));
-
   return 0;
 }
