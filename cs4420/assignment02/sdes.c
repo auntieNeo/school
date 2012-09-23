@@ -38,6 +38,8 @@ const unsigned char S1[4][4] = {{0, 1, 2, 3},
                                 {2, 1, 0, 3}};
 // after S-box permutation
 const unsigned char P4[4] = {2, 4, 3, 1};
+const size_t P4_count = 4;
+const size_t P4_max = 4;
 
 inline unsigned char sdes_F(unsigned char R, unsigned char SK);
 void sdes_subkeys(short unsigned int key, char *K_1, char *K_2);
@@ -60,34 +62,27 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK)
 
   // apply the subkey
   R ^= SK;
-//  printf("subkey R2: 0x%02X\n", R2);
+  printf("XOR with key\nR: 0x%02X\n", R);
 
   // apply the S-boxes
   S0_row = S0_col = S1_row = S1_col = 0;
-  S0_row = ((R & 1) << 1) | ((R & (1 << 3)) >> 3);
-  S0_col = (R & (1 << 1)) | ((R & (1 << 2)) >> 2);
-  S1_row = ((R & (1 << 4)) >> 3) | ((R & (1 << 7)) >> 7);
-  S1_col = ((R & (1 << 5)) >> 4) | ((R & (1 << 6)) >> 6);
-//  printf("test: 0x%02X\n", ((R2 & (1 << 6)) >> 6));
-//  printf("S0_row: 0x%02X\n", S0_row);
-//  printf("S0_col: 0x%02X\n", S0_col);
-//  printf("S1_row: 0x%02X\n", S1_row);
-//  printf("S1_col: 0x%02X\n", S1_col);
-  R3 = 0;
-  R3 |= S0[S0_row][S0_col];
-  R3 |= S1[S1_row][S1_col] << 2;
-//  printf("R3: 0x%02X\n", R3);
+  S0_row = ((R & (1 << 7)) >> 6) | ((R & (1 << 4)) >> 4);
+  S0_col = ((R & (1 << 6)) >> 5) | ((R & (1 << 5)) >> 5);
+  S1_row = ((R & (1 << 3)) >> 2) | (R & 1);
+  S1_col = ((R & (1 << 2)) >> 1) | ((R & (1 << 1)) >> 1);
+  printf("S0_row: 0x%02X\n", S0_row);
+  printf("S0_col: 0x%02X\n", S0_col);
+  printf("S1_row: 0x%02X\n", S1_row);
+  printf("S1_col: 0x%02X\n", S1_col);
+  R = 0;
+  R |= S0[S0_row][S0_col] << 2;
+  R |= S1[S1_row][S1_col];
+  printf("apply S-Boxes\nR: 0x%02X\n", R);
 
   // finally permute with P4
-  R4 = 0;
-  for(i = 0; i < 4; i++)
-  {
-    bit = (R3 & (1 << (P4[i] - 1))) >> (P4[i] - 1);
-    R4 |= bit << i;
-  }
-//  printf("R4: 0x%02X\n", R4);
+  R = sdes_permute_char(R, P4, P4_count, P4_max);
 
-  return R4;
+  return R;
 }
 
 inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count, size_t max)
@@ -155,6 +150,8 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
   unsigned char F;
   unsigned char temp;
 
+  printf("ENCRYPT\n");
+
   // get the subkeys
   sdes_subkeys(key, &K_1, &K_2);
   printf("K_1: 0x%02X  K_2: 0x%02X\n", K_1, K_2);
@@ -193,8 +190,7 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
 
     // apply the inverse of the initial permutation
     ciphertext[i] = sdes_permute_char(ciphertext[i], IP_inverse, IP_inverse_count, IP_inverse_max);
-//    printf("first byte: 0x%02X\n", ciphertext[i]);
-    printf("E3: 0x%02X\n", ciphertext[i]);
+    printf("first byte: 0x%02X\n", ciphertext[i]);
 
     return;
   }
@@ -207,6 +203,8 @@ void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, siz
   int i, j;
   unsigned char F;
   unsigned char temp;
+
+  printf("DECRYPT\n");
 
   // get the subkeys
   sdes_subkeys(key, &K_1, &K_2);
