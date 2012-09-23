@@ -1,12 +1,16 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <assert.h>
+#include <getopt.h>
+#include <ctype.h>
+#include <string.h>
 
 struct my_struct {
   char something;
   unsigned char goats;
   char *substruct;
 } blah;
+
+const char *hex = "0123456789abcdef";
 
 // permutation for the 10-bit key
 const unsigned char P10[10] = {3, 5, 2, 7, 4, 10, 1, 9, 8, 6};
@@ -45,9 +49,11 @@ inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, 
 inline unsigned short sdes_permute_short(unsigned short s, const unsigned char *p, size_t count, size_t max);
 void sdes_subkeys(short unsigned int key, char *K_1, char *K_2);
 inline unsigned char sdes_F(unsigned char R, unsigned char SK);
-inline void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key);
-inline void sdes_decrypt(const unsigned char *ciphertext, unsigned char *plaintext, size_t blocks, short unsigned int key);
-void sdes_core(const unsigned char *input, unsigned char *output, size_t blocks, short unsigned int key, int decrypt);
+inline int sdes_encrypt(FILE *plaintext, FILE *ciphertext, short unsigned int key);
+inline int sdes_decrypt(FILE *ciphertext, FILE *plaintext, short unsigned int key);
+int sdes_core(FILE *input, FILE *output, short unsigned int key, int decrypt);
+
+int parse_key(const char *str, unsigned short *key);
 
 inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count, size_t max)
 {
@@ -130,23 +136,23 @@ inline unsigned char sdes_F(unsigned char R, unsigned char SK)
   return R;
 }
 
-inline void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key)
+inline int sdes_encrypt(FILE *plaintext, FILE *ciphertext, short unsigned int key)
 {
-  sdes_core(plaintext, ciphertext, blocks, key, 0);
+  return sdes_core(plaintext, ciphertext, key, 0);
 }
 
-inline void sdes_decrypt(const unsigned char *ciphertext, unsigned char *plaintext, size_t blocks, short unsigned int key)
+inline int sdes_decrypt(FILE *ciphertext, FILE *plaintext, short unsigned int key)
 {
-  sdes_core(ciphertext, plaintext, blocks, key, 1);
+  return sdes_core(ciphertext, plaintext, key, 1);
 }
 
-void sdes_core(const unsigned char *input, unsigned char *output, size_t blocks, short unsigned int key, int decrypt)
+int sdes_core(FILE *input, FILE *output, short unsigned int key, int decrypt)
 {
   unsigned char K_1, K_2;
-  unsigned char bit;
   int i, j;
   unsigned char F;
   unsigned char temp;
+  unsigned char in, out;
 
   // get the subkeys
   if(decrypt)
@@ -155,44 +161,209 @@ void sdes_core(const unsigned char *input, unsigned char *output, size_t blocks,
     sdes_subkeys(key, &K_1, &K_2);
 
   // encrypt each 8 bit block
-  for(i = 0; i < blocks; i++)
+  while(fread(&in, 1, 1, input))
   {
     // apply the initial permutation
-    output[i] = sdes_permute_char(input[i], IP, IP_count, IP_max);
+    out = sdes_permute_char(in, IP, IP_count, IP_max);
 
     // apply the f_k function using K_1
     // apply the mapping F to the lower 4 bits of the current output
-    F = sdes_F(output[i], K_1);
+    F = sdes_F(out, K_1);
     // xor the upper 4 bits of the output with the output of F
-    output[i] ^= F << 4;
+    out ^= F << 4;
 
     // apply the switch function for the smallest Feistel network ever
-    temp = output[i];
-    output[i] <<= 4;
-    output[i] |= temp >> 4;
+    temp = out;
+    out <<= 4;
+    out |= temp >> 4;
 
     // apply the f_k function again, but this time using K_2
     // apply the mapping F to the lower 4 bits of the current output
-    F = sdes_F(output[i], K_2);
+    F = sdes_F(out, K_2);
     // xor the upper 4 bits of the output with the output of F
-    output[i] ^= F << 4;
+    out ^= F << 4;
 
     // apply the inverse of the initial permutation
-    output[i] = sdes_permute_char(output[i], IP_inverse, IP_inverse_count, IP_inverse_max);
+    out = sdes_permute_char(out, IP_inverse, IP_inverse_count, IP_inverse_max);
+
+    // write the output to the file stream
+    if(fwrite(&out, 1, 1, output) != 1)
+    {
+      fprintf(stderr, "Error writing to file.");
+      return 1;
+    }
   }
+  if(ferror(input))
+  {
+    fprintf(stderr, "Error reading from file.");
+    return 1;
+  }
+  return 0;
 }
+
+void usage(int status)
+{
+}
+
+int parse_key(const char *str, unsigned short *key)
+{
+  int i, j;
+  char c;
+
+  for(i = 0; str[i] != '\0'; i++)
+  {
+    switch(i)
+    {
+      case 0:
+        if(str[i] != '0')
+          return 1;
+        break;
+      case 1:
+        if(str[i] != 'x')
+          return 1;
+        break;
+      case 2:
+        c = tolower(str[i]);
+        for(j = 0; j < 16; j++)
+          if(c == hex[j])
+          {
+            *key = j << 4;
+            break;
+          }
+        if(j == 16)
+          return 1;
+        break;
+      case 3:
+        c = tolower(str[i]);
+        for(j = 0; j < 16; j++)
+          if(c == hex[j])
+          {
+            *key |= j;
+            break;
+          }
+        if(j == 16)
+          return 1;
+        break;
+      default:
+        return 1;
+    }
+  }
+
+  if(i != 4)
+    return 1;
+
+  return 0;
+}
+
+#define USAGE(status) do { \
+  fprintf(stderr, "Usage: sdes [--encrypt|--decrypt] [-o output_file] -k secret_key input_file\n\n"); \
+  fprintf(stderr, "   secret_key: 10 bit binary number written in hex. Example: 0x3F\n"); \
+  free(output_filename); \
+  exit(status); \
+  } while (0) \
 
 int main(int argc, char **argv)
 {
-  char *ciphertext, *plaintext;
+  char *input_filename, *output_filename;
+  FILE *input, *output;
+  char opt;
+  int encrypt, decrypt;
+  unsigned short key;
+  int key_provided;
+  output_filename = NULL;
+  input = stdin;
+  output = stdout;
+  encrypt = decrypt = 0;
+  key_provided = 0;
 
-  ciphertext = malloc(7);
-  plaintext = malloc(7);
-  sdes_encrypt("orange", ciphertext, 7, 0x02f2);
-  sdes_decrypt(ciphertext, plaintext, 7, 0x02f2);
-  printf("decrypted: %s\n", plaintext);
-  free(plaintext);
-  free(ciphertext);
+  while(1)
+  {
+    static struct option long_options[] = {
+      {"encrypt", no_argument, NULL, 'e'},
+      {"decrypt", no_argument, NULL, 'd'},
+      {"output", required_argument, NULL, 'o'},
+      {"key", required_argument, NULL, 'k'},
+      {0, 0, 0, 0}
+    };
 
-  return 0;
+    opt = getopt_long(argc, argv, "edo:k:", long_options, NULL);
+
+    if(opt == -1)
+      break;
+
+    switch(opt)
+    {
+      case 'e':
+        encrypt = 1;
+        break;
+      case 'd':
+        decrypt = 1;
+        break;
+      case 'o':
+        if(output_filename != NULL)
+          USAGE(EXIT_FAILURE);
+        output_filename = malloc(strlen(optarg));
+        strcpy(output_filename, optarg);
+        break;
+      case 'k':
+        if(parse_key(optarg, &key))
+          USAGE(EXIT_FAILURE);
+        key_provided = 1;
+        break;
+      case '?':
+        USAGE(EXIT_FAILURE);
+        break;
+    }
+  }
+
+  if(encrypt && decrypt)
+    USAGE(EXIT_FAILURE);
+
+  if(!key_provided)
+    USAGE(EXIT_FAILURE);
+
+  if(!encrypt && !decrypt)
+    encrypt = 1;
+
+  if(argc - optind > 1)
+    USAGE(EXIT_FAILURE);
+
+  if(argc - optind == 1)
+  {
+    input = fopen(argv[optind], "r");
+    if(input == NULL)
+    {
+      fprintf(stderr, "Error opening input file for reading.");
+      free(output_filename);
+      exit(EXIT_FAILURE);
+    }
+  }
+
+  if(output_filename != NULL && strcmp(output_filename, "-") != 0)
+  {
+    output = fopen(output_filename, "w");
+    if(output == NULL)
+    {
+      fprintf(stderr, "Error opening output file for writing.");
+      if(input != stdin)
+        fclose(input);
+      free(output_filename);
+      exit(EXIT_FAILURE);
+    }
+  }
+  free(output_filename);
+  output_filename = NULL;
+
+
+  if(encrypt)
+    sdes_encrypt(input, output, key);
+  else
+    sdes_decrypt(input, output, key);
+
+  if(input != stdin)
+    fclose(input);
+  if(output != stdout)
+    fclose(output);
+
+  exit(EXIT_SUCCESS);
 }
