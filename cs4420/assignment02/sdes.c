@@ -43,8 +43,9 @@ const size_t P4_max = 4;
 
 inline unsigned char sdes_F(unsigned char R, unsigned char SK);
 void sdes_subkeys(short unsigned int key, char *K_1, char *K_2);
-void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key);
-void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, size_t blocks, short unsigned int key);
+inline void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key);
+inline void sdes_decrypt(const unsigned char *ciphertext, unsigned char *plaintext, size_t blocks, short unsigned int key);
+void sdes_core(const unsigned char *input, unsigned char *output, size_t blocks, short unsigned int key, int decrypt);
 inline unsigned char sdes_permute_char(unsigned char c, const unsigned char *p, size_t count, size_t max);
 inline unsigned short sdes_permute_short(unsigned short s, const unsigned char *p, size_t count, size_t max);
 
@@ -142,7 +143,17 @@ void sdes_subkeys(short unsigned int key, char *K_1, char *K_2)
   *K_2 = sdes_permute_char(p_key, P8, P8_count, P8_max);
 }
 
-void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key)
+inline void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, size_t blocks, short unsigned int key)
+{
+  sdes_core(plaintext, ciphertext, blocks, key, 0);
+}
+
+inline void sdes_decrypt(const unsigned char *ciphertext, unsigned char *plaintext, size_t blocks, short unsigned int key)
+{
+  sdes_core(ciphertext, plaintext, blocks, key, 1);
+}
+
+void sdes_core(const unsigned char *input, unsigned char *output, size_t blocks, short unsigned int key, int decrypt)
 {
   unsigned char K_1, K_2;
   unsigned char bit;
@@ -150,139 +161,52 @@ void sdes_encrypt(const unsigned char *plaintext, unsigned char *ciphertext, siz
   unsigned char F;
   unsigned char temp;
 
-  printf("ENCRYPT\n");
-
   // get the subkeys
-  sdes_subkeys(key, &K_1, &K_2);
+  if(decrypt)
+    sdes_subkeys(key, &K_2, &K_1);
+  else
+    sdes_subkeys(key, &K_1, &K_2);
   printf("K_1: 0x%02X  K_2: 0x%02X\n", K_1, K_2);
 
   // encrypt each 8 bit block
   for(i = 0; i < blocks; i++)
   {
-    printf("plaintext[%d]: 0x%02X\n", i, plaintext[i]);
+    printf("input[%d]: 0x%02X\n", i, input[i]);
     // apply the initial permutation
-    ciphertext[i] = sdes_permute_char(plaintext[i], IP, IP_count, IP_max);
-    printf("IP\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
+    output[i] = sdes_permute_char(input[i], IP, IP_count, IP_max);
+    printf("IP\noutput[%d]: 0x%02X\n", i, output[i]);
 
     // apply the f_k function using K_1
-    // apply the mapping F to the lower 4 bits of the current ciphertext
-    F = sdes_F(ciphertext[i], K_1);
+    // apply the mapping F to the lower 4 bits of the current output
+    F = sdes_F(output[i], K_1);
     printf("F: 0x%02X\n", F);
-    // xor the upper 4 bits of the ciphertext with the output of F
-    ciphertext[i] ^= F << 4;
-    printf("xor F on upper bits\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
+    // xor the upper 4 bits of the output with the output of F
+    output[i] ^= F << 4;
+    printf("xor F on upper bits\noutput[%d]: 0x%02X\n", i, output[i]);
 
     // apply the switch function for the smallest Feistel network ever
-    temp = ciphertext[i];
-    ciphertext[i] <<= 4;
-    ciphertext[i] |= temp >> 4;
-    printf("switch\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
+    temp = output[i];
+    output[i] <<= 4;
+    output[i] |= temp >> 4;
+    printf("switch\noutput[%d]: 0x%02X\n", i, output[i]);
 
     // apply the f_k function again, but this time using K_2
-    // apply the mapping F to the lower 4 bits of the current ciphertext
-    F = sdes_F(ciphertext[i], K_2);
+    // apply the mapping F to the lower 4 bits of the current output
+    F = sdes_F(output[i], K_2);
     printf("F: 0x%02X\n", F);
-    // xor the upper 4 bits of the ciphertext with the output of F
-    ciphertext[i] ^= F << 4;
-    printf("xor F on upper bits\nciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
+    // xor the upper 4 bits of the output with the output of F
+    output[i] ^= F << 4;
+    printf("xor F on upper bits\noutput[%d]: 0x%02X\n", i, output[i]);
 
-    printf("E2: 0x%02X\n", ciphertext[i]);
+    printf("E2: 0x%02X\n", output[i]);
 
     // apply the inverse of the initial permutation
-    ciphertext[i] = sdes_permute_char(ciphertext[i], IP_inverse, IP_inverse_count, IP_inverse_max);
-    printf("first byte: 0x%02X\n", ciphertext[i]);
+    output[i] = sdes_permute_char(output[i], IP_inverse, IP_inverse_count, IP_inverse_max);
+    printf("first byte: 0x%02X\n", output[i]);
 
     return;
   }
 }
-
-void sdes_decrypt(unsigned char *plaintext, const unsigned char *ciphertext, size_t blocks, short unsigned int key)
-{
-  unsigned char K_1, K_2;
-  unsigned char bit;
-  int i, j;
-  unsigned char F;
-  unsigned char temp;
-
-  printf("DECRYPT\n");
-
-  // get the subkeys
-  sdes_subkeys(key, &K_1, &K_2);
-
-  // decrypt each 8 bit block
-  for(i = 0; i < blocks; i++)
-  {
-    printf("D0: 0x%02X\n", ciphertext[i]);
-//    printf("ciphertext[%d]: 0x%02X\n", i, ciphertext[i]);
-    // apply the initial permutation
-    plaintext[i] = 0;
-    for(j = 0; j < 8; j++)
-    {
-      bit = (ciphertext[i] & (1 << (IP[j] - 1))) >> (IP[j] - 1);
-      plaintext[i] |= bit << j;
-    }
-//    printf("initial permutation\nplaintext[%d]: 0x%02X", i, plaintext[i]);
-
-    printf("D1: 0x%02X\n", plaintext[i]);
-
-    // apply the f_k function using K_2
-    // apply the mapping F to the lower 4 bits of the current plaintext
-    F = sdes_F(plaintext[i], K_2);
-    // xor the upper 4 bits of the plaintext with the output of F
-    plaintext[i] ^= F << 4;
-
-    // apply the switch function for the smallest Feistel network ever
-    temp = plaintext[i];
-    plaintext[i] <<= 4;
-    plaintext[i] |= temp >> 4;
-
-    // apply the f_k function again, but this time using K_1
-    // apply the mapping F to the lower 4 bits of the current plaintext
-    F = sdes_F(plaintext[i], K_2);
-    // xor the upper 4 bits of the plaintext with the output of F
-    plaintext[i] ^= F << 4;
-//    printf("f_k function: 0x%02X\n", plaintext[i]);
-
-    printf("D2: 0x%02X\n", plaintext[i]);
-
-    // apply the inverse of the initial permutation
-    temp = plaintext[i];
-    plaintext[i] = 0;
-    for(j = 0; j < 8; j++)
-    {
-      bit = (temp & (1 << j)) >> j;
-      plaintext[i] |= bit << (IP[j] - 1);
-    }
-//    printf("first byte: 0x%02X\n", plaintext[i]);
-
-    printf("D3: 0x%02X\n", plaintext[i]);
-
-    return;
-  }
-}
-
-/*
-void test()
-{
-  unsigned char F;
-  // apply the f_k function using K_1
-  // apply the mapping F to the lower 4 bits of the current ciphertext
-  F = sdes_F(ciphertext[i], K_1);
-  // xor the upper 4 bits of the ciphertext with the output of F
-  ciphertext[i] ^= F << 4;
-
-  // apply the switch function for the smallest Feistel network ever
-  temp = ciphertext[i];
-  ciphertext[i] <<= 4;
-  ciphertext[i] |= temp >> 4;
-
-  // apply the f_k function again, but this time using K_2
-  // apply the mapping F to the lower 4 bits of the current ciphertext
-  F = sdes_F(ciphertext[i], K_2);
-  // xor the upper 4 bits of the ciphertext with the output of F
-  ciphertext[i] ^= F << 4;
-}
-*/
 
 int main(int argc, char **argv)
 {
@@ -291,7 +215,7 @@ int main(int argc, char **argv)
   ciphertext = malloc(7);
   plaintext = malloc(7);
   sdes_encrypt("\x39range", ciphertext, 7, 0x02f2);
-  sdes_decrypt(plaintext, ciphertext, 7, 0x0282);
+  sdes_decrypt(ciphertext, plaintext, 7, 0x02f2);
 //  printf("decrypted: %c\n", *plaintext);
   free(plaintext);
   free(ciphertext);
