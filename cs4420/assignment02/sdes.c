@@ -299,7 +299,10 @@ int main(int argc, char **argv)
         break;
       case 'o':
         if(output_filename != NULL)
+        {
+          ERROR("multiple output files are not supported");
           USAGE(EXIT_FAILURE);
+        }
         output_filename = malloc(strlen(optarg));
         strcpy(output_filename, optarg);
         break;
