@@ -4,12 +4,6 @@
 #include <ctype.h>
 #include <string.h>
 
-struct my_struct {
-  char something;
-  unsigned char goats;
-  char *substruct;
-} blah;
-
 const char *hex = "0123456789abcdef";
 
 // permutation for the 10-bit key
