@@ -203,8 +203,6 @@ void sdes_core(const unsigned char *input, unsigned char *output, size_t blocks,
     // apply the inverse of the initial permutation
     output[i] = sdes_permute_char(output[i], IP_inverse, IP_inverse_count, IP_inverse_max);
     printf("first byte: 0x%02X\n", output[i]);
-
-    return;
   }
 }
 
@@ -214,9 +212,9 @@ int main(int argc, char **argv)
 
   ciphertext = malloc(7);
   plaintext = malloc(7);
-  sdes_encrypt("\x39range", ciphertext, 7, 0x02f2);
+  sdes_encrypt("orange", ciphertext, 7, 0x02f2);
   sdes_decrypt(ciphertext, plaintext, 7, 0x02f2);
-//  printf("decrypted: %c\n", *plaintext);
+  printf("decrypted: %s\n", plaintext);
   free(plaintext);
   free(ciphertext);
 
