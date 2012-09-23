@@ -249,12 +249,14 @@ int parse_key(const char *str, unsigned short *key)
   return 0;
 }
 
+#define ERROR(message) fprintf(stderr, "%s: error: %s\n", argv[0], message)
+
 #define USAGE(status) do { \
   fprintf(stderr, "Usage: sdes [--encrypt|--decrypt] [-o output_file] -k secret_key input_file\n\n"); \
   fprintf(stderr, "   secret_key: 10 bit binary number written in hex. Example: 0x3F\n"); \
   free(output_filename); \
   exit(status); \
-  } while (0) \
+  } while (0)
 
 int main(int argc, char **argv)
 {
@@ -277,10 +279,12 @@ int main(int argc, char **argv)
       {"decrypt", no_argument, NULL, 'd'},
       {"output", required_argument, NULL, 'o'},
       {"key", required_argument, NULL, 'k'},
+      {"help", no_argument, NULL, 'h'},
+      {"usage", no_argument, NULL, 'h'},
       {0, 0, 0, 0}
     };
 
-    opt = getopt_long(argc, argv, "edo:k:", long_options, NULL);
+    opt = getopt_long(argc, argv, "edo:k:h", long_options, NULL);
 
     if(opt == -1)
       break;
@@ -301,8 +305,14 @@ int main(int argc, char **argv)
         break;
       case 'k':
         if(parse_key(optarg, &key))
+        {
+          ERROR("invalid format for secret_key");
           USAGE(EXIT_FAILURE);
+        }
         key_provided = 1;
+        break;
+      case 'h':
+        USAGE(EXIT_SUCCESS);
         break;
       case '?':
         USAGE(EXIT_FAILURE);
@@ -311,23 +321,32 @@ int main(int argc, char **argv)
   }
 
   if(encrypt && decrypt)
+  {
+    ERROR("must specify one of either encrypt or decrypt (defaults to encrypt)");
     USAGE(EXIT_FAILURE);
+  }
 
   if(!key_provided)
+  {
+    ERROR("failed to provide secret_key");
     USAGE(EXIT_FAILURE);
+  }
 
   if(!encrypt && !decrypt)
     encrypt = 1;
 
   if(argc - optind > 1)
+  {
+    ERROR("too many arguments");
     USAGE(EXIT_FAILURE);
+  }
 
   if(argc - optind == 1)
   {
     input = fopen(argv[optind], "r");
     if(input == NULL)
     {
-      fprintf(stderr, "Error opening input file for reading.");
+      ERROR("failed to open input file for reading");
       free(output_filename);
       exit(EXIT_FAILURE);
     }
@@ -338,7 +357,7 @@ int main(int argc, char **argv)
     output = fopen(output_filename, "w");
     if(output == NULL)
     {
-      fprintf(stderr, "Error opening output file for writing.");
+      ERROR("failed to open output file for writing");
       if(input != stdin)
         fclose(input);
       free(output_filename);
