@@ -1,3 +1,6 @@
+/* S-DES implementation as a *nix utility */
+/* Copyright 2012 Jonathan Glines <glinjona@isu.edu> */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <getopt.h>
