@@ -221,13 +221,24 @@ int parse_key(const char *str, unsigned short *key)
         for(j = 0; j < 16; j++)
           if(c == hex[j])
           {
-            *key = j << 4;
+            *key = j << 8;
             break;
           }
         if(j == 16)
           return 1;
         break;
       case 3:
+        c = tolower(str[i]);
+        for(j = 0; j < 16; j++)
+          if(c == hex[j])
+          {
+            *key |= j << 4;
+            break;
+          }
+        if(j == 16)
+          return 1;
+        break;
+      case 4:
         c = tolower(str[i]);
         for(j = 0; j < 16; j++)
           if(c == hex[j])
@@ -243,7 +254,7 @@ int parse_key(const char *str, unsigned short *key)
     }
   }
 
-  if(i != 4)
+  if(i != 5)
     return 1;
 
   return 0;
@@ -253,7 +264,7 @@ int parse_key(const char *str, unsigned short *key)
 
 #define USAGE(status) do { \
   fprintf(stderr, "Usage: sdes [--encrypt|--decrypt] [-o output_file] -k secret_key input_file\n\n"); \
-  fprintf(stderr, "   secret_key: 10 bit binary number written in hex. Example: 0x3F\n"); \
+  fprintf(stderr, "   secret_key: 10 bit binary number written in hex. Example: 0x3FF\n"); \
   free(output_filename); \
   exit(status); \
   } while (0)
@@ -344,7 +355,7 @@ int main(int argc, char **argv)
     USAGE(EXIT_FAILURE);
   }
 
-  if(argc - optind == 1)
+  if(argc - optind == 1 && strcmp(argv[optind], "-") != 0)
   {
     input = fopen(argv[optind], "r");
     if(input == NULL)

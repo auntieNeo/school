@@ -13,5 +13,18 @@
 \Large Assignment 2\\
 }
 \end{flushright}
-\section*{Chapter 3 Exercises 2, 5, 17, and 20}
+\section*{Chapter 3 Exercise 20}
+\lstset{language=C++,breakatwhitespace=true,breaklines=true,basicstyle={\small\ttfamily}}
+\lstinputlisting{sdes.c}
+Output:
+\begin{verbatim}
+[auntieneo@lain assignment02]$ ./sdes --help
+Usage: sdes [--encrypt|--decrypt] [-o output_file] -k secret_key input_file
+
+   secret_key: 10 bit binary number written in hex. Example: 0x3FF
+[auntieneo@lain assignment02]$ printf '\xA2' | ./sdes --encrypt -k 0x1FD - | ./sdes --decrypt -k 0x1FD | hexdump
+0000000 00a2                                   
+0000001
+[auntieneo@lain assignment02]$ 
+\end{verbatim}
 \end{document}
