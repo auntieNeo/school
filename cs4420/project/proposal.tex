@@ -8,26 +8,29 @@
 \begin{flushright}
 {
 \Large Jonathan Glines\\
-\Large CS 4481\\
-\Large Assignment 2\\
 }
 \end{flushright}
 \section*{Project Proposal for CS4420}
-Data Encryption Standand has long since fallen out of favor as a symmetric-key cipher due to its relatively small key space.  For
+Data Encryption Standard has long since fallen out of favor as a symmetric-key cipher due to its relatively small key space. While most people use AES rather than DES anymore, DES is still being used in certain contexts.
 
-For a project, I propose writing a program that searches for desireable tripcodes. This is not very useful as a practical application, but instead serves as an exercise in launching and optimizing brute force attacks. Some of the techniques used in searching for tripcodes, such as string matching and parallelizing attacks, have broad applications on just about any.
 
 \subsection*{Background Information: Tripcodes}
-The tripcode is a simple authentication mechinism initially used on the Internet by anonymous Japanese message boards such as 2-channel and Futaba Channel, and now used by the infamous English image board 4chan. Basically, the anonymous user of the image board has the option to provide a password in a text field when they post their message. This password, once recieved by the server, is put through what is basically a hash algorithm to generate what is called a tripcode. The tripcode is displayed along with the user's message, while the password remains secret. Tripcodes serve to authenticate a single otherwise anonymous user for the duration of a discussion thread. Without a tripcode, the anonymous user would be subject to impersination by potentially hundreds of other anonymous users of the same message board.
+The tripcode is a simple authentication mechanism initially used on the Internet by anonymous Japanese message boards such as 2-channel and Futaba Channel, and now used by the infamous English image board 4chan. Basically, the anonymous user of the image board has the option to provide a password in a text field when they post their message. This password, once received by the server, is processed by a hashing algorithm to generate what is called a tripcode. The tripcode is displayed along with the user's message, while the password remains secret. Tripcodes serve to authenticate a single otherwise anonymous user for the duration of a discussion thread. Without a tripcode, the anonymous user would be subject to impersonation by potentially hundreds of other anonymous users of the same message board.
 
-It is generally understood that tripcodes are not a secure method of authentication, since the hash algorithm is known.
 
 \subsection*{Tripcode Algorithm}
 The algorithm for computing a tripcode is very simple, with a few minor details for short passwords and generating the salt. Essentially, the tripcode algorithm takes up to 8 characters of a password as input (a limitation of crypt) and computes a hash using the Unix {\bf crypt(3)} function. Crypt itself is just an algorithm which applies DES multiple times to get a hash. The resulting tripcode is the last 10 characters of the hash computed by crypt. 
 
-\subsection*{Attack Implementation}
-The attack program itself will actually be several copies of the same program running in parallel processes, using MPI to communicate between processes. A brute force attack on hashes is extremely paralellizable, as the processes only need to communicate which part of the keyspace is being worked on to avoid duplication of effort. Each process will compute a batch of tripcodes from its respective portion of the keyspace. Computation doesn't stop there, however. The process will then apply a regular expression to each tripcode computed do determine if there are any matches. If any matches are found, they are communicated to the master process which records the tripcode and the corresponding key.
+\subsection*{Tripcode Searching}
+It is generally understood that tripcodes are not a secure method of authentication, since the hash algorithm is known. Security is not a real concern on message boards that are anonymous in the first place. Some users exploit this to put messages in their tripcodes. For example, this password: \begin{verbatim}#ErblC5[L\end{verbatim} results in this tripcode: \begin{verbatim}!YODawglXyQ}\end{verbatim}
 
-The 
+which shows message ``Yo Dawg". This tripcode might be used on a message board for humerous effect. The person who came up with the password for this tripcode almost certainly performed a search on millions of tripcodes with a computer before finding it.
+
+\subsection*{Proposal}
+For a project, I propose writing a program that searches for tripcodes. This is amounts to what is essentially a brute force attack on a hash, but with a twist. The program would search for messages within tripcodes, ignoring case and possibly substituting characters using regular expressions. Compared to a traditional attack on a hash, which can be prohibitively expensive to perform, I would not need to search quite as large of a keyspace to find an acceptable match.
+
+The attack program itself will actually be several copies of the same program running in parallel processes, using MPI to communicate between processes. A brute force attack on hashes is extremely parallel, as the processes only need to communicate which part of the keyspace is being worked on to avoid duplication of effort. Each process will compute a batch of tripcodes from its respective portion of the keyspace. Computation doesn't stop there, however. The process will then apply a regular expression to each tripcode computed do determine if there are any matches. If any matches are found, they are communicated to the master process which records the tripcode and the corresponding key.
+
+This is not very useful as a practical application, but instead serves as an exercise in launching and optimizing brute force attacks. The techniques used in searching for tripcodes, such as string matching and parallel attacks, have applications in other fields of cryptography.
 
 \end{document}

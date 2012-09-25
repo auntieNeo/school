@@ -2,8 +2,7 @@
 \special{papersize=8.5in,11in}
 \usepackage[utf8]{inputenc}
 \usepackage{amssymb,amsmath}
-\usepackage[pdftex]{graphicx}
-\usepackage{graphviz}
+\usepackage{listings}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
@@ -14,17 +13,20 @@
 }
 \end{flushright}
 \section*{Chapter 3 Exercise 20}
-\lstset{language=C++,breakatwhitespace=true,breaklines=true,basicstyle={\small\ttfamily}}
+\subsection*{C Source Code}
+\lstset{language=C,breakatwhitespace=true,breaklines=true,basicstyle={\small\ttfamily}}
 \lstinputlisting{sdes.c}
-Output:
+\subsection*{Example Output}
 \begin{verbatim}
-[auntieneo@lain assignment02]$ ./sdes --help
+$ ./sdes --help
 Usage: sdes [--encrypt|--decrypt] [-o output_file] -k secret_key input_file
 
    secret_key: 10 bit binary number written in hex. Example: 0x3FF
-[auntieneo@lain assignment02]$ printf '\xA2' | ./sdes --encrypt -k 0x1FD - | ./sdes --decrypt -k 0x1FD | hexdump
+$ printf '\xA2' | ./sdes --encrypt -k 0x1FD - | \
+> tee >(hexdump >&2) | ./sdes --decrypt -k 0x1FD | hexdump
+0000000 0038                                   
+0000001
 0000000 00a2                                   
 0000001
-[auntieneo@lain assignment02]$ 
 \end{verbatim}
 \end{document}
