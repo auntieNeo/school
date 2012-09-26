@@ -1,0 +1,19 @@
+IDENTIFIER [a-zA-Z][0-9a-zA-Z]*
+
+INTEGER [0-9]+
+
+REAL {INTEGER}\.{INTEGER}{EXPONENT}?
+EXPONENT {EXP_DESIGNATOR}[+-]?{INTEGER}
+EXP_DESIGNATOR [eE]
+
+UNARY_OPERATOR [+-]
+MULT_OPERATOR ([*/]|div|mod|and)
+ADD_OPERATOR ([+-)|or)
+RELATION (=|<>|<|>|<=|>=|in)
+
+%%
+{IDENTIFIER} { printf("IDENTIFIER"); }
+{REAL} { printf("REAL"); }
+
+%%
+
