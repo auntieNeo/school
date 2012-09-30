@@ -56,20 +56,17 @@ REAL {INTEGER}\.{INTEGER}{EXPONENT}?
 EXPONENT {EXP_DESIGNATOR}[+-]?{INTEGER}
 EXP_DESIGNATOR [eE]
 
-UNARY_OPERATOR [+-]
-MULT_OPERATOR ([*/]|div|mod|and)
-ADD_OPERATOR ([+-)|or)
+OPERATOR ([+*/-]|div|mod|and)
 RELATION (=|<>|<|>|<=|>=|in)
 
 %%
 {IDENTIFIER} { printf("IDENTIFIER"); }
 {REAL} { printf("REAL"); }
-
+{OPERATOR} { printf("OPERATOR"); }
+{RELATION} { printf("RELATION"); }
 %%
 int main(int argc, char **argv)
 {
-  tokens = malloc(sizeof(Token) * GROW_TOKENS_DELTA);
   yylex();
-  free(tokens);
   return 0;
 }
