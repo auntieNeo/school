@@ -1,0 +1,80 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{mathtools}
+\usepackage{listings}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+{\Large Jonathan Glines \\
+CS 2299 \\
+Assignment 1 \\
+}
+\end{flushright}
+\lstset{breakatwhitespace=true,breaklines=true,basicstyle={\small\ttfamily}}
+\section*{Assignment 4}
+\subsection*{Exercise 1}
+For the MIPS assembly codes below, what is the corresponding C statement. Assume that the variables f, g, h, i, and j are assigned to {\tt \$s0}, {\tt \$s1}, {\tt \$s2}, {\tt \$s3}, and {\tt \$s4} respectively. Assume that the base address of the arrays A and B are in registers {\tt \$s6} and {\tt \$s7} respectively.
+\begin{itemize}
+\item[(a)]
+\lstinputlisting{exercise1a.s}
+
+\item[(b)]
+\lstinputlisting{exercise1b.s}
+\end{itemize}
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(a)]
+\lstinputlisting{exercise1a.c}
+\end{itemize}
+
+\subsection*{Exercise 2}
+For the MIPS assembly code below:
+\begin{itemize}
+\item[(a)] What is the correspnoding C statement? Assume that the variables f, g, and h are assigned to {\tt \$s0}, {\tt \$s1}, and {\tt \$s2} respectively.
+\item[(b)] Find the value of {\tt \$s0} at the end of the assembly code. Assume that the registers {\tt \$s0}, {\tt \$s1}, and {\tt \$s2} contain the values {\tt 0x0000000a}, {\tt 0x00000014}, and {\tt 0x00000028} respectively.
+\end{itemize}
+\lstinputlisting{exercise2.s}
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(a)] \lstinputlisting[language=C]{exercise2.c}
+\item[(b)] {\tt 0xa - 0x28 = -30}
+\end{itemize}
+
+\subsection*{Exercise 3}
+For the C statements below, hat is the corresponding MIPS assembly code? Use a minimal number of MIPS assembly instructions.
+\begin{itemize}
+\item[(a)] {\tt f = f + g + h + i + j + 2;}
+\item[(b)] {\tt f = g - (f + 5);}
+\item[(c)] {\tt f = -g + h + B[1];}
+\item[(d)] {\tt f = A[B[g] + 1];}
+\end{itemize}
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(a)] \lstinputlisting{exercise03a.s}
+
+\item[(b)] \lstinputlisting{exercise03b.s}
+
+\item[(c)] \lstinputlisting{exercise03c.s}
+
+\item[(d)] \lstinputlisting{exercise03d.s}
+\end{itemize}
+
+\subsection*{Exercise 5}
+\subsubsection*{Solution}
+\lstinputlisting{exercise05.s}
+
+\subsection*{Exercise 6}
+\subsubsection*{Solution}
+\lstinputlisting{exercise06.s}
+
+\subsection*{Exercise 8}
+\subsubsection*{Solution}
+
+\subsection*{Exercise 9}
+% Answer is on slide 11
+
+\subsection*{Exercise 10}
+% Answer is on slide 8
+\end{document}
