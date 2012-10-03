@@ -4,6 +4,8 @@
 \usepackage{amssymb,amsmath}
 \usepackage{mathtools}
 \usepackage{listings}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \pagestyle{plain}
 \begin{document}
 \begin{flushright}
@@ -25,8 +27,9 @@ For the MIPS assembly codes below, what is the corresponding C statement. Assume
 \end{itemize}
 \subsubsection*{Solution}
 \begin{itemize}
-\item[(a)]
-\lstinputlisting{exercise1a.c}
+\item[(a)] \lstinputlisting{exercise1a.c}
+
+\item[(b)] \lstinputlisting{exercise01b.c}
 \end{itemize}
 
 \subsection*{Exercise 2}
@@ -43,7 +46,7 @@ For the MIPS assembly code below:
 \end{itemize}
 
 \subsection*{Exercise 3}
-For the C statements below, hat is the corresponding MIPS assembly code? Use a minimal number of MIPS assembly instructions.
+For the C statements below, what is the corresponding MIPS assembly code? Use a minimal number of MIPS assembly instructions.
 \begin{itemize}
 \item[(a)] {\tt f = f + g + h + i + j + 2;}
 \item[(b)] {\tt f = g - (f + 5);}
@@ -62,19 +65,72 @@ For the C statements below, hat is the corresponding MIPS assembly code? Use a m
 \end{itemize}
 
 \subsection*{Exercise 5}
+What is the shortest sequence of MIPS instructions that extracts a field for the constant values of bits 7-21 (inclusive) from register {\tt\$t0} and places it in the lower portion of register {\tt\$t3} (zero filled otherwise).
 \subsubsection*{Solution}
+Using the zero-fill property of shifts, this can be done in two instructions:
 \lstinputlisting{exercise05.s}
 
 \subsection*{Exercise 6}
+What is the shortest sequence of MIPS instructions that extracts a field for the constant values of bits 23-30 (inclusive) from register {\tt\$t0} and places it in the lower portion of register {\tt\$t2} (zero filled otherwise).
 \subsubsection*{Solution}
 \lstinputlisting{exercise06.s}
 
 \subsection*{Exercise 8}
+Describe what the following MIPS code computes. Assume that {\tt \$a0} and {\tt \$a1} are used for the input and both initially contain the integers x and y respectively. Assume the {\tt\$v0} is used for the output.
+\lstinputlisting{exercise08.s}
 \subsubsection*{Solution}
+This code uses a loop to add the value of $x$ to a temporary value {\tt\$t0} (which starts at zero) a total of $y$ times (assuming $y$ is positive). As a side effect, the value of $y$ is decremented until it is equal to zero. In the final step, the temporary {\tt \$t0} is incremented by 10, and the output value {\tt \$v0} is set to {\tt \$t0 + 0} or simply {\tt\$t0}. Assuming $y$ is positive and no overflow, the output is $x \times y + 10$.
 
 \subsection*{Exercise 9}
-% Answer is on slide 11
+List the six possible fields (include the name and meaning) in a MIPS instruction?
+\subsubsection*{Solution}
+\begin{itemize}
+\item[op] 6-bit opcode that specifies the operation
+\item[rs] 5-bit GPR (General Purpose Register) address of the source operand
+\item[rt] 5-bit GPR address of the second source operand
+\item[rd] 5-bit GPR address of the result's destination
+\item[shamt] 5-bit shift amount (for shift instructions)
+\item[funct] 6-bit function code agumenting the opcode
+\end{itemize}
 
 \subsection*{Exercise 10}
+What are the three basic instruction formats? Show the layout/fields for each.
+\subsubsection*{Solution}
+\begin{itemize}
+\item[R format]
+\begin{tabular}{| C{2cm} | C{2cm} | C{2cm} | C{2cm} | C{2cm} | C{2cm} |}
+\hline
+op & rs & rt & rd & shamt & funct \\
+\hline
+\end{tabular}
+\item[I format]
+\begin{tabular}{| C{2cm} | C{2cm} | C{2cm} | C{6.9cm} |}
+\hline
+op & rs & rt & immediate \\
+\hline
+\end{tabular}
+\item[J format]
+\begin{tabular}{| C{2cm} | C{11.8cm} |}
+\hline
+op & jump target \\
+\hline
+\end{tabular}
+\end{itemize}
 % Answer is on slide 8
+
+\subsection*{Exercise 14}
+For the loop written in MIPS assembly below:
+\begin{itemize}
+\item[(a)] Assume that the register {\tt\$t1} is initialized to the value 10. What is the value in register {\tt\$s2} assuming the {\tt\$s2} is initially zero?
+\item[(b)] Write the equivalent C code routine. Assume the registers {\tt\$s1}, {\tt\$s2}, {\tt\$t1}, and {\tt\$t2} Are integers A, B, i, and temp, respectively..
+\item[(c)] Assume that the register {\tt\$t1} is initiated to the value $N$. How many MIPS instructions are executed?
+\end{itemize}
+\lstinputlisting{exercise14.s}
+\subsubsection*{Solution}
+Note: There's no {\tt subi} instruction, according to both the slides as well as the MIPS32 documentation.
+\begin{itemize}
+\item[(a)] The register {\tt\$s2} would be 22.
+\item[(b)] \lstinputlisting{exercise14.c}
+\item[(c)] The loop, which consists of 5 instructions, is executed $N$ times. This makes for $N \times 5$ instructions, plus the 2 instructions at the end to exit the loop, so a total of $\boxed{N \times 5 + 2}$ instructions.
+\end{itemize}
 \end{document}
