@@ -4,6 +4,7 @@
 \usepackage{amssymb,amsmath}
 \usepackage{mathtools}
 \usepackage{listings}
+\usepackage{bytefield}
 \usepackage{array}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \pagestyle{plain}
@@ -35,7 +36,7 @@ For the MIPS assembly codes below, what is the corresponding C statement. Assume
 \subsection*{Exercise 2}
 For the MIPS assembly code below:
 \begin{itemize}
-\item[(a)] What is the correspnoding C statement? Assume that the variables f, g, and h are assigned to {\tt \$s0}, {\tt \$s1}, and {\tt \$s2} respectively.
+\item[(a)] What is the corresponding C statement? Assume that the variables f, g, and h are assigned to {\tt \$s0}, {\tt \$s1}, and {\tt \$s2} respectively.
 \item[(b)] Find the value of {\tt \$s0} at the end of the assembly code. Assume that the registers {\tt \$s0}, {\tt \$s1}, and {\tt \$s2} contain the values {\tt 0x0000000a}, {\tt 0x00000014}, and {\tt 0x00000028} respectively.
 \end{itemize}
 \lstinputlisting{exercise2.s}
@@ -64,6 +65,26 @@ For the C statements below, what is the corresponding MIPS assembly code? Use a 
 \item[(d)] \lstinputlisting{exercise03d.s}
 \end{itemize}
 
+\subsection*{Exercise 4}
+Given the below register values, what is the result of the following operation:
+\lstinputlisting{exercise04.s}
+\begin{itemize}
+\item[(a)] \begin{verbatim}
+$t0 = 0x55555555
+$t1 = 0x12345678
+\end{verbatim}
+\item[(b)] \begin{verbatim}
+$t0 = 0xBEADFEED
+$t1 = 0xDEADFADE
+\end{verbatim}
+\end{itemize}
+\subsubsection*{Solution}
+The operation sets register {\tt \$t2} to the value {\tt(\$t0 << 4) | \$t1}.
+\begin{itemize}
+\item[(a)] {\tt\$t2 = (0x55555555 << 4) | 0x12345678 = 0x57755778}
+\item[(b)] {\tt\$t2 = (0xBEADFEED << 4) | 0xDEADFADE = 0xFFFFFFDE}
+\end{itemize}
+
 \subsection*{Exercise 5}
 What is the shortest sequence of MIPS instructions that extracts a field for the constant values of bits 7-21 (inclusive) from register {\tt\$t0} and places it in the lower portion of register {\tt\$t3} (zero filled otherwise).
 \subsubsection*{Solution}
@@ -74,6 +95,13 @@ Using the zero-fill property of shifts, this can be done in two instructions:
 What is the shortest sequence of MIPS instructions that extracts a field for the constant values of bits 23-30 (inclusive) from register {\tt\$t0} and places it in the lower portion of register {\tt\$t2} (zero filled otherwise).
 \subsubsection*{Solution}
 \lstinputlisting{exercise06.s}
+
+\subsection*{Exercise 7}
+Show the minimal sequence of MIPS instructions required for the C statements:
+\lstinputlisting{exercise07.c}
+\subsubsection*{Solution}
+Assuming that x, y, z, a, b, and c are stored in registers {\tt\$s0}, {\tt\$s1}, {\tt\$s2}, {\tt\$s3}, {\tt\$s4}, and {\tt\$s5} respectively:
+\lstinputlisting{exercise07.s}
 
 \subsection*{Exercise 8}
 Describe what the following MIPS code computes. Assume that {\tt \$a0} and {\tt \$a1} are used for the input and both initially contain the integers x and y respectively. Assume the {\tt\$v0} is used for the output.
@@ -90,7 +118,7 @@ List the six possible fields (include the name and meaning) in a MIPS instructio
 \item[rt] 5-bit GPR address of the second source operand
 \item[rd] 5-bit GPR address of the result's destination
 \item[shamt] 5-bit shift amount (for shift instructions)
-\item[funct] 6-bit function code agumenting the opcode
+\item[funct] 6-bit function code augmenting the opcode
 \end{itemize}
 
 \subsection*{Exercise 10}
@@ -116,7 +144,37 @@ op & jump target \\
 \hline
 \end{tabular}
 \end{itemize}
-% Answer is on slide 8
+
+\subsection*{Exercise 11}
+What is the OPCODE for the ``{\tt add \$t0, \$s1, \$s1}" instruction? Show result in binary, grouped by field.
+\subsubsection*{Solution}
+\begin{bytefield}{32}
+\bitbox{6}{op} & \bitbox{5}{rs} & \bitbox{5}{rt} & \bitbox{5}{rd} & \bitbox{5}{shamt} & \bitbox{6}{funct} \\
+\bitbox{6}{SPECIAL} & \bitbox{5}{\$s1} & \bitbox{5}{\$s1} & \bitbox{5}{\$t0} & \bitbox{5}{00000} & \bitbox{6}{ADD} \\
+\bitbox{6}{000000} & \bitbox{5}{10001} & \bitbox{5}{10001} & \bitbox{5}{01000} & \bitbox{5}{00000} & \bitbox{6}{100000} \\
+\end{bytefield}
+
+\subsection*{Exercise 12}
+Given the hex OPCODE {\tt 0x01095022} what is the instruction? Show field values.
+\subsubsection*{Solution}
+\begin{bytefield}{32}
+\bitbox{6}{op} & \bitbox{5}{rs} & \bitbox{5}{rt} & \bitbox{5}{rd} & \bitbox{5}{shamt} & \bitbox{6}{funct} \\
+\bitbox{6}{000000} & \bitbox{5}{01000} & \bitbox{5}{01001} & \bitbox{5}{01010} & \bitbox{5}{00000} & \bitbox{6}{100010} \\
+\bitbox{6}{SPECIAL} & \bitbox{5}{\$t0} & \bitbox{5}{\$t1} & \bitbox{5}{\$t2} & \bitbox{5}{00000} & \bitbox{6}{SUB} \\
+\end{bytefield}
+
+The instruction is {\tt sub \$t2, \$t0, \$t1}.
+
+\subsection*{Exercise 13}
+The data given below contains the values of various fields of MIPS instructions. what type instruction (format) does the instruction below represent and what is the MIPS assembly instruction described below?
+\begin{verbatim}
+op=0x23, rs=1, rt=2, const=0x4
+\end{verbatim}
+\subsubsection*{Solution}
+The instruction is in the immediate format, and the MIPS assembly it represents is:
+\begin{verbatim}
+lw $at, $v0, 4
+\end{verbatim}
 
 \subsection*{Exercise 14}
 For the loop written in MIPS assembly below:
