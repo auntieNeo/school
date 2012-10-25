@@ -209,33 +209,79 @@ main:
   add $s0, $s0, 1
 
 #  Display original list
-# call  prt_lst(list1, len1)
+# call  prt_lst(list2, len2)
   la  $a0, hdr_or
   li  $v0, 4
   syscall
 
-  la  $a0, list1
-  lw  $a1, len1
+  la  $a0, list2
+  lw  $a1, len2
   jal prt_lst
 
 #  Create New List
-# call mk_nlist(list1, len1, scalar1)
-
+# call mk_nlist(list2, len2, scalar1)
+  la $a0, list2
+  lw $a1, len2
+  lw $a2, scalar1
+  jal mk_nlist
 
 #  Display unsorted list
-# call  prt_lst(list1, len1)
+# call  prt_lst(list2, len2)
+  la $a0, hdr_un
+  li $v0, 4
+  syscall
 
+  la  $a0, list2
+  lw  $a1, len2
+  jal prt_lst
 
 #  Sort list
-# call  ins_sort(list1, len1)
-
+# call  ins_sort(list2, len2)
+  la $a0, list2
+  lw $a1, len2
+  jal ins_sort
 
 #  Display sorted list
-# call  prt_lst(list1, len1)
+# call  prt_lst(list2, len2)
+  la  $a0, hdr_sr
+  li  $v0, 4
+  syscall
+
+  la  $a0, list2
+  lw  $a1, len2
+  jal prt_lst
   
 #  Generate list stats
+# call list_stats(list2, len2, min2, max2, med2, sum2, ave2)
+  la $a0, list2
+  lw $a1, len2
+  la $a2, min2
+  la $a3, max2
+  la $t0, ave2
+  addi $sp, -32
+  sw $t0, 16($sp)
+  la $t0, sum2
+  sw $t0, 20($sp)
+  la $t0, med2
+  sw $t0, 24($sp)
+  jal list_stats
+  addi $sp, 32
 
 #  Display list stats
+## call prt_stats(list2, len2, min2, max2, med2, sum2, ave2)
+#  la $a0, list2
+#  lw $a1, len2
+#  la $a2, min2
+#  la $a3, max2
+#  la $t0, ave2
+#  sw $t0, -8($sp)
+#  la $t0, sum2
+#  sw $t0, -12($sp)
+#  la $t0, med2
+#  sw $t0, -16($sp)
+#  addi $sp, -16
+#  jal prt_stats
+#  addi $sp, 16
 
 
 #  END of Data Set #1 
@@ -389,12 +435,166 @@ jr $ra
 # $a1 - list length
 # $a2 - scalar value to multiply by
 ################################################################################
-.global mk_nlist
+.globl mk_nlist
 .ent mk_nlist
+mk_nlist:
   # loop over the elements
   li $s0, 0  # iterator
-  loop:
-    bge $s0, $a1, exit
+  l1:
+    bge $s0, $a1, l1e
 
-  exit:
+    # calculate address of array element
+    sll $t0, $s0, 2
+    add $t0, $a0, $t0
+
+    # load, multiply by scalar, and store
+    lw $t1, ($t0)
+    mul $t1, $t1, $a2
+    sw $t1, ($t0)
+
+    addi $s0, 1
+    j l1
+  l1e:
+  jr $ra
 .end mk_nlist
+
+################################################################################
+# ins_sort procedure performs an insertion sort on an array of integers,
+# modifying the array so that the elements are in ascending order.
+#
+#    Arguments:
+# $a0 - starting address of the array
+# $a1 - array length
+################################################################################
+.globl ins_sort
+.ent ins_sort
+ins_sort:
+  # loop down array
+  li $s0, 1  # i
+  l2:
+    bge $s0, $a1, l2e
+
+    # find A[i] and store it as value
+    sll $t0, $s0, 2
+    add $t0, $a0, $t0
+    lw $s1, ($t0)  # value
+
+    # loop back up array to find place for value
+    addi $s2, $s0, -1  # j = i - 1
+    l3:
+      # find A[j]
+      sll $t0, $s2, 2
+      add $t0, $a0, $t0
+      lw $s3, ($t0)  # A[j]
+
+      # exit loop when j >= 0 and A[j] > value
+      li $t0, 1
+      bgez $s2, foo
+      li $t0, 0
+      foo:
+      li $t1, 1
+      bgt $s3, $s1 bar
+      li $t1, 0
+      bar:
+      and $t0, $t0, $t1
+      beqz $t0, l3e
+
+      # set A[j + 1] = A[j]
+      sll $t0, $s2, 2
+      add $t0, $a0, $t0
+      sw $s3, 4($t0)
+
+      # decrement j
+      addi $s2, -1
+      j l3
+    l3e:
+
+    # place value in its sorted position at A[j+1]
+    sll $t0, $s2, 2
+    add $t0, $a0, $t0
+    sw $s1, 4($t0)
+
+    addi $s0, 1
+    j l2
+  l2e:
+  jr $ra
+.end ins_sort
+
+################################################################################
+# list_stats procedure computes the minimum, maximum, median, sum, and average
+# of the given list and stores those values at the given memory addresses.
+#
+#    Arguments:
+# $a0 - starting address of the array
+# $a1 - length of the array
+# $a2 - memory location to store minimum
+# $a3 - memory location to store maximum
+# 16($sp) - memory location to store median
+# 20($sp) - memory location to store sum
+# 24($sp) - memory location to store average
+################################################################################
+
+.globl list_stats
+.ent list_stats
+list_stats:
+  lw $s0, ($a0)  # minimum
+  lw $s1, ($a0)  # maximum
+
+  # sort the array to compute the median
+  or $t0, $ra, $zero
+  jal ins_sort
+  or $ra, $t0, $zero
+  li $t0, 2
+  div $t0, $a1, $t0
+  sll $t0, $t0, 2
+  add $t0, $a0, $t0
+  lw $s2, ($t0)  # median
+
+  li $s3, 0  # sum
+
+  # loop over the elements to compute min, max, sum, and average
+  li $s5, 0  # iterator
+  l4:
+    bge $s5, $a1, l4e
+
+    # find the current element value
+    sll $t7, $s5, 2
+    add $t7, $a0, $t7
+    lw $t7, ($t7)
+
+    # minimum
+    bge $t7, $s0, foo1
+      or $s0, $t7, $zero
+    foo1:
+
+    # maximum
+    bge $s1, $t7, foo2
+      or $s1, $t7, $zero
+    foo2:
+
+    # sum
+    add $s3, $s3, $t7
+
+    addi $s5, 1
+    j l4
+  l4e:
+
+  # calculate the average
+  sw $s3, -4($sp)
+  lwc1 $f0, -4($sp)
+  sw $a1, -8($sp)
+  lwc1 $f2, -8($sp)
+  div.s $f0, $f0, $f2  # average
+
+  # set all the memory locations
+  sw $s0, ($a2)  # minimum
+  sw $s1, ($a3)  # maximum
+  lw $t0, 16($sp)
+  sw $s2, ($t0)  # median
+  lw $t0, 20($sp)
+  sw $s3, ($t0)  # sum
+  lw $t0, 24($sp)
+  swc1 $f0, ($t0)  # average
+  
+  jr $ra
+.end list_stats
