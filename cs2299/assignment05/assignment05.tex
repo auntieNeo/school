@@ -1,0 +1,39 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{mathtools}
+\usepackage{listings}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+{\Large Jonathan Glines \\
+CS 2299 \\
+Assignment 5 \\
+}
+\end{flushright}
+\lstset{breakatwhitespace=true,breaklines=true,basicstyle={\small\ttfamily}}
+\section*{Assignment 5}
+\subsection*{Exercise 4}
+%\begin{itemize}
+%\item[(a)] What is the MIPS “bare” instruction that replaces the pseudo instruction ``{\tt li \$v0, 10}"?
+%\item[(b)] What is the MIPS opcode, in hex, for that instruction?
+%\item[(c)] What are the MIPS instructions that replace the pseduoinstruction ``{\tt bge \$t4, \$t2, noMin}"?
+%\item[(d)] What is the {\tt \$sp} register used for?
+%\item[(e)] What is the value, in hex, of the {\tt \$sp} register?
+%\end{itemize}
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(a)] \begin{verbatim}ori $v0, $0, 10\end{verbatim}
+\item[(b)] \begin{verbatim}0x3402000a\end{verbatim}
+\item[(c)] \begin{verbatim}
+slt $1, $12, $10
+beq $1, $0, 8 [noMin-0x00400058]
+\end{verbatim}
+%$
+\item[(d)] The {\tt \$sp} register stores the stack pointer, which is an address that points to the top of the user stack. The stack pointer isn't used much in this program, as the user stack doesn't grow or shrink.
+\item[(e)] The {\tt \$sp} register has the hex value {\tt 0x7ffffadc}, which points to the top of the user stack in Spim.
+\item[(f)] The {\tt \$pc} register, or PC register, is the program counter. It points to the address that is to be executed.
+\item[(g)] The {\tt \$pc} register varies in value, starting at {\tt 0x00400000} when the program starts, and ending at {\tt 0x004000f4} when the program exits.
+\end{itemize}
+\end{document}

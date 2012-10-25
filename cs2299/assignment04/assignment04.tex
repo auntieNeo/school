@@ -1,0 +1,193 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{amssymb,amsmath}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{bytefield}
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+{\Large Jonathan Glines \\
+CS 2299 \\
+Assignment 4 \\
+}
+\end{flushright}
+\lstset{breakatwhitespace=true,breaklines=true,basicstyle={\small\ttfamily}}
+\section*{Assignment 4}
+\subsection*{Exercise 1}
+For the MIPS assembly codes below, what is the corresponding C statement. Assume that the variables f, g, h, i, and j are assigned to {\tt \$s0}, {\tt \$s1}, {\tt \$s2}, {\tt \$s3}, and {\tt \$s4} respectively. Assume that the base address of the arrays A and B are in registers {\tt \$s6} and {\tt \$s7} respectively.
+\begin{itemize}
+\item[(a)]
+\lstinputlisting{exercise1a.s}
+
+\item[(b)]
+\lstinputlisting{exercise1b.s}
+\end{itemize}
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(a)] \lstinputlisting{exercise1a.c}
+
+\item[(b)] \lstinputlisting{exercise01b.c}
+\end{itemize}
+
+\subsection*{Exercise 2}
+For the MIPS assembly code below:
+\begin{itemize}
+\item[(a)] What is the corresponding C statement? Assume that the variables f, g, and h are assigned to {\tt \$s0}, {\tt \$s1}, and {\tt \$s2} respectively.
+\item[(b)] Find the value of {\tt \$s0} at the end of the assembly code. Assume that the registers {\tt \$s0}, {\tt \$s1}, and {\tt \$s2} contain the values {\tt 0x0000000a}, {\tt 0x00000014}, and {\tt 0x00000028} respectively.
+\end{itemize}
+\lstinputlisting{exercise2.s}
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(a)] \lstinputlisting[language=C]{exercise2.c}
+\item[(b)] {\tt 0xa - 0x28 = -30}
+\end{itemize}
+
+\subsection*{Exercise 3}
+For the C statements below, what is the corresponding MIPS assembly code? Use a minimal number of MIPS assembly instructions.
+\begin{itemize}
+\item[(a)] {\tt f = f + g + h + i + j + 2;}
+\item[(b)] {\tt f = g - (f + 5);}
+\item[(c)] {\tt f = -g + h + B[1];}
+\item[(d)] {\tt f = A[B[g] + 1];}
+\end{itemize}
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(a)] \lstinputlisting{exercise03a.s}
+
+\item[(b)] \lstinputlisting{exercise03b.s}
+
+\item[(c)] \lstinputlisting{exercise03c.s}
+
+\item[(d)] \lstinputlisting{exercise03d.s}
+\end{itemize}
+
+\subsection*{Exercise 4}
+Given the below register values, what is the result of the following operation:
+\lstinputlisting{exercise04.s}
+\begin{itemize}
+\item[(a)] \begin{verbatim}
+$t0 = 0x55555555
+$t1 = 0x12345678
+\end{verbatim}
+\item[(b)] \begin{verbatim}
+$t0 = 0xBEADFEED
+$t1 = 0xDEADFADE
+\end{verbatim}
+\end{itemize}
+\subsubsection*{Solution}
+The operation sets register {\tt \$t2} to the value {\tt(\$t0 << 4) | \$t1}.
+\begin{itemize}
+\item[(a)] {\tt\$t2 = (0x55555555 << 4) | 0x12345678 = 0x57755778}
+\item[(b)] {\tt\$t2 = (0xBEADFEED << 4) | 0xDEADFADE = 0xFFFFFFDE}
+\end{itemize}
+
+\subsection*{Exercise 5}
+What is the shortest sequence of MIPS instructions that extracts a field for the constant values of bits 7-21 (inclusive) from register {\tt\$t0} and places it in the lower portion of register {\tt\$t3} (zero filled otherwise).
+\subsubsection*{Solution}
+Using the zero-fill property of shifts, this can be done in two instructions:
+\lstinputlisting{exercise05.s}
+
+\subsection*{Exercise 6}
+What is the shortest sequence of MIPS instructions that extracts a field for the constant values of bits 23-30 (inclusive) from register {\tt\$t0} and places it in the lower portion of register {\tt\$t2} (zero filled otherwise).
+\subsubsection*{Solution}
+\lstinputlisting{exercise06.s}
+
+\subsection*{Exercise 7}
+Show the minimal sequence of MIPS instructions required for the C statements:
+\lstinputlisting{exercise07.c}
+\subsubsection*{Solution}
+Assuming that x, y, z, a, b, and c are stored in registers {\tt\$s0}, {\tt\$s1}, {\tt\$s2}, {\tt\$s3}, {\tt\$s4}, and {\tt\$s5} respectively:
+\lstinputlisting{exercise07.s}
+
+\subsection*{Exercise 8}
+Describe what the following MIPS code computes. Assume that {\tt \$a0} and {\tt \$a1} are used for the input and both initially contain the integers x and y respectively. Assume the {\tt\$v0} is used for the output.
+\lstinputlisting{exercise08.s}
+\subsubsection*{Solution}
+This code uses a loop to add the value of $x$ to a temporary value {\tt\$t0} (which starts at zero) a total of $y$ times (assuming $y$ is positive). As a side effect, the value of $y$ is decremented until it is equal to zero. In the final step, the temporary {\tt \$t0} is incremented by 10, and the output value {\tt \$v0} is set to {\tt \$t0 + 0} or simply {\tt\$t0}. Assuming $y$ is positive and no overflow, the output is $x \times y + 10$.
+
+\subsection*{Exercise 9}
+List the six possible fields (include the name and meaning) in a MIPS instruction?
+\subsubsection*{Solution}
+\begin{itemize}
+\item[op] 6-bit opcode that specifies the operation
+\item[rs] 5-bit GPR (General Purpose Register) address of the source operand
+\item[rt] 5-bit GPR address of the second source operand
+\item[rd] 5-bit GPR address of the result's destination
+\item[shamt] 5-bit shift amount (for shift instructions)
+\item[funct] 6-bit function code augmenting the opcode
+\end{itemize}
+
+\subsection*{Exercise 10}
+What are the three basic instruction formats? Show the layout/fields for each.
+\subsubsection*{Solution}
+\begin{itemize}
+\item[R format]
+\begin{tabular}{| C{2cm} | C{2cm} | C{2cm} | C{2cm} | C{2cm} | C{2cm} |}
+\hline
+op & rs & rt & rd & shamt & funct \\
+\hline
+\end{tabular}
+\item[I format]
+\begin{tabular}{| C{2cm} | C{2cm} | C{2cm} | C{6.9cm} |}
+\hline
+op & rs & rt & immediate \\
+\hline
+\end{tabular}
+\item[J format]
+\begin{tabular}{| C{2cm} | C{11.8cm} |}
+\hline
+op & jump target \\
+\hline
+\end{tabular}
+\end{itemize}
+
+\subsection*{Exercise 11}
+What is the OPCODE for the ``{\tt add \$t0, \$s1, \$s1}" instruction? Show result in binary, grouped by field.
+\subsubsection*{Solution}
+\begin{bytefield}{32}
+\bitbox{6}{op} & \bitbox{5}{rs} & \bitbox{5}{rt} & \bitbox{5}{rd} & \bitbox{5}{shamt} & \bitbox{6}{funct} \\
+\bitbox{6}{SPECIAL} & \bitbox{5}{\$s1} & \bitbox{5}{\$s1} & \bitbox{5}{\$t0} & \bitbox{5}{00000} & \bitbox{6}{ADD} \\
+\bitbox{6}{000000} & \bitbox{5}{10001} & \bitbox{5}{10001} & \bitbox{5}{01000} & \bitbox{5}{00000} & \bitbox{6}{100000} \\
+\end{bytefield}
+
+\subsection*{Exercise 12}
+Given the hex OPCODE {\tt 0x01095022} what is the instruction? Show field values.
+\subsubsection*{Solution}
+\begin{bytefield}{32}
+\bitbox{6}{op} & \bitbox{5}{rs} & \bitbox{5}{rt} & \bitbox{5}{rd} & \bitbox{5}{shamt} & \bitbox{6}{funct} \\
+\bitbox{6}{000000} & \bitbox{5}{01000} & \bitbox{5}{01001} & \bitbox{5}{01010} & \bitbox{5}{00000} & \bitbox{6}{100010} \\
+\bitbox{6}{SPECIAL} & \bitbox{5}{\$t0} & \bitbox{5}{\$t1} & \bitbox{5}{\$t2} & \bitbox{5}{00000} & \bitbox{6}{SUB} \\
+\end{bytefield}
+
+The instruction is {\tt sub \$t2, \$t0, \$t1}.
+
+\subsection*{Exercise 13}
+The data given below contains the values of various fields of MIPS instructions. what type instruction (format) does the instruction below represent and what is the MIPS assembly instruction described below?
+\begin{verbatim}
+op=0x23, rs=1, rt=2, const=0x4
+\end{verbatim}
+\subsubsection*{Solution}
+The instruction is in the immediate format, and the MIPS assembly it represents is:
+\begin{verbatim}
+lw $at, $v0, 4
+\end{verbatim}
+
+\subsection*{Exercise 14}
+For the loop written in MIPS assembly below:
+\begin{itemize}
+\item[(a)] Assume that the register {\tt\$t1} is initialized to the value 10. What is the value in register {\tt\$s2} assuming the {\tt\$s2} is initially zero?
+\item[(b)] Write the equivalent C code routine. Assume the registers {\tt\$s1}, {\tt\$s2}, {\tt\$t1}, and {\tt\$t2} Are integers A, B, i, and temp, respectively..
+\item[(c)] Assume that the register {\tt\$t1} is initiated to the value $N$. How many MIPS instructions are executed?
+\end{itemize}
+\lstinputlisting{exercise14.s}
+\subsubsection*{Solution}
+\begin{itemize}
+\item[(a)] The register {\tt\$s2} would be 22.
+\item[(b)] \lstinputlisting{exercise14.c}
+\item[(c)] The loop, which consists of 5 instructions, is executed $N$ times. This makes for $N \times 5$ instructions, plus the 2 instructions at the end to exit the loop, so a total of $\boxed{N \times 5 + 2}$ instructions.
+\end{itemize}
+\end{document}
