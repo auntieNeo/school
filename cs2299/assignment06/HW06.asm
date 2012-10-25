@@ -141,8 +141,8 @@ SPACES=7  # number of spaces between the numbers (including number)
 new_ln: .asciiz "\n"
 
 str1: .asciiz "\n min = "
-str2: .asciiz "\n med = "
-str3: .asciiz "\n max = "
+str2: .asciiz "\n max = "
+str3: .asciiz "\n med = "
 str4: .asciiz "\n sum = "
 str5: .asciiz "\n ave = "
 #END---------------------- End of Data declarations ----------------------
@@ -257,8 +257,8 @@ main:
   lw $a1, len2
   la $a2, min2
   la $a3, max2
-  la $t0, ave2
   addi $sp, -32
+  la $t0, ave2
   sw $t0, 16($sp)
   la $t0, sum2
   sw $t0, 20($sp)
@@ -268,20 +268,16 @@ main:
   addi $sp, 32
 
 #  Display list stats
-## call prt_stats(list2, len2, min2, max2, med2, sum2, ave2)
-#  la $a0, list2
-#  lw $a1, len2
-#  la $a2, min2
-#  la $a3, max2
-#  la $t0, ave2
-#  sw $t0, -8($sp)
-#  la $t0, sum2
-#  sw $t0, -12($sp)
-#  la $t0, med2
-#  sw $t0, -16($sp)
-#  addi $sp, -16
-#  jal prt_stats
-#  addi $sp, 16
+## call prt_stats(min2, max2, med2, sum2, ave2)
+  la $a0, min2
+  lw $a1, max2
+  la $a2, med2
+  la $a3, sum2
+  addi $sp, -24
+  la $t0, ave2
+  sw $t0, 16($sp)
+  jal list_stats
+  addi $sp, 24
 
 
 #  END of Data Set #1 
@@ -541,9 +537,11 @@ list_stats:
   lw $s1, ($a0)  # maximum
 
   # sort the array to compute the median
-  or $t0, $ra, $zero
+  addi $sp, -24
+  sw $ra, 20($sp)
   jal ins_sort
-  or $ra, $t0, $zero
+  lw $ra, 20($sp)
+  addi $sp 24
   li $t0, 2
   div $t0, $a1, $t0
   sll $t0, $t0, 2
@@ -598,3 +596,37 @@ list_stats:
   
   jr $ra
 .end list_stats
+
+################################################################################
+# The prt_stats procedure prints the list statistics for the given arguments.
+#    Arguments:
+# $a0 - memory location to find the minimum
+# $a1 - memory location to find the maximum
+# $a2 - memory location to find the median
+# $a3 - memory location to find the sum
+# 16($sp) - memory location to find the average
+################################################################################
+
+.globl prt_stats
+.ent prt_stats
+prt_stats:
+  or $s0, $a0, $zero
+  or $s1, $a1, $zero
+  or $s2, $a2, $zero
+  or $s3, $a3, $zero
+  lw $s4, 16($sp)
+  lw $s4, ($s4)
+
+  # print minimum
+  la $a0, str1
+  li $v0, 4
+  syscall
+  or $a0, $s0, $zero
+  li $v0, 1
+  syscall
+  la $a0, new_ln
+  li $v0, 4
+  syscall
+  
+  jr $ra
+.end prt_stats
