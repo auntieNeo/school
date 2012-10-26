@@ -258,25 +258,25 @@ main:
   la $a2, min2
   la $a3, max2
   addi $sp, -32
-  la $t0, ave2
+  la $t0, med2
   sw $t0, 16($sp)
   la $t0, sum2
   sw $t0, 20($sp)
-  la $t0, med2
+  la $t0, ave2
   sw $t0, 24($sp)
   jal list_stats
   addi $sp, 32
 
 #  Display list stats
 ## call prt_stats(min2, max2, med2, sum2, ave2)
-  la $a0, min2
+  lw $a0, min2
   lw $a1, max2
-  la $a2, med2
-  la $a3, sum2
+  lw $a2, med2
+  lw $a3, sum2
   addi $sp, -24
-  la $t0, ave2
+  lw $t0, ave2
   sw $t0, 16($sp)
-  jal list_stats
+  jal prt_stats
   addi $sp, 24
 
 
@@ -528,10 +528,7 @@ ins_sort:
 .globl list_stats
 .ent list_stats
 list_stats:
-  lw $s0, ($a0)  # minimum
-  lw $s1, ($a0)  # maximum
-
-  # sort the array to compute the median
+  # sort the array to compute the median, as well as min and max
   addi $sp, -24
   sw $ra, 20($sp)
   jal ins_sort
@@ -542,10 +539,15 @@ list_stats:
   sll $t0, $t0, 2
   add $t0, $a0, $t0
   lw $s2, ($t0)  # median
+  lw $s0, ($a0)  # minimum
+  or $t0, $a1, $zero
+  sll $t0, $t0, 2
+  add $t0, $a0, $t0
+  lw $s1, -4($t0)  # maximum
 
   li $s3, 0  # sum
 
-  # loop over the elements to compute min, max, sum, and average
+  # loop over the elements to compute the sum
   li $s5, 0  # iterator
   l4:
     bge $s5, $a1, l4e
@@ -554,16 +556,6 @@ list_stats:
     sll $t7, $s5, 2
     add $t7, $a0, $t7
     lw $t7, ($t7)
-
-    # minimum
-    bge $t7, $s0, foo1
-      or $s0, $t7, $zero
-    foo1:
-
-    # maximum
-    bge $s1, $t7, foo2
-      or $s1, $t7, $zero
-    foo2:
 
     # sum
     add $s3, $s3, $t7
@@ -595,11 +587,11 @@ list_stats:
 ################################################################################
 # The prt_stats procedure prints the list statistics for the given arguments.
 #    Arguments:
-# $a0 - memory location to find the minimum
-# $a1 - memory location to find the maximum
-# $a2 - memory location to find the median
-# $a3 - memory location to find the sum
-# 16($sp) - memory location to find the average
+# $a0 - minimum
+# $a1 - maximum
+# $a2 - median
+# $a3 - sum
+# 16($sp) - average
 ################################################################################
 
 .globl prt_stats
@@ -610,13 +602,48 @@ prt_stats:
   or $s2, $a2, $zero
   or $s3, $a3, $zero
   lw $s4, 16($sp)
-  lw $s4, ($s4)
 
+  la $a0, new_ln
+  li $v0, 4
+  syscall
   # print minimum
   la $a0, str1
   li $v0, 4
   syscall
   or $a0, $s0, $zero
+  li $v0, 1
+  syscall
+  la $a0, new_ln
+  li $v0, 4
+  syscall
+
+  # print maximum
+  la $a0, str2
+  li $v0, 4
+  syscall
+  or $a0, $s1, $zero
+  li $v0, 1
+  syscall
+  la $a0, new_ln
+  li $v0, 4
+  syscall
+
+  # print median
+  la $a0, str3
+  li $v0, 4
+  syscall
+  or $a0, $s2, $zero
+  li $v0, 1
+  syscall
+  la $a0, new_ln
+  li $v0, 4
+  syscall
+
+  # print sum
+  la $a0, str4
+  li $v0, 4
+  syscall
+  or $a0, $s3, $zero
   li $v0, 1
   syscall
   la $a0, new_ln
