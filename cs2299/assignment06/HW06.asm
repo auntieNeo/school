@@ -483,15 +483,10 @@ ins_sort:
       add $t0, $a0, $t0
       lw $s3, ($t0)  # A[j]
 
-      # exit loop when j >= 0 and A[j] > value
-      li $t0, 1
-      bgez $s2, foo
-      li $t0, 0
-      foo:
-      li $t1, 1
-      bgt $s3, $s1 bar
-      li $t1, 0
-      bar:
+      # loop while j >= 0 and A[j] > value
+      slt $t0, $s2, $zero
+      xori $t0, 1
+      slt $t1, $s1, $s3
       and $t0, $t0, $t1
       beqz $t0, l3e
 
