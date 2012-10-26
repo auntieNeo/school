@@ -662,3 +662,127 @@ prt_stats:
   
   jr $ra
 .end prt_stats
+
+################################################################################
+# The test_list routine runs the various tests for the given list and its
+# associated data.
+#
+#    Arguments:
+# $a0 - starting address of the array
+# $a1 - length of the array
+# $a2 - memory location to store minimum
+# $a3 - memory location to store maximum
+# 16($sp) - memory location to store median
+# 20($sp) - memory location to store sum
+# 24($sp) - memory location to store average
+################################################################################
+.globl test_list
+.ent test_list
+test_list:
+  sw $a0, ($sp)
+  sw $a1, 4($sp)
+  sw $a2, 8($sp)
+  sw $a3, 12($sp)
+
+  la  $a0, hdr_nm
+  li  $v0, 4
+  syscall
+
+  move $a0, $s0
+  li  $v0, 1
+  syscall
+
+  la  $a0, hdr_key
+  li  $v0, 4
+  syscall
+  
+  # read scalar value
+  li  $v0, 5
+  syscall
+  addi $sp, -8
+  sw  $v0, 4($sp)
+  
+  # print length of array
+  la  $a0, hdr_ln
+  li  $v0, 4
+  syscall
+  lw  $a0, 12($sp)
+  li  $v0, 1
+  syscall
+
+  add $s0, $s0, 1
+
+#  Display original list
+# call  prt_lst(list2, len2)
+  la  $a0, hdr_or
+  li  $v0, 4
+  syscall
+
+  la  $a0, 8($sp)
+  lw  $a1, 12($sp)
+  jal prt_lst
+
+#  Modify list (scale the values by the scalar)
+# call mk_nlist(list2, len2, scalar1)
+  la $a0, 8($sp)
+  lw $a1, 12($sp)
+  lw $a2, scalar1
+  jal mk_nlist
+
+#  Display unsorted list
+# call  prt_lst(list2, len2)
+  la $a0, hdr_un
+  li $v0, 4
+  syscall
+
+  la  $a0, 8($sp)
+  lw  $a1, 12($sp)
+  jal prt_lst
+
+#  Sort list
+# call  ins_sort(list2, len2)
+  la $a0, 8($sp)
+  lw $a1, 12($sp)
+  jal ins_sort
+
+#  Display sorted list
+# call  prt_lst(list2, len2)
+  la  $a0, hdr_sr
+  li  $v0, 4
+  syscall
+
+  la  $a0, 8($sp)
+  lw  $a1, 12($sp)
+  jal prt_lst
+  
+#  Generate list stats
+# call list_stats(list2, len2, min2, max2, med2, sum2, ave2)
+  la $a0, 8($sp)
+  lw $a1, 12($sp)
+  la $a2, 16($sp)
+  la $a3, 20($sp)
+  la $t0, 24($sp)
+  la $t1, 28($sp)
+  la $t2, 32($sp)
+  addi $sp, -32
+  sw $t0, 16($sp)
+  sw $t1, 20($sp)
+  sw $t2, 24($sp)
+  jal list_stats
+  addi $sp, 32
+
+#  Display list stats
+## call prt_stats(min2, max2, med2, sum2, ave2)
+  lw $a0, 16($sp)
+  lw $a1, 20($sp)
+  lw $a2, 24($sp)
+  lw $a3, 28($sp)
+  lw $t0, 32($sp)
+  addi $sp, -24
+  sw $t0, 16($sp)
+  jal prt_stats
+  addi $sp, 24
+
+  addi $sp, 8
+  jr $ra
+.end test_list
