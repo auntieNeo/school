@@ -601,7 +601,7 @@ prt_stats:
   or $s1, $a1, $zero
   or $s2, $a2, $zero
   or $s3, $a3, $zero
-  lw $s4, 16($sp)
+  lwc1 $f12, 16($sp)
 
   la $a0, new_ln
   li $v0, 4
@@ -645,6 +645,16 @@ prt_stats:
   syscall
   or $a0, $s3, $zero
   li $v0, 1
+  syscall
+  la $a0, new_ln
+  li $v0, 4
+  syscall
+
+  # print average
+  la $a0, str5
+  li $v0, 4
+  syscall
+  li $v0, 2
   syscall
   la $a0, new_ln
   li $v0, 4
