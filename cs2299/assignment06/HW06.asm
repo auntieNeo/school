@@ -287,7 +287,24 @@ main:
 #####################################################################
 #  Data Set #2
 
-#...
+# Run the list tests
+# call list_test(list2, len2, min2, max2, med2, sum2, ave2, list_num)
+
+  la $a0, list2
+  lw $a1, len2
+  la $a2, min2
+  la $a3, max2
+  addi $sp, -32
+  la $t0, med2
+  sw $t0, 16($sp)
+  la $t0, sum2
+  sw $t0, 20($sp)
+  la $t0, ave2
+  sw $t0, 24($sp)
+  li $t0, 2
+  sw $t0, 28($sp)
+  jal test_list
+  addi $sp, 32
 
 #  END of Data Set #2 
 #####################################################################
@@ -675,6 +692,7 @@ prt_stats:
 # 16($sp) - memory location to store median
 # 20($sp) - memory location to store sum
 # 24($sp) - memory location to store average
+# 28($sp) - list number
 ################################################################################
 .globl test_list
 .ent test_list
@@ -684,19 +702,18 @@ test_list:
   sw $a2, 8($sp)
   sw $a3, 12($sp)
 
+  # print the list number
   la  $a0, hdr_nm
   li  $v0, 4
   syscall
-
-  move $a0, $s0
+  lw $a0, 28($sp)
   li  $v0, 1
   syscall
 
+  # read scalar value
   la  $a0, hdr_key
   li  $v0, 4
   syscall
-  
-  # read scalar value
   li  $v0, 5
   syscall
   addi $sp, -8
