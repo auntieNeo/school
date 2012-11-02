@@ -174,114 +174,30 @@ main:
   la  $a0, hdr
   li  $v0, 4
   syscall         # print header
-#
-#  li  $s0, 1        # counter, data set number
-#
-######################################################################
-##  Data Set #1
-#
-#  la  $a0, hdr_nm
-#  li  $v0, 4
-#  syscall
-#
-#  move $a0, $s0
-#  li  $v0, 1
-#  syscall
-#
-#  la  $a0, hdr_key
-#  li  $v0, 4
-#  syscall
-#  
-#  li  $v0, 5      # load appropriate system call code into register $v0;
-#            # code for reading integer is 5
-#  syscall       # call operating system to perform operation
-#  sw  $v0, scalar1  # value read from keyboard returned in register $v0;
-#            # store this in desired location  
-#  
-#  la  $a0, hdr_ln
-#  li  $v0, 4
-#  syscall
-#  
-#  lw  $a0, len1
-#  li  $v0, 1
-#  syscall
-#
-#  add $s0, $s0, 1
-#
-##  Display original list
-## call  prt_lst(list2, len2)
-#  la  $a0, hdr_or
-#  li  $v0, 4
-#  syscall
-#
-#  la  $a0, list2
-#  lw  $a1, len2
-#  jal prt_lst
-#
-##  Create New List
-## call mk_nlist(list2, len2, scalar1)
-#  la $a0, list2
-#  lw $a1, len2
-#  lw $a2, scalar1
-#  jal mk_nlist
-#
-##  Display unsorted list
-## call  prt_lst(list2, len2)
-#  la $a0, hdr_un
-#  li $v0, 4
-#  syscall
-#
-#  la  $a0, list2
-#  lw  $a1, len2
-#  jal prt_lst
-#
-##  Sort list
-## call  ins_sort(list2, len2)
-#  la $a0, list2
-#  lw $a1, len2
-#  jal ins_sort
-#
-##  Display sorted list
-## call  prt_lst(list2, len2)
-#  la  $a0, hdr_sr
-#  li  $v0, 4
-#  syscall
-#
-#  la  $a0, list2
-#  lw  $a1, len2
-#  jal prt_lst
-#  
-##  Generate list stats
-## call list_stats(list2, len2, min2, max2, med2, sum2, ave2)
-#  la $a0, list2
-#  lw $a1, len2
-#  la $a2, min2
-#  la $a3, max2
-#  addi $sp, -32
-#  la $t0, med2
-#  sw $t0, 16($sp)
-#  la $t0, sum2
-#  sw $t0, 20($sp)
-#  la $t0, ave2
-#  sw $t0, 24($sp)
-#  jal list_stats
-#  addi $sp, 32
-#
-##  Display list stats
-### call prt_stats(min2, max2, med2, sum2, ave2)
-#  lw $a0, min2
-#  lw $a1, max2
-#  lw $a2, med2
-#  lw $a3, sum2
-#  addi $sp, -24
-#  lw $t0, ave2
-#  sw $t0, 16($sp)
-#  jal prt_stats
-#  addi $sp, 24
-#
-#
-##  END of Data Set #1 
-######################################################################
+
+#####################################################################
+#  Data Set #1
+
+
+  la $a0, list1
+  lw $a1, len1
+  la $a2, min1
+  la $a3, max1
+  addi $sp, -32
+  la $t0, med1
+  sw $t0, 16($sp)
+  la $t0, sum1
+  sw $t0, 20($sp)
+  la $t0, ave1
+  sw $t0, 24($sp)
+  li $t0, 1
+  sw $t0, 28($sp)
+  jal test_list
+  addi $sp, 32
+
+
+#  END of Data Set #1 
+#####################################################################
 
 
 #####################################################################
@@ -312,7 +228,22 @@ main:
 #####################################################################
 #  Data Set #3
 
-#...
+  la $a0, list3
+  lw $a1, len3
+  la $a2, min3
+  la $a3, max3
+  addi $sp, -32
+  la $t0, med3
+  sw $t0, 16($sp)
+  la $t0, sum3
+  sw $t0, 20($sp)
+  la $t0, ave3
+  sw $t0, 24($sp)
+  li $t0, 3
+  sw $t0, 28($sp)
+  jal test_list
+  addi $sp, 32
+
 
 #  END of Data Set #3
 #####################################################################
@@ -320,7 +251,21 @@ main:
 #####################################################################
 #  Data Set #4
 
-#...
+  la $a0, list4
+  lw $a1, len4
+  la $a2, min4
+  la $a3, max4
+  addi $sp, -32
+  la $t0, med4
+  sw $t0, 16($sp)
+  la $t0, sum4
+  sw $t0, 20($sp)
+  la $t0, ave4
+  sw $t0, 24($sp)
+  li $t0, 4
+  sw $t0, 28($sp)
+  jal test_list
+  addi $sp, 32
 
 #  END of Data Set #4
 #####################################################################
@@ -328,7 +273,22 @@ main:
 #####################################################################
 #  Data Set #5
 
-#...
+  la $a0, list5
+  lw $a1, len5
+  la $a2, min5
+  la $a3, max5
+  addi $sp, -32
+  la $t0, med5
+  sw $t0, 16($sp)
+  la $t0, sum5
+  sw $t0, 20($sp)
+  la $t0, ave5
+  sw $t0, 24($sp)
+  li $t0, 5
+  sw $t0, 28($sp)
+  jal test_list
+  addi $sp, 32
+
 
 #  END of Data Set #5
 #####################################################################
