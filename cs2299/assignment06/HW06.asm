@@ -174,114 +174,114 @@ main:
   la  $a0, hdr
   li  $v0, 4
   syscall         # print header
-
-  li  $s0, 1        # counter, data set number
-
-#####################################################################
-#  Data Set #1
-
-  la  $a0, hdr_nm
-  li  $v0, 4
-  syscall
-
-  move $a0, $s0
-  li  $v0, 1
-  syscall
-
-  la  $a0, hdr_key
-  li  $v0, 4
-  syscall
-  
-  li  $v0, 5      # load appropriate system call code into register $v0;
-            # code for reading integer is 5
-  syscall       # call operating system to perform operation
-  sw  $v0, scalar1  # value read from keyboard returned in register $v0;
-            # store this in desired location  
-  
-  la  $a0, hdr_ln
-  li  $v0, 4
-  syscall
-  
-  lw  $a0, len1
-  li  $v0, 1
-  syscall
-
-  add $s0, $s0, 1
-
-#  Display original list
-# call  prt_lst(list2, len2)
-  la  $a0, hdr_or
-  li  $v0, 4
-  syscall
-
-  la  $a0, list2
-  lw  $a1, len2
-  jal prt_lst
-
-#  Create New List
-# call mk_nlist(list2, len2, scalar1)
-  la $a0, list2
-  lw $a1, len2
-  lw $a2, scalar1
-  jal mk_nlist
-
-#  Display unsorted list
-# call  prt_lst(list2, len2)
-  la $a0, hdr_un
-  li $v0, 4
-  syscall
-
-  la  $a0, list2
-  lw  $a1, len2
-  jal prt_lst
-
-#  Sort list
-# call  ins_sort(list2, len2)
-  la $a0, list2
-  lw $a1, len2
-  jal ins_sort
-
-#  Display sorted list
-# call  prt_lst(list2, len2)
-  la  $a0, hdr_sr
-  li  $v0, 4
-  syscall
-
-  la  $a0, list2
-  lw  $a1, len2
-  jal prt_lst
-  
-#  Generate list stats
-# call list_stats(list2, len2, min2, max2, med2, sum2, ave2)
-  la $a0, list2
-  lw $a1, len2
-  la $a2, min2
-  la $a3, max2
-  addi $sp, -32
-  la $t0, med2
-  sw $t0, 16($sp)
-  la $t0, sum2
-  sw $t0, 20($sp)
-  la $t0, ave2
-  sw $t0, 24($sp)
-  jal list_stats
-  addi $sp, 32
-
-#  Display list stats
-## call prt_stats(min2, max2, med2, sum2, ave2)
-  lw $a0, min2
-  lw $a1, max2
-  lw $a2, med2
-  lw $a3, sum2
-  addi $sp, -24
-  lw $t0, ave2
-  sw $t0, 16($sp)
-  jal prt_stats
-  addi $sp, 24
-
-
-#  END of Data Set #1 
-#####################################################################
+#
+#  li  $s0, 1        # counter, data set number
+#
+######################################################################
+##  Data Set #1
+#
+#  la  $a0, hdr_nm
+#  li  $v0, 4
+#  syscall
+#
+#  move $a0, $s0
+#  li  $v0, 1
+#  syscall
+#
+#  la  $a0, hdr_key
+#  li  $v0, 4
+#  syscall
+#  
+#  li  $v0, 5      # load appropriate system call code into register $v0;
+#            # code for reading integer is 5
+#  syscall       # call operating system to perform operation
+#  sw  $v0, scalar1  # value read from keyboard returned in register $v0;
+#            # store this in desired location  
+#  
+#  la  $a0, hdr_ln
+#  li  $v0, 4
+#  syscall
+#  
+#  lw  $a0, len1
+#  li  $v0, 1
+#  syscall
+#
+#  add $s0, $s0, 1
+#
+##  Display original list
+## call  prt_lst(list2, len2)
+#  la  $a0, hdr_or
+#  li  $v0, 4
+#  syscall
+#
+#  la  $a0, list2
+#  lw  $a1, len2
+#  jal prt_lst
+#
+##  Create New List
+## call mk_nlist(list2, len2, scalar1)
+#  la $a0, list2
+#  lw $a1, len2
+#  lw $a2, scalar1
+#  jal mk_nlist
+#
+##  Display unsorted list
+## call  prt_lst(list2, len2)
+#  la $a0, hdr_un
+#  li $v0, 4
+#  syscall
+#
+#  la  $a0, list2
+#  lw  $a1, len2
+#  jal prt_lst
+#
+##  Sort list
+## call  ins_sort(list2, len2)
+#  la $a0, list2
+#  lw $a1, len2
+#  jal ins_sort
+#
+##  Display sorted list
+## call  prt_lst(list2, len2)
+#  la  $a0, hdr_sr
+#  li  $v0, 4
+#  syscall
+#
+#  la  $a0, list2
+#  lw  $a1, len2
+#  jal prt_lst
+#  
+##  Generate list stats
+## call list_stats(list2, len2, min2, max2, med2, sum2, ave2)
+#  la $a0, list2
+#  lw $a1, len2
+#  la $a2, min2
+#  la $a3, max2
+#  addi $sp, -32
+#  la $t0, med2
+#  sw $t0, 16($sp)
+#  la $t0, sum2
+#  sw $t0, 20($sp)
+#  la $t0, ave2
+#  sw $t0, 24($sp)
+#  jal list_stats
+#  addi $sp, 32
+#
+##  Display list stats
+### call prt_stats(min2, max2, med2, sum2, ave2)
+#  lw $a0, min2
+#  lw $a1, max2
+#  lw $a2, med2
+#  lw $a3, sum2
+#  addi $sp, -24
+#  lw $t0, ave2
+#  sw $t0, 16($sp)
+#  jal prt_stats
+#  addi $sp, 24
+#
+#
+##  END of Data Set #1 
+######################################################################
 
 
 #####################################################################
@@ -702,11 +702,14 @@ test_list:
   sw $a2, 8($sp)
   sw $a3, 12($sp)
 
+  addi $sp, -8
+  sw $ra, ($sp)
+
   # print the list number
   la  $a0, hdr_nm
   li  $v0, 4
   syscall
-  lw $a0, 28($sp)
+  lw $a0, 36($sp)
   li  $v0, 1
   syscall
 
@@ -716,7 +719,6 @@ test_list:
   syscall
   li  $v0, 5
   syscall
-  addi $sp, -8
   sw  $v0, 4($sp)
   
   # print length of array
@@ -727,23 +729,20 @@ test_list:
   li  $v0, 1
   syscall
 
-  add $s0, $s0, 1
-
 #  Display original list
 # call  prt_lst(list2, len2)
   la  $a0, hdr_or
   li  $v0, 4
   syscall
-
-  la  $a0, 8($sp)
+  lw  $a0, 8($sp)
   lw  $a1, 12($sp)
   jal prt_lst
 
 #  Modify list (scale the values by the scalar)
 # call mk_nlist(list2, len2, scalar1)
-  la $a0, 8($sp)
+  lw $a0, 8($sp)
   lw $a1, 12($sp)
-  lw $a2, scalar1
+  lw $a2, 4($sp)
   jal mk_nlist
 
 #  Display unsorted list
@@ -752,13 +751,13 @@ test_list:
   li $v0, 4
   syscall
 
-  la  $a0, 8($sp)
+  lw  $a0, 8($sp)
   lw  $a1, 12($sp)
   jal prt_lst
 
 #  Sort list
 # call  ins_sort(list2, len2)
-  la $a0, 8($sp)
+  lw $a0, 8($sp)
   lw $a1, 12($sp)
   jal ins_sort
 
@@ -767,20 +766,19 @@ test_list:
   la  $a0, hdr_sr
   li  $v0, 4
   syscall
-
-  la  $a0, 8($sp)
+  lw  $a0, 8($sp)
   lw  $a1, 12($sp)
   jal prt_lst
   
 #  Generate list stats
 # call list_stats(list2, len2, min2, max2, med2, sum2, ave2)
-  la $a0, 8($sp)
+  lw $a0, 8($sp)
   lw $a1, 12($sp)
-  la $a2, 16($sp)
-  la $a3, 20($sp)
-  la $t0, 24($sp)
-  la $t1, 28($sp)
-  la $t2, 32($sp)
+  lw $a2, 16($sp)
+  lw $a3, 20($sp)
+  lw $t0, 24($sp)
+  lw $t1, 28($sp)
+  lw $t2, 32($sp)
   addi $sp, -32
   sw $t0, 16($sp)
   sw $t1, 20($sp)
@@ -790,16 +788,22 @@ test_list:
 
 #  Display list stats
 ## call prt_stats(min2, max2, med2, sum2, ave2)
-  lw $a0, 16($sp)
-  lw $a1, 20($sp)
-  lw $a2, 24($sp)
-  lw $a3, 28($sp)
+  lw $t0, 16($sp)
+  lw $a0, ($t0)
+  lw $t0, 20($sp)
+  lw $a1, ($t0)
+  lw $t0, 24($sp)
+  lw $a2, ($t0)
+  lw $t0, 28($sp)
+  lw $a3, ($t0)
   lw $t0, 32($sp)
+  lw $t1, ($t0)
   addi $sp, -24
-  sw $t0, 16($sp)
+  sw $t1, 16($sp)
   jal prt_stats
   addi $sp, 24
 
+  lw $ra, ($sp)
   addi $sp, 8
   jr $ra
 .end test_list
