@@ -8,12 +8,14 @@ square1_colMajor: .word 1
 .ent main
 main:
   la $a0, square1
-  lw $a1 (square1_n)
-  lw $a2 (square1_colMajor)
+  lw $a1, square1_n
+  lw $a2, square1_colMajor
   addi $sp, -16
   jal prt_sqr
   addi $sp, 16
   
+  li $v0, 10
+  syscall
 .end main
 
 ################################################################################
@@ -31,7 +33,7 @@ main:
 .globl prt_sqr
 .ent prt_sqr
 prt_sqr:
-  mult $a1, $s1
+  mult $a1, $a1
   mflo $s0  # matrix size
 
   li $s1, 0  # stack offset
