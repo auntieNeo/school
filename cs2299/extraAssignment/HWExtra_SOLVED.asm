@@ -69,10 +69,10 @@ prt_sqr:
       lw $t1, ($t1)  # matrix.col(index / n).row(index % n)
 
       # place value at index j of new matrix
-      # j = row * n + col = $t2 * $a1 + $t3
-      mult $t2, $a1
+      # j = row * n + col = $t3 * $a1 + $t2
+      mult $t3, $a1
       mflo $t4
-      add $t4, $t4, $t3  # index j
+      add $t4, $t4, $t2  # index j
       sll $t0, $t4, 2
       add $t0, $s3, $t0
       sw $t1, ($t0)
