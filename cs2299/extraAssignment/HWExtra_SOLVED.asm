@@ -3,6 +3,9 @@ square1: .word 2, 9, 4, 7, 5, 3, 6, 1, 8
 square1_n: .word 3
 square1_colMajor: .word 1
 
+newline: .asciiz "\n"
+space: .asciiz " "
+
 .text
 .globl main
 .ent main
@@ -83,7 +86,35 @@ prt_sqr:
   transpose_end:
 
   # loop to print the matrix
+  li $s2, 0  # index i
   loop1:
+    slt $t0, $s2, $s0
+    beq $t0, $zero, loop1_end
+
+    # print matrix element
+    sll $t0, $s2, 2
+    add $t0, $s3, $t0
+    lw $a0, ($t0)
+    li $v0, 1
+    syscall
+
+    # print space or newline, depending on the value of (index % n)
+    div $s2, $a1
+    mfhi $t0
+    addi $t1, $a1, -1
+    beq $t0, $t1, b1
+      la $a0, space
+      li $v0, 4
+      syscall
+      j b2
+    b1:
+      la $a0, newline
+      li $v0, 4
+      syscall
+    b2:
+
+    addi $s2, 1
+    j loop1
   loop1_end:
 
   # de-allocate any memory on the stack
@@ -91,6 +122,15 @@ prt_sqr:
   jr $ra
 .end prt_sqr
 
+################################################################################
+# This routine determines whether or not the given matrix is a magic square,
+# printing diagnostic information along the way. The matrix is assumed to be in
+# row major order, however this does not affect the result of the magic square
+# test.
+#
+# Arguments:
+#
+################################################################################
 .globl chk_magic_sqr
 .ent chk_magic_sqr
 chk_magic_sqr:
