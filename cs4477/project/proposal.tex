@@ -1,0 +1,44 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\begin{document}
+\section*{Topic: Machine Network Simulation in a Portable Library}
+Our goal is to develop a portable library for quickly and easily instantiating many machine simulations on a virtual machine network. We will take both OS/161 and SYS/161 and package them into a library, written in portable ANSI C wherever possible for easy inclusion in application programs. This will allow for applications in education, research, and even entertainment.
+\subsection*{Machine Network Optimized for Portability (libmnop)}
+libmnop is the library that will realize this goal. A tentative design for libmnop is outlined below in three points. The outline is organized such that each point can be developed independently from the others.
+
+Due to the scope of the design and the constraints of a semester, we intend to focus on developing point 1 while merely describing points 2 and 3 in the term report.
+\subsubsection*{Design Outline}
+\begin{enumerate}
+\item[1] Portable implementations of machine simulators
+\begin{enumerate}
+\item[a] Expose API for creating and interfacing machines to the application programmer
+\item[b] Use libtool to dynamically load machine implementations in a portable manner
+\item[c] Provide tools to statically link machine implementations for maximum portability (i.e. without dynamically loading code)
+\end{enumerate}
+\item[2] Self-contained file format for storing machine states
+\begin{enumerate}
+\item[a] Allow for disparate implementations of machine state storage, but expose a consistent API to the application programmer
+\item[b] Define file formats for storing machine states, including kernels, memory, disks, and peripheral states
+\item[c] Exploit solid compression schemes to store many similar but slightly differing machine states efficiently
+\end{enumerate}
+\item[3] Simulating machine networks
+\begin{enumerate}
+\item[a] Expose API for creating and configuring networks to the application programmer
+\item[b] Define machine communication interfaces suitable for describing the most common network technologies
+\item[c] Define interface for communication outside of the library (i.e. communication from client machines to host machine and vice versa)
+\end{enumerate}
+\end{enumerate}
+
+\subsection*{Similar Projects}
+The design goals for libmnop are unconventional. There are existing multi-simulators and even network simulators, but few of these are designed to be used as a library.
+
+However, there are a number of existing projects with similar goals or features. The following is a short list of such projects. Further research into these projects should motivate the development of libmnop.
+\begin{itemize}
+\item[{\tt 0x10}$^\textrm{{\tt c}}$] Sandbox video game that incorporates simulated computers as a game element. Developed by Markus ``Notch" Persson, the creator of Minecraft.
+\item[GNS3] Graphical Network Simulator, open source application that allows for simulation of complex computer networks.
+\item[libretro] A library developed for RetroArch that defines the API for emulation cores. This greatly improves the portability of game console emulators.
+\item[libz80] A portable ANSI C library that emulates a Z80 processor.
+\item[MAME/MESS] A popular multi-system emulator suite for emulating arcade systems.
+\end{itemize}
+\end{document}
