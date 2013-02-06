@@ -1,0 +1,42 @@
+\documentclass[12pt]{article}
+\special{papersize=8.5in,11in}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage{amssymb,amsmath,amsthm}
+\newtheorem*{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+\pagestyle{plain}
+\begin{document}
+\begin{flushright}
+{\Large
+Jonathan Glines \\
+MATH 3326 \\
+Assignment 1 \\
+}
+\end{flushright}
+Let $f(n)$ and $g(n)$ be monotonically increasing functions.
+
+Given $n \in \mathbb{N}$, we know that $f(n) \leq f(n + 1)$ and $g(n) \leq g(n + 1)$. By the triangle inequality, we have $\left| f(n) + g(n) \right| \leq \left|f(n)\right| + \left|g(n)\right|$.
+
+\subsection*{Exercise 3.6}
+\begin{itemize}
+\item[(a)] Prove that $\left|a + b + c\right| \leq \left|a\right| + \left|b\right| + \left|c\right|$ for all $a, b, c \in \mathbb{R}$. {\em Hint}: Apply the triangle inequality twice. Do {\em not} consider eight cases.
+\item[(b)] Use induction to prove
+\[
+\left|a_1 + a_2 + \cdots + a_n\right| \leq \left|a_1\right| + \left|a_2\right| + \cdots + \left|a_n\right|
+\]
+for $n$ numbers $a_1, a_2, \dots, a_n$.
+\end{itemize}
+
+\subsection*{Exercise 4.8}
+Let $S$ and $T$ be nonempty subsets of $\mathbb{R}$ with the following property: $s \leq t$ for all $s \in S$ and $t \in T$.
+\begin{itemize}
+\item[(a)] Observe that $S$ is bounded above and that $T$ is bounded below.
+\item[(b)] Prove that $\sup S \leq \inf T$.
+\item[(c)] Give an example of such sets $S$ and $T$ where $S \cap T$ is nonempty.
+\item[(d)] Give an example of sets $S$ and $T$ where $\sup S = \inf T$ and $S \cap T$ is the empty set.
+\end{itemize}
+
+\subsection*{Exercise 4.12}
+Let $\mathbb{I}$ be the set of real numbers that are not rational; elements of $\mathbb{I}$ are called {\em irrational numbers}. Prove that if $a < b$, then there exists $x \in \mathbb{I}$ such that $a < x < b$. {\em Hint}: First show $\left\{r + \sqrt{2} : r \in \mathbb{Q}\right\} \subseteq \mathbb{I}$.
+\end{document}
